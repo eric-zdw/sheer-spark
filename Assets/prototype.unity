@@ -2724,8 +2724,8 @@ MonoBehaviour:
   dashImpact: {fileID: 1132967370857014, guid: da09b21ebaf136c4d89c558e80f1f798, type: 2}
   impactDamage: 55
   dashVelocity: 18
---- !u!65 &1236331309
-BoxCollider:
+--- !u!135 &1236331309
+SphereCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -2734,7 +2734,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Radius: 0.71
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1247665226
 GameObject:
