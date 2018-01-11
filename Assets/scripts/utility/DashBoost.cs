@@ -15,8 +15,7 @@ public class DashBoost : Utility {
     public float impactDamage = 50f;
     private Enemy targetEnemy;
 
-    public float dashVelocity = 12f;
-    public float useRate = 3.2f;
+    public float dashVelocity = 15f;
     bool isPrimed = false;
 
     // Use this for initialization
@@ -40,6 +39,13 @@ public class DashBoost : Utility {
 
     public override void Activate()
     {
+        /*
+        if (charges > 0)
+        {
+
+        }
+        */
+
         angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
         rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
         if (rb.velocity.x > 0f)

@@ -39,9 +39,8 @@ public class PlayerBehaviour : MonoBehaviour {
         Jump();
         Fire();
 
-        rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX);
-        rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY);
-
+        rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
+        rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
     }
 
     void Movement()
@@ -72,7 +71,7 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             weapon.Fire2();
         }
-        if (Input.GetButton("Fire3"))
+        if (Input.GetButtonDown("Fire3"))
         {
             util.Activate();
         }
