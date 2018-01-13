@@ -7,11 +7,13 @@ public class RedProjectile : Projectile {
     public GameObject explosion;
     public GameObject explosion2;
 
+    public float damageDecayRate;
+
     // Use this for initialization
     void Start() {
         projectileSpeed = 38f;
-        lifeTime = 0.2f;
-        damage = 6f;
+        lifeTime = 0.22f;
+        damage = 9f;
     }
 
     // Update is called once per frame
@@ -23,6 +25,8 @@ public class RedProjectile : Projectile {
             Propogate();
             lifeTime -= Time.deltaTime;
         }
+
+        damage -= damageDecayRate * Time.deltaTime;
             
     }
 

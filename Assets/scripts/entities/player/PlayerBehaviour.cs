@@ -18,6 +18,9 @@ public class PlayerBehaviour : MonoBehaviour {
     private GameObject itemSlot1;
     private GameObject itemSlot2;
 
+    private MeshRenderer mesh;
+    public Material defaultColour;
+
 
     // Use this for initialization
     void Start()
@@ -30,6 +33,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
         weapon = weaponSlot.GetComponentInChildren<Weapon>();
         util = utilitySlot.GetComponentInChildren<Utility>();
+
+        mesh = GetComponent<MeshRenderer>();
 
         rb.maxAngularVelocity = maxAngularVelocity;
     }
@@ -75,6 +80,16 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             util.Activate();
         }
+    }
+
+    public void RelinkWeapon(GameObject newWeapon)
+    {
+        weapon = newWeapon.GetComponent<Weapon>();
+    }
+
+    public void ChangeColour(Material newColour)
+    {
+        mesh.material = newColour;
     }
 
 }
