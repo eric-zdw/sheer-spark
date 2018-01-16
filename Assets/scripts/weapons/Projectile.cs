@@ -9,9 +9,9 @@ public class Projectile : MonoBehaviour {
 
 	public Projectile()
     {
-        projectileSpeed = 0;
-        lifeTime = 0;
-        damage = 0;
+        projectileSpeed = 0f;
+        lifeTime = 0f;
+        damage = 0f;
     }
 
     public virtual void Propogate()
