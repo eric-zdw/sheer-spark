@@ -50,12 +50,12 @@ public class ChaseEnemy : Enemy {
 		if (transform.position.x < playerLocation.x) 
 		{
 			rb.AddForce(new Vector3(800f, 0f, 0f) * Time.deltaTime);
-			rb.AddTorque(0, 0, -20f * Time.deltaTime);
+			rb.AddTorque(0, 0, -40f * Time.deltaTime);
 		}
 		else if (transform.position.x > playerLocation.x) 
 		{
 			rb.AddForce(new Vector3(-800f, 0f, 0f) * Time.deltaTime);
-			rb.AddTorque(0, 0, 20f * Time.deltaTime);
+			rb.AddTorque(0, 0, 40f * Time.deltaTime);
 		}
 
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
@@ -64,6 +64,24 @@ public class ChaseEnemy : Enemy {
 
 		//-------------------
 
+		JumpRoutine();
+
+		//-------------------
+
+			
+	}
+
+	void Explode()
+	{
+		int powerupRoll = Random.Range(0, 5);
+		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
+		Instantiate(explosion, transform.position, transform.rotation);
+		Destroy(bar);
+		Destroy(gameObject);
+	}
+
+	void JumpRoutine()
+	{
 		if (jumpTimer > 0)
 			jumpTimer -= Time.deltaTime;
 		else
@@ -90,23 +108,5 @@ public class ChaseEnemy : Enemy {
 			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 			rb.AddForce(0f, 1000f, 0f);
 		}
-
-		//-------------------
-
-			
-	}
-
-	void Explode()
-	{
-		int powerupRoll = Random.Range(0, 5);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosion, transform.position, transform.rotation);
-		Destroy(bar);
-		Destroy(gameObject);
-	}
-
-	void JumpPrime()
-	{
-		//todo
 	}
 }
