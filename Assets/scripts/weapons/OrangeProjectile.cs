@@ -22,12 +22,13 @@ public class OrangeProjectile : Projectile {
     // Update is called once per frame
     void FixedUpdate() {
         if (lifeTime <= 0)
-            Destroy(gameObject);
+            Explode();
         else
         {
             lifeTime -= Time.deltaTime;
         }
 
+		CheckDetonate();
         rb.AddForce(new Vector3(0, -extraGravityForce, 0) * Time.deltaTime);
     }
 
@@ -48,6 +49,14 @@ public class OrangeProjectile : Projectile {
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
+
+	void CheckDetonate()
+	{
+		if (Input.GetButtonDown("Fire2"))
+		{
+			Explode();
+		}
+	}
 
 
 }
