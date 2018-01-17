@@ -20,7 +20,7 @@ public class OrangeProjectileExplosion : MonoBehaviour {
 	{
 		print("detected!");
 		if (other.tag == "Enemy") {
-			other.GetComponent<Enemy>().getDamage(40f);
+			other.GetComponent<Enemy>().getDamage(damage);
 			print("enemy detected!");
 		}
 	}

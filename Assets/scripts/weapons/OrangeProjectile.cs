@@ -13,7 +13,7 @@ public class OrangeProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        lifeTime = 5f;
+        lifeTime = 2.25f;
         damage = 40f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
