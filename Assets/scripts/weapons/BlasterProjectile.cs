@@ -33,6 +33,11 @@ public class BlasterProjectile : Projectile {
             Explode();
             other.gameObject.GetComponent<Enemy>().getDamage(damage);
         }
+        else if (other.tag != "Player")
+        {
+            print("floor collision");
+            Explode();
+        }
     }
 
     void Explode()
