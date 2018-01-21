@@ -5,11 +5,13 @@ using UnityEngine;
 public class OrangeProjectile : Projectile {
 
     public GameObject explosion;
+    public GameObject hitbox;
 
     public float extraGravityForce;
     public float launchForce;
 
     private Rigidbody rb;
+    private CameraFollow cam;
 
     // Use this for initialization
     void Start() {
@@ -17,6 +19,7 @@ public class OrangeProjectile : Projectile {
         damage = 40f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
     }
 
     // Update is called once per frame
@@ -46,7 +49,9 @@ public class OrangeProjectile : Projectile {
 
     void Explode()
     {
+        cam.addShake(0.35f);
         Instantiate(explosion, transform.position, transform.rotation);
+        Instantiate(hitbox, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

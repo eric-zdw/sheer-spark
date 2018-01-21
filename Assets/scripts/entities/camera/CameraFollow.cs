@@ -7,7 +7,8 @@ public class CameraFollow : MonoBehaviour {
     public int CameraDistance;
     Camera cam;
 
-	private float shakeFactor;
+	private float shakeFactor = 0f;
+    public float shakeDecayFactor;
 
 	// Use this for initialization
 	void Start ()
@@ -26,12 +27,16 @@ public class CameraFollow : MonoBehaviour {
         newPosition += cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
         newPosition = new Vector3(newPosition.x / 2, newPosition.y / 2, -CameraDistance);
         transform.position = newPosition;
-
-		//shakeFactor /=
+        
+        if (shakeFactor >= 0.0001f)
+        {
+            transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor);
+        }
+        shakeFactor *= shakeDecayFactor;
     }
 
 	public void addShake(float magnitude)
 	{
-
+        shakeFactor += magnitude;
 	}
 }

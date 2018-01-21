@@ -11,8 +11,8 @@ public class RedProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 38f;
-        lifeTime = 0.22f;
+        projectileSpeed = 40f;
+        lifeTime = 0.25f;
         damage = 9f;
     }
 

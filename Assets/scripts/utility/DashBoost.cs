@@ -58,7 +58,6 @@ public class DashBoost : Utility {
 
     private void OnTriggerEnter(Collider other)
     {
-        print("kool");
         if (other.tag == "Enemy")
         {
             Instantiate(dashImpact, transform.position, transform.rotation);

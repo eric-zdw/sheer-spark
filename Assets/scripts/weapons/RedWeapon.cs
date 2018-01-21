@@ -31,9 +31,10 @@ public class RedWeapon : Weapon {
     {
         if (GetCooldown() <= 0)
         {
+            float randomFactor = Random.Range(-5f, 5f);
             for (int i = -5; i <= 5; i++)
             {
-                Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle + (2f * i) + Random.Range(-1f, 1f)));
+                Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle + (2f * i) + Random.Range(-1f, 1f) + randomFactor));
             }
             SetCooldown(bFireRate);
         }

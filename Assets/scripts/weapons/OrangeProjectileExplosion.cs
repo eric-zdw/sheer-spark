@@ -9,19 +9,10 @@ public class OrangeProjectileExplosion : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Destroy(gameObject, 3f);
-	}
+	} 
 	
 	// Update is called once per frame
 	void Update () {
 		
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		print("detected!");
-		if (other.tag == "Enemy") {
-			other.GetComponent<Enemy>().getDamage(damage);
-			print("enemy detected!");
-		}
 	}
 }

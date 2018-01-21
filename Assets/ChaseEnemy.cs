@@ -26,7 +26,9 @@ public class ChaseEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-	void Start()
+    private CameraFollow cam;
+
+    void Start()
 	{
 		bar = Instantiate(healthBar);
 		maxHealth = newHealth;
@@ -35,7 +37,8 @@ public class ChaseEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-	}
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+    }
 
 	void FixedUpdate()
 	{
@@ -44,7 +47,6 @@ public class ChaseEnemy : Enemy {
 			Explode();
 		}
 			
-		print(player.transform.position.x);
 		playerLocation = player.transform.position;
 
 		if (transform.position.x < playerLocation.x) 
@@ -73,7 +75,8 @@ public class ChaseEnemy : Enemy {
 
 	void Explode()
 	{
-		int powerupRoll = Random.Range(0, 5);
+        cam.addShake(0.35f);
+        int powerupRoll = Random.Range(0, 5);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosion, transform.position, transform.rotation);
 		Destroy(bar);
