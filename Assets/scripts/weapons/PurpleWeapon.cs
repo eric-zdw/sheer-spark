@@ -53,7 +53,7 @@ public class PurpleWeapon : Weapon {
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
             newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue);
-            newBeam.GetComponent<CapsuleCollider>().radius = 0.5f * chargeValue;
+            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue;
             newBeam.GetComponent<PurpleBeam>().setDamage(damage * chargeValue);
 
 
