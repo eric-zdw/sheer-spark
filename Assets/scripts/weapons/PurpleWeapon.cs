@@ -5,6 +5,7 @@ using UnityEngine;
 public class PurpleWeapon : Weapon {
 
     public GameObject beam;
+    //public GameObject beamExplosion;
     private Camera cam;
     private Vector2 mousePosition;
     private float angle;
@@ -50,8 +51,9 @@ public class PurpleWeapon : Weapon {
             }
             */
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
+            //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
             newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue);
-            newBeam.GetComponent<CapsuleCollider>().radius = 0.7f * chargeValue;
+            newBeam.GetComponent<CapsuleCollider>().radius = 0.5f * chargeValue;
             newBeam.GetComponent<PurpleBeam>().setDamage(damage * chargeValue);
 
 
