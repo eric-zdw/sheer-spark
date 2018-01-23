@@ -11,9 +11,9 @@ public class RedProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 40f;
-        lifeTime = 0.25f;
-        damage = 9f;
+        projectileSpeed = 50f;
+        lifeTime = 0.18f;
+        damage = 8f;
     }
 
     // Update is called once per frame

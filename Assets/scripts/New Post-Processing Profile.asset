@@ -71,9 +71,9 @@ MonoBehaviour:
   depthOfField:
     m_Enabled: 0
     m_Settings:
-      focusDistance: 0.1
-      aperture: 5.6
-      focalLength: 11
+      focusDistance: 10
+      aperture: 3
+      focalLength: 70
       useCameraFov: 0
       kernelSize: 0
   motionBlur:
@@ -293,12 +293,12 @@ MonoBehaviour:
       size: 1
       luminanceContribution: 0.8
   vignette:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
-      intensity: 0.45
+      intensity: 0.279
       smoothness: 0.2
       roundness: 1
       mask: {fileID: 0}

@@ -52,7 +52,12 @@ public class PlayerBehaviour : MonoBehaviour {
     {
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(horizontal, 0f, 0f);
-        rb.AddForce(movement * playerSpeed * Time.deltaTime);
+        if (horizontal < -0.5f && rb.velocity.x > -4f)
+            rb.AddForce(movement * playerSpeed * 1.5f * Time.deltaTime);
+        else if (horizontal > 0.5f && rb.velocity.x < 4f)
+            rb.AddForce(movement * playerSpeed * 1.5f * Time.deltaTime);
+        else
+            rb.AddForce(movement * playerSpeed * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);
         
     }
@@ -90,6 +95,11 @@ public class PlayerBehaviour : MonoBehaviour {
     public void ChangeColour(Material newColour)
     {
         mesh.material = newColour;
+    }
+
+    public void addRecoil(Vector3 direction)
+    {
+        rb.AddForce(direction);
     }
 
 }

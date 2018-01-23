@@ -31,7 +31,7 @@ public class Blaster : Weapon {
     {
         if (GetCooldown() <= 0)
         {
-            Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle));
+            Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle + Random.Range(-2f, 2f)));
             SetCooldown(bFireRate);
         }
     }

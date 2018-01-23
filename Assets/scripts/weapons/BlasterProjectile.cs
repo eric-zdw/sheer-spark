@@ -9,7 +9,7 @@ public class BlasterProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 22f;
+        projectileSpeed = 35f;
         lifeTime = 10f;
         damage = 8f;
     }

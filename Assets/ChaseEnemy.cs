@@ -22,6 +22,9 @@ public class ChaseEnemy : Enemy {
 	public GameObject JumpParticleCharge;
 	public GameObject JumpParticle;
 	public GameObject[] powerups;
+    public Material[] colours;
+    private MeshRenderer outline;
+    private int powerupRoll;
 
 	private bool isCharging;
 	private GameObject charge;
@@ -38,6 +41,10 @@ public class ChaseEnemy : Enemy {
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+
+        powerupRoll = Random.Range(0, 6);
+        outline = transform.GetChild(0).GetComponent<MeshRenderer>();
+        outline.material = colours[powerupRoll];
     }
 
 	void FixedUpdate()
@@ -75,8 +82,7 @@ public class ChaseEnemy : Enemy {
 
 	void Explode()
 	{
-        cam.addShake(0.35f);
-        int powerupRoll = Random.Range(0, 5);
+        cam.addShake(0.5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosion, transform.position, transform.rotation);
 		Destroy(bar);

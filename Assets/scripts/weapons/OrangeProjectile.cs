@@ -49,7 +49,7 @@ public class OrangeProjectile : Projectile {
 
     void Explode()
     {
-        cam.addShake(0.35f);
+        cam.addShake(0.25f);
         Instantiate(explosion, transform.position, transform.rotation);
         Instantiate(hitbox, transform.position, Quaternion.identity);
         Destroy(gameObject);

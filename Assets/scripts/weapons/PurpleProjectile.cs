@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PurpleProjectile : Projectile {
-
-    private TrailRenderer trail;
+    
     private float exponent;
     private float starting;
 

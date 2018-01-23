@@ -5,7 +5,6 @@ using UnityEngine;
 public class RedWeapon : Weapon {
 
     public GameObject projectile;
-    public GameObject projectile2;
     private Camera cam;
     private Vector2 mousePosition;
     private float angle;
@@ -42,10 +41,5 @@ public class RedWeapon : Weapon {
 
     public override void Fire2()
     {
-        if (GetCooldown() <= 0)
-        {
-            Instantiate(projectile2, transform.position, Quaternion.Euler(0, 0, angle));
-            SetCooldown(secondaryRate);
-        }
     }
 }
