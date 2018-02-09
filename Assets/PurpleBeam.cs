@@ -10,10 +10,14 @@ public class PurpleBeam : MonoBehaviour {
     private bool decaySet = false;
     private float damage = 0f;
 
+    public GameObject explosion;
+    private CapsuleCollider collider;
+
 	// Use this for initialization
 	void Start () {
+        collider = GetComponent<CapsuleCollider>();
         beam = GetComponent<ParticleSystem>();
-        Destroy(GetComponent<CapsuleCollider>(), 0.2f);
+        Destroy(collider, 0.15f);
 	}
 	
 	// Update is called once per frame
@@ -27,7 +31,6 @@ public class PurpleBeam : MonoBehaviour {
                 decaySet = true;
             }
             beam.startSize -= decayRate * Time.deltaTime;
-            print("beam scale: " + beam.startSize);
         }
         if (beam.startSize <= 0f)
         {
@@ -52,6 +55,9 @@ public class PurpleBeam : MonoBehaviour {
         {
             print("damage dealt: " + damage);
             other.GetComponent<Enemy>().getDamage(damage);
+            GameObject exp = Instantiate(explosion, collider.ClosestPointOnBounds(other.transform.position), Quaternion.identity);
+            float expSize = (beam.startSize * 0.5f) + 0.5f;
+            exp.transform.localScale = new Vector3(expSize, expSize, expSize);
         }
     }
 }

@@ -21,6 +21,14 @@ public class PlayerBehaviour : MonoBehaviour {
     private MeshRenderer mesh;
     public Material defaultColour;
 
+    public GameObject defaultWeapon;
+    public float powerupDuration;
+    private float powerupTimer;
+
+    public float heatFactor;
+    public float heatDecayFactor;
+    public float heatConstantDecay;
+    private float decayTimer;
 
     // Use this for initialization
     void Start()
@@ -37,6 +45,35 @@ public class PlayerBehaviour : MonoBehaviour {
         mesh = GetComponent<MeshRenderer>();
 
         rb.maxAngularVelocity = maxAngularVelocity;
+        decayTimer = 0.1f;
+    }
+
+    void Update()
+    {
+        if (powerupTimer >= 0f)
+        {
+            powerupTimer -= Time.deltaTime;
+            if (powerupTimer <= 0f)
+            {
+                Destroy(weapon.gameObject);
+                weapon = Instantiate(defaultWeapon, transform.position, Quaternion.identity, weaponSlot.transform).GetComponent<Weapon>();
+                mesh.material = defaultColour;
+            }
+        }
+
+        decayTimer -= Time.deltaTime;
+        if (decayTimer <= 0f)
+        {
+            if (heatFactor > 0)
+            {
+                heatFactor *= heatDecayFactor;
+                heatFactor -= heatConstantDecay;
+            }
+            else
+                heatFactor = 0f;
+
+            decayTimer += 0.1f;
+        }
     }
 
     void FixedUpdate () {
@@ -87,19 +124,22 @@ public class PlayerBehaviour : MonoBehaviour {
         }
     }
 
-    public void RelinkWeapon(GameObject newWeapon)
+    public void getPowerup(GameObject newWeapon, Material newColour)
     {
         weapon = newWeapon.GetComponent<Weapon>();
-    }
-
-    public void ChangeColour(Material newColour)
-    {
         mesh.material = newColour;
+        powerupTimer = powerupDuration;
+        heatFactor += 1f;
     }
 
     public void addRecoil(Vector3 direction)
     {
         rb.AddForce(direction);
+    }
+
+    public float getHeatFactor()
+    {
+        return heatFactor;
     }
 
 }

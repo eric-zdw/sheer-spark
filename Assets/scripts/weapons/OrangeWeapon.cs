@@ -7,15 +7,22 @@ public class OrangeWeapon : Weapon {
     public GameObject projectile;
     public GameObject projectile2;
     private Camera cam;
+    private PlayerBehaviour player;
     private Vector2 mousePosition;
     private float angle;
     public float bFireRate = 0.16f;
-    public float secondaryRate = 0.90f;
+
+    public float heatDamageRate = 0.005f;
+    public float heatFireRate = 0.001f;
+    public float heatRadiusRate = 0.002f;
+    public float damage = 35f;
+    public float radius = 5f;
 
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 
     void Update()
@@ -29,10 +36,20 @@ public class OrangeWeapon : Weapon {
 
     public override void Fire1()
     {
+        print(
+            "Current heat factor: " + player.getHeatFactor()
+            + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
+            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor()))
+            + " , radius: " + radius * (1f + (heatRadiusRate * player.getHeatFactor())));
+
         if (GetCooldown() <= 0)
         {
-            Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle));
-            SetCooldown(bFireRate);
+            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
+            OrangeProjectile proj = Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle)).GetComponent<OrangeProjectile>();
+            proj.setDamage(realDamage);
+            proj.setRadius(realRadius);
+            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }
     }
 

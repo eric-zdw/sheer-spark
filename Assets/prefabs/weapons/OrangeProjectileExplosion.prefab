@@ -53,8 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4588452637633552}
-  - component: {fileID: 114821847502642662}
-  - component: {fileID: 135586798334722838}
+  - component: {fileID: 114211066895869916}
   m_Layer: 9
   m_Name: OrangeProjectileExplosion
   m_TagString: Untagged
@@ -134,7 +133,7 @@ Transform:
   m_Father: {fileID: 4588452637633552}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114821847502642662
+--- !u!114 &114211066895869916
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -145,19 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf9cd4812dd57042b15b0a19d52248b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 45
---- !u!135 &135586798334722838
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453142070821372}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198104110796373486
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -217,7 +203,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 1953374065
   InitialModule:
     serializedVersion: 3
@@ -3647,7 +3633,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 1090134127
   InitialModule:
     serializedVersion: 3
@@ -7077,7 +7063,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 1555089740
   InitialModule:
     serializedVersion: 3

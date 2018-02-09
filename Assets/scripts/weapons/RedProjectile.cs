@@ -12,8 +12,7 @@ public class RedProjectile : Projectile {
     // Use this for initialization
     void Start() {
         projectileSpeed = 50f;
-        lifeTime = 0.18f;
-        damage = 8f;
+        lifeTime = 0.15f;
     }
 
     // Update is called once per frame
@@ -36,7 +35,18 @@ public class RedProjectile : Projectile {
         {
             Explode();
             other.gameObject.GetComponent<Enemy>().getDamage(damage);
+            print("real damage: " + damage);
         }
+        else if (!other.gameObject.CompareTag("Player"))
+        {
+            Explode();
+        }
+    }
+
+    public void setDamage(float d)
+    {
+        damage = d;
+        damageDecayRate = (damage * 0.75f) * (1f / 0.15f);
     }
 
     void Explode()

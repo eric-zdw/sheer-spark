@@ -13,10 +13,11 @@ public class OrangeProjectile : Projectile {
     private Rigidbody rb;
     private CameraFollow cam;
 
+    private float radius;
+
     // Use this for initialization
     void Start() {
         lifeTime = 2.25f;
-        damage = 40f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
@@ -47,11 +48,29 @@ public class OrangeProjectile : Projectile {
     }
     */
 
+    public void setDamage(float d)
+    {
+        damage = d;
+    }
+
+    public void setRadius(float r)
+    {
+        radius = r;
+    }
+
     void Explode()
     {
         cam.addShake(0.25f);
-        Instantiate(explosion, transform.position, transform.rotation);
-        Instantiate(hitbox, transform.position, Quaternion.identity);
+
+        GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
+        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
+
+        OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
+        hb.GetComponent<SphereCollider>().radius = radius;
+        hb.setDamage(damage);
+        hb.setRadius(radius / 0.6f);
+        hb.printRadius();
+
         Destroy(gameObject);
     }
 

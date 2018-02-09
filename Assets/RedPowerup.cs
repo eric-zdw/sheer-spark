@@ -32,13 +32,10 @@ public class RedPowerup : MonoBehaviour {
     {
         GameObject weapon = player.GetComponentInChildren<Weapon>().gameObject;
         Transform parent = weapon.transform.parent;
-        print(weapon.tag);
         GameObject newWeapon = Instantiate(redWeapon, player.transform.position, player.transform.rotation, parent);
         PlayerBehaviour playerScript = player.GetComponent<PlayerBehaviour>();
-        playerScript.RelinkWeapon(newWeapon);
+        playerScript.getPowerup(newWeapon, newColour);
         Destroy(weapon);
-
-        playerScript.ChangeColour(newColour);
         Instantiate(explosion, transform.position, transform.rotation);
     }
 }

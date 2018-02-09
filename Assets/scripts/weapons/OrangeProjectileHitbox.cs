@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class OrangeProjectileHitbox : MonoBehaviour {
 
-	public float damage;
-    private float radius = 4f;
+	private float damage;
+    private float radius;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,22 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 		
 	}
 
-	private void OnTriggerEnter(Collider other)
+    public void setDamage(float d)
+    {
+        damage = d;
+    }
+
+    public void setRadius(float r)
+    {
+        radius = r;
+    }
+
+    public void printRadius()
+    {
+        print("radius: " + radius + ", damage: " + damage);
+    }
+
+    private void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Enemy") {
             float distance = Vector3.Distance(other.ClosestPointOnBounds(transform.position), transform.position);

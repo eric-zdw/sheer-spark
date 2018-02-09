@@ -33,7 +33,8 @@ public class Spawner : MonoBehaviour {
             }
             else
             {
-                Spawn();
+                if (isSpawning == false)
+                    Spawn();
             }
         }
         else

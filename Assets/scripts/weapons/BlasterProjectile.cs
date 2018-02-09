@@ -9,9 +9,9 @@ public class BlasterProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 35f;
+        projectileSpeed = 38f;
         lifeTime = 10f;
-        damage = 8f;
+        damage = 9f;
     }
 
     // Update is called once per frame
@@ -33,9 +33,8 @@ public class BlasterProjectile : Projectile {
             Explode();
             other.gameObject.GetComponent<Enemy>().getDamage(damage);
         }
-        else if (other.tag != "Player")
+        else if (!other.gameObject.CompareTag("Player"))
         {
-            print("floor collision");
             Explode();
         }
     }
