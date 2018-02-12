@@ -50,6 +50,11 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown("q"))
+        {
+            Debug.Break();
+        }
+
         if (powerupTimer >= 0f)
         {
             powerupTimer -= Time.deltaTime;

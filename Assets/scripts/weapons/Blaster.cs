@@ -38,10 +38,5 @@ public class Blaster : Weapon {
 
     public override void Fire2()
     {
-        if (GetCooldown() <= 0)
-        {
-            Instantiate(projectile2, transform.position, Quaternion.Euler(0, 0, angle));
-            SetCooldown(secondaryRate);
-        }
     }
 }

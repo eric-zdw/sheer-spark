@@ -61,24 +61,23 @@ public class PurpleWeapon : Weapon {
             */
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
-            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue);
-            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue;
+            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
+            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
             newBeam.GetComponent<PurpleBeam>().setDamage(damage * chargeValue * (1f + (heatDamageRate * player.getHeatFactor())));
 
 
             float trueRecoil = recoilForce * chargeValue;
             playerRB.AddForce(new Vector3(-trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), -trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
-            print("X force: " + trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad) + ", Y force: " + trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad));
 
             chargeValue = 0f;
-            light.intensity *= 10f;
+            light.intensity *= 15f;
             light.range *= 2f;
             ps.enableEmission = false;
         }
 
         if (chargeValue == 0f && light.intensity >= 0)
         {
-            light.intensity *= 0.8f;
+            light.intensity *= 0.75f;
             light.range *= 0.9f;
         }
         
@@ -93,15 +92,14 @@ public class PurpleWeapon : Weapon {
         + " , maxSize: " + maxSize * (1f + (heatRadiusRate * player.getHeatFactor())));
 
         ps.enableEmission = true;
-        print("charge: " + chargeValue);
         if (chargeValue < 1f)
         {
             chargeValue += chargeRate * Time.deltaTime;
             if (chargeValue > 1f)
                 chargeValue = 1f;
         }
-        light.intensity = chargeValue * 2f;
-        light.range = chargeValue * 8f;
+        light.intensity = chargeValue * 3f;
+        light.range = chargeValue * 9f;
     }
 
     public override void Fire2()

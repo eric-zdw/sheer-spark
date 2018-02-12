@@ -7,7 +7,7 @@ public class RedProjectile : Projectile {
     public GameObject explosion;
     public GameObject explosion2;
 
-    public float damageDecayRate;
+    private float damageDecayRate;
 
     // Use this for initialization
     void Start() {
@@ -46,7 +46,7 @@ public class RedProjectile : Projectile {
     public void setDamage(float d)
     {
         damage = d;
-        damageDecayRate = (damage * 0.75f) * (1f / 0.15f);
+        damageDecayRate = (damage * 0.5f) * (1f / 0.15f);
     }
 
     void Explode()
