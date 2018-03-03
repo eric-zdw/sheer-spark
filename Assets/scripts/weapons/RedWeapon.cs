@@ -44,7 +44,7 @@ public class RedWeapon : Weapon {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                     projectile, 
-                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.5f), 
+                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.85f), 
                     Quaternion.Euler(0, 0, angle + (3f * i) + Random.Range(-3f, 3f))
                     );
 

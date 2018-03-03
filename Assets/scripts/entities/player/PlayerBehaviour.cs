@@ -9,6 +9,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float maxAngularVelocity = 15f;
     public float torqueStrength = 0.5f;
     public float jumpStrength = 5f;
+    public int maxHP = 3;
     private Rigidbody rb;
 
     private GameObject weaponSlot;
@@ -29,6 +30,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float heatDecayFactor;
     public float heatConstantDecay;
     private float decayTimer;
+    private int HP;
 
     // Use this for initialization
     void Start()
@@ -46,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         rb.maxAngularVelocity = maxAngularVelocity;
         decayTimer = 0.1f;
+        HP = maxHP;
     }
 
     void Update()
@@ -119,7 +122,7 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             weapon.Fire1();
         }
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButtonDown("Fire2"))
         {
             weapon.Fire2();
         }
