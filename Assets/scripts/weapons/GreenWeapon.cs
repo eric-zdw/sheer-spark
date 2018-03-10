@@ -31,7 +31,7 @@ public class GreenWeapon : Weapon {
         if (GetCooldown() > 0)
             DecrementCooldown();
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 9f));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
     }
 
@@ -51,8 +51,8 @@ public class GreenWeapon : Weapon {
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
                 Quaternion.Euler(0, 0, angle + Random.Range(-5f, 5f) + (altFire * 5f))
                 );
-            proj.GetComponent<YellowProjectile>().setDamage(realDamage);
-            proj.GetComponent<YellowProjectile>().setRadius(realRadius);
+            proj.GetComponent<GreenProjectile>().setDamage(realDamage);
+            proj.GetComponent<GreenProjectile>().setRadius(realRadius);
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }
     }

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4034443471760690}
-  - component: {fileID: 114763515893879398}
+  - component: {fileID: 114338239903570498}
   m_Layer: 0
   m_Name: GreenWeapon
   m_TagString: PlayerWeapon
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114763515893879398
+--- !u!114 &114338239903570498
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,13 +48,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1313234464062574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b70c988e5cc7b404e80a55fb096e8e73, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b14986ea5a62884787463883b0569f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1453142070821372, guid: c21b9dd47e78dd3428721e9a2166f926, type: 2}
-  bFireRate: 0.16
-  heatDamageRate: 0.005
-  heatFireRate: 0.004
-  heatRadiusRate: 0.002
-  damage: 18
+  projectile: {fileID: 1453142070821372, guid: 27349f4714b83db4ba79454d35a99017, type: 2}
+  bFireRate: 0.2
+  heatDamageRate: 0
+  heatFireRate: 0
+  heatRadiusRate: 0
+  damage: 6
   radius: 1

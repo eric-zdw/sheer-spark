@@ -36,17 +36,15 @@ public class OrangeProjectile : Projectile {
         rb.AddForce(new Vector3(0, -extraGravityForce, 0) * Time.deltaTime);
     }
 
-    /*
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
+            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.5f);
             Explode();
-            if (other.gameObject.CompareTag("Enemy"))
-                other.gameObject.GetComponent<Enemy>().getDamage(damage);
         }
     }
-    */
 
     public void setDamage(float d)
     {
@@ -68,7 +66,7 @@ public class OrangeProjectile : Projectile {
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
         hb.setDamage(damage);
-        hb.setRadius(radius / 0.6f);
+        hb.setRadius(radius / 0.5f);
         hb.printRadius();
 
         Destroy(gameObject);

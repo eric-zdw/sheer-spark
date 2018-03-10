@@ -80,7 +80,17 @@ public class ChaseEnemy : Enemy {
 			
 	}
 
-	void Explode()
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            cam.addShake(5f);
+            collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
+            Explode();
+        }
+    }
+
+    void Explode()
 	{
         cam.addShake(0.5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);

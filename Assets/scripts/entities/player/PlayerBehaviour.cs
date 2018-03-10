@@ -150,4 +150,9 @@ public class PlayerBehaviour : MonoBehaviour {
         return heatFactor;
     }
 
+    public void takeDamage(int damage)
+    {
+        HP -= damage;
+    }
+
 }

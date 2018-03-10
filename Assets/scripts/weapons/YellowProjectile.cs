@@ -17,8 +17,8 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 15f;
-        lifeTime = 4f;
+        projectileSpeed = 20f;
+        lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camscript = cam.GetComponent<CameraFollow>();
     }
@@ -106,7 +106,7 @@ public class YellowProjectile : Projectile {
 
     void Explode()
     {
-        camscript.addShake(0.04f);
+        camscript.addShake(0.06f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
