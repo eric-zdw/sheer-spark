@@ -22,7 +22,7 @@ public class BlueProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        lifeTime = 8f;
+        lifeTime = 5f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -48,12 +48,12 @@ public class BlueProjectile : Projectile {
 			rb.velocity = new Vector3(0, 0, 0);
 			mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
 			rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * 2000f);
-			Destroy(gameObject, 1f);
+			//Destroy(gameObject, 1f);
 		}
 
     }
 
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
 		if (other.CompareTag("Enemy"))
@@ -61,6 +61,17 @@ public class BlueProjectile : Projectile {
 			Instantiate(explosion, transform.position, transform.rotation);
 			//other.GetComponent<Rigidbody>().AddExplosionForce(500f, transform.position, radius * 2);
 			other.gameObject.GetComponent<Enemy>().getDamage(damage);
+			Destroy(gameObject);
+        }
+    }
+    */
+    private void OnCollisionEnter(Collision collision)
+    {
+		if (collision.gameObject.CompareTag("Enemy"))
+        {
+			Instantiate(explosion, transform.position, transform.rotation);
+			//other.GetComponent<Rigidbody>().AddExplosionForce(500f, transform.position, radius * 2);
+			collision.gameObject.GetComponent<Enemy>().getDamage(damage);
 			Destroy(gameObject);
         }
     }
