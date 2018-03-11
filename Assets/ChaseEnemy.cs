@@ -56,12 +56,12 @@ public class ChaseEnemy : Enemy {
 			
 		playerLocation = player.transform.position;
 
-		if (transform.position.x < playerLocation.x) 
+		if (transform.position.x < playerLocation.x && rb.velocity.x < 12f) 
 		{
 			rb.AddForce(new Vector3(800f, 0f, 0f) * Time.deltaTime);
 			rb.AddTorque(0, 0, -40f * Time.deltaTime);
 		}
-		else if (transform.position.x > playerLocation.x) 
+		else if (transform.position.x > playerLocation.x && rb.velocity.x > -12f) 
 		{
 			rb.AddForce(new Vector3(-800f, 0f, 0f) * Time.deltaTime);
 			rb.AddTorque(0, 0, 40f * Time.deltaTime);

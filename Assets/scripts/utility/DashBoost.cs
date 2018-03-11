@@ -56,6 +56,7 @@ public class DashBoost : Utility {
         Instantiate(dashImpact, transform.position, transform.rotation);
     }
 
+	/*
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
@@ -65,4 +66,5 @@ public class DashBoost : Utility {
             targetEnemy.getDamage(impactDamage);
         }
     }
+    */
 }

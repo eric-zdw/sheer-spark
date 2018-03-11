@@ -14,10 +14,13 @@ public class GreenProjectile : Projectile {
     private CameraFollow cam;
 
     private float radius;
+	private float cooldown = 0.0f;
+
+	private int charges = 5;
 
     // Use this for initialization
     void Start() {
-        lifeTime = 2.25f;
+        lifeTime = 8f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
@@ -34,14 +37,25 @@ public class GreenProjectile : Projectile {
 
 		CheckDetonate();
         rb.AddForce(new Vector3(0, -extraGravityForce, 0) * Time.deltaTime);
+
+		if (cooldown > 0f)
+			cooldown -= Time.deltaTime;
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+		if (collision.gameObject.CompareTag("Enemy") && cooldown <= 0f)
         {
-            Explode();
+			Instantiate(explosion, transform.position, transform.rotation, transform);
+			collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(2000f, transform.position, radius * 2);
+			collision.gameObject.GetComponent<Enemy>().getDamage(damage);
+			charges -= 1;
+
+			if (charges == 0)
+				Destroy(gameObject);
+
+			cooldown = 0.2f;
         }
     }
 

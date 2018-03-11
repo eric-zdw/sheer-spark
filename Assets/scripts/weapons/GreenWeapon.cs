@@ -48,8 +48,8 @@ public class GreenWeapon : Weapon {
             float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
             GameObject proj = Instantiate(
                 projectile,
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-5f, 5f) + (altFire * 5f))
+                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.8f),
+                Quaternion.Euler(0, 0, angle)
                 );
             proj.GetComponent<GreenProjectile>().setDamage(realDamage);
             proj.GetComponent<GreenProjectile>().setRadius(realRadius);

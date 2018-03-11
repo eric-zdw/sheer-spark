@@ -91,6 +91,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
         rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
+		print(rb.velocity.x);
     }
 
     void Movement()
