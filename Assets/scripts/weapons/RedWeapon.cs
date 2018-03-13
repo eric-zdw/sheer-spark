@@ -45,7 +45,7 @@ public class RedWeapon : Weapon {
                 GameObject proj = Instantiate(
                     projectile, 
                     transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.85f), 
-                    Quaternion.Euler(0, 0, angle + (1.5f * i) + Random.Range(-0.75f, 0.75f))
+                    Quaternion.Euler(0, 0, angle + (2f * i) + Random.Range(-1f, 1f))
                     );
 
 
