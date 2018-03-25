@@ -53,19 +53,22 @@ public class ChaseEnemy : Enemy {
 		{
 			Explode();
 		}
-			
-		playerLocation = player.transform.position;
+		
+        if (player != null)
+        {
+            playerLocation = player.transform.position;
 
-		if (transform.position.x < playerLocation.x && rb.velocity.x < 10f) 
-		{
-			rb.AddForce(new Vector3(800f, 0f, 0f) * Time.deltaTime);
-			rb.AddTorque(0, 0, -40f * Time.deltaTime);
-		}
-		else if (transform.position.x > playerLocation.x && rb.velocity.x > -10f) 
-		{
-			rb.AddForce(new Vector3(-800f, 0f, 0f) * Time.deltaTime);
-			rb.AddTorque(0, 0, 40f * Time.deltaTime);
-		}
+            if (transform.position.x < playerLocation.x && rb.velocity.x < 10f)
+            {
+                rb.AddForce(new Vector3(800f, 0f, 0f) * Time.deltaTime);
+                rb.AddTorque(0, 0, -40f * Time.deltaTime);
+            }
+            else if (transform.position.x > playerLocation.x && rb.velocity.x > -10f)
+            {
+                rb.AddForce(new Vector3(-800f, 0f, 0f) * Time.deltaTime);
+                rb.AddTorque(0, 0, 40f * Time.deltaTime);
+            }
+        }
 
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
 		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
@@ -84,7 +87,7 @@ public class ChaseEnemy : Enemy {
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            cam.addShake(5f);
+            cam.addShake(25f);
             collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
             Explode();
         }

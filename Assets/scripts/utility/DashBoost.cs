@@ -18,6 +18,8 @@ public class DashBoost : Utility {
     public float dashVelocity = 15f;
     bool isPrimed = false;
 
+    public float charges;
+
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
@@ -31,29 +33,28 @@ public class DashBoost : Utility {
 	void Update () {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camFollow.CameraDistance));
 
-        if (isPrimed = true && rb.velocity.magnitude > 7.5f)
+        if (charges < 3f)
         {
-
+            charges += 0.75f * Time.deltaTime;
         }
+        else if (charges > 3f)
+            charges = 3f;
     }
 
     public override void Activate()
     {
-        /*
-        if (charges > 0)
+        if (charges > 1f)
         {
+            angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
+            rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
+            if (rb.velocity.x > 0f)
+                rb.angularVelocity = new Vector3(0f, 0f, -10f);
+            else
+                rb.angularVelocity = new Vector3(0f, 0f, 10f);
 
+            Instantiate(dashImpact, transform.position, transform.rotation);
+            charges -= 1f;
         }
-        */
-
-        angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
-        rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
-        if (rb.velocity.x > 0f)
-            rb.angularVelocity = new Vector3(0f, 0f, -10f);
-        else
-            rb.angularVelocity = new Vector3(0f, 0f, 10f);
-
-        Instantiate(dashImpact, transform.position, transform.rotation);
     }
 
 	/*

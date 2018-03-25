@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraFollow : MonoBehaviour {
     public GameObject followTarget;
@@ -9,6 +10,9 @@ public class CameraFollow : MonoBehaviour {
 
 	private float shakeFactor = 0f;
     public float shakeDecayFactor;
+    private Vector3 lastPosition;
+
+    private float resetTimer = 5f;
 
 	// Use this for initialization
 	void Start ()
@@ -21,7 +25,13 @@ public class CameraFollow : MonoBehaviour {
     {
         Vector3 newPosition;
         //inital camera position
-        newPosition = followTarget.transform.position + new Vector3(0, 0, -CameraDistance);
+        if (followTarget != null)
+        {
+            newPosition = followTarget.transform.position + new Vector3(0, 0, -CameraDistance);
+            lastPosition = newPosition;
+        }
+        else
+            newPosition = lastPosition;
 
         //add mouse positioning
         newPosition += cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
@@ -33,10 +43,29 @@ public class CameraFollow : MonoBehaviour {
             transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor);
         }
         shakeFactor *= shakeDecayFactor;
+
+        if (followTarget == null)
+        {
+            print("about to reset...");
+            resetTimer -= Time.deltaTime;
+            if (resetTimer < 0f)
+            {
+                StartCoroutine(ResetScene());
+            }
+        }
     }
 
 	public void addShake(float magnitude)
 	{
         shakeFactor += magnitude;
 	}
+
+    IEnumerator ResetScene()
+    {
+        AsyncOperation load = SceneManager.LoadSceneAsync(0);
+        while(!load.isDone)
+        {
+            yield return null;
+        }
+    }
 }

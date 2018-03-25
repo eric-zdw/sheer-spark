@@ -30,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float heatDecayFactor;
     public float heatConstantDecay;
     private float decayTimer;
-    private int HP;
+    public int HP;
 
     // Use this for initialization
     void Start()
@@ -82,6 +82,11 @@ public class PlayerBehaviour : MonoBehaviour {
 
             decayTimer += 0.1f;
         }
+
+        if (HP == 0f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void FixedUpdate () {
@@ -91,7 +96,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
         rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
         rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
-		print(rb.velocity.x);
     }
 
     void Movement()

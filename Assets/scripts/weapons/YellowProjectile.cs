@@ -17,7 +17,7 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 20f;
+        projectileSpeed = 25f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camscript = cam.GetComponent<CameraFollow>();
@@ -69,12 +69,12 @@ public class YellowProjectile : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 3f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2.5f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 3f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2.5f);
             transform.rotation = Quaternion.Euler(newR);
         }
         print(360 - (Mathf.Abs(leftAngle - rightAngle)));
