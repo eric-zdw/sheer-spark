@@ -35,7 +35,7 @@ public class DashBoost : Utility {
 
         if (charges < 3f)
         {
-            charges += 0.75f * Time.deltaTime;
+            charges += 0.6f * Time.deltaTime;
         }
         else if (charges > 3f)
             charges = 3f;

@@ -39,13 +39,13 @@ public class RedWeapon : Weapon {
             + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         if (GetCooldown() <= 0)
         {
-            for (int i = -2; i <= 2; i++)
+            for (int i = -3; i <= 3; i++)
             {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                     projectile, 
                     transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.85f), 
-                    Quaternion.Euler(0, 0, angle + (2f * i) + Random.Range(-1f, 1f))
+                    Quaternion.Euler(0, 0, angle + (1.8f * i) + Random.Range(-0.9f, 0.9f))
                     );
 
 

@@ -47,7 +47,7 @@ public class BlueProjectile : Projectile {
 		if (Input.GetButtonUp("Fire1")) {
 			rb.velocity = new Vector3(0, 0, 0);
 			mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
-			rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * 2000f);
+			rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * 3000f);
 			//Destroy(gameObject, 1f);
 		}
 
