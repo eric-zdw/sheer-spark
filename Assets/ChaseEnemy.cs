@@ -87,7 +87,6 @@ public class ChaseEnemy : Enemy {
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            cam.addShake(25f);
             collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
             Explode();
         }

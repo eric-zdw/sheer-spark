@@ -32,6 +32,9 @@ public class PlayerBehaviour : MonoBehaviour {
     private float decayTimer;
     public int HP;
 
+    private AudioSource collisionSound;
+    private CameraFollow cam;
+
     // Use this for initialization
     void Start()
     {
@@ -49,6 +52,9 @@ public class PlayerBehaviour : MonoBehaviour {
         rb.maxAngularVelocity = maxAngularVelocity;
         decayTimer = 0.1f;
         HP = maxHP;
+
+        collisionSound = GetComponent<AudioSource>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
     }
 
     void Update()
@@ -158,6 +164,14 @@ public class PlayerBehaviour : MonoBehaviour {
     public void takeDamage(int damage)
     {
         HP -= damage;
+        cam.addShake(20f);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+
+        collisionSound.volume = collision.relativeVelocity.magnitude * 0.05f;
+        collisionSound.Play();
     }
 
 }

@@ -12,12 +12,14 @@ public class PurpleBeam : MonoBehaviour {
 
     public GameObject explosion;
     private CapsuleCollider collider;
+    private AudioSource beamSound;
 
 	// Use this for initialization
 	void Start () {
         collider = GetComponent<CapsuleCollider>();
         beam = GetComponent<ParticleSystem>();
         Destroy(collider, 0.15f);
+        beamSound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -42,6 +44,7 @@ public class PurpleBeam : MonoBehaviour {
     public void setSize(float s)
     {
         beam.startSize = s;
+        beamSound.pitch = 3 - s;
     }
 
     public void setDamage(float d)

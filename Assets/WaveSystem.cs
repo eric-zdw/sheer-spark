@@ -30,6 +30,12 @@ public class WaveSystem : MonoBehaviour {
 
     public AudioSource[] musics;
 
+    public float[] probabilities;
+    private float[] actualProbabilities;
+    private float totalProbability;
+    public int[] allowedWaves;
+    List<int> waveRoster;
+
     // Use this for initialization
     void Start () {
         waveNumber = 1;
@@ -51,12 +57,15 @@ public class WaveSystem : MonoBehaviour {
         }
 
         SetMusic(musics[0]);
+        waveRoster = new List<int>();
+        actualProbabilities = new float[probabilities.Length];
+        InitializeEnemyList();
     }
 	
 	// Update is called once per frame
 	void Update () {
         remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
-        print("remaining enemies: " + remainingEnemies + ", reserve: " + reserveEnemies);
+        //print("remaining enemies: " + remainingEnemies + ", reserve: " + reserveEnemies);
 
         delay -= Time.deltaTime;
         if (delay < 0f && started == false)
@@ -97,6 +106,21 @@ public class WaveSystem : MonoBehaviour {
         enemyPower = 1 + (waveNumber * 0.05f);
         spawnInterval = Mathf.Sqrt(30 / reserveEnemies);
         activeLevel = false;
+        InitializeEnemyList();
+    }
+
+    void InitializeEnemyList()
+    {
+        totalProbability = 0f;
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (allowedWaves[i] <= waveNumber)
+            {
+                actualProbabilities[i] = probabilities[i] + totalProbability;
+                totalProbability += probabilities[i];
+            }
+            print("probability of enemy " + i + "is " + actualProbabilities[i]);
+        }
     }
 
     void Spawn()
@@ -111,13 +135,24 @@ public class WaveSystem : MonoBehaviour {
         }
 
         int rngSpawner = Random.Range(0, availableSpawners.Count);
-        availableSpawners[rngSpawner].Spawn(enemies[0]);
+        float rngEnemy = Random.Range(1f, totalProbability);
+        int counter = 0;
+        bool hasSpawned = false;
+        while(!hasSpawned)
+        {
+            if (rngEnemy < actualProbabilities[counter])
+            {
+                availableSpawners[rngSpawner].Spawn(enemies[counter]);
+                hasSpawned = true;
+            }
+            counter++;
+        }
     }
 
     void SetMusic(AudioSource track)
     {
         lastMusic.volume = 0f;
         lastMusic = track;
-        track.volume = 0.5f;
+        track.volume = 0.25f;
     }
 }

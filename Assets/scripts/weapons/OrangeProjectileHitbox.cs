@@ -7,6 +7,8 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 	private float damage;
     private float radius;
 
+    public float explosionForce;
+
 	// Use this for initialization
 	void Start () {
         Destroy(gameObject, 0.1f);
@@ -39,7 +41,7 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 			other.GetComponent<Enemy>().getDamage(damage * (1 - (distance / radius)));
 			print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - (distance / radius)));
 
-            other.GetComponent<Rigidbody>().AddExplosionForce(1000f, transform.position, radius * 2, 0.1f);
+            other.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, radius * 2, 0.1f);
         }
 	}
 }

@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour {
     private Vector3 lastPosition;
 
     private float resetTimer = 5f;
+    private bool hasRestarted = false;
 
 	// Use this for initialization
 	void Start ()
@@ -48,9 +49,10 @@ public class CameraFollow : MonoBehaviour {
         {
             print("about to reset...");
             resetTimer -= Time.deltaTime;
-            if (resetTimer < 0f)
+            if (resetTimer < 0f && !hasRestarted)
             {
                 StartCoroutine(ResetScene());
+                hasRestarted = true;
             }
         }
     }

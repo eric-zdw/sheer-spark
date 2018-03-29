@@ -13,10 +13,13 @@ public class Ready : MonoBehaviour {
     bool checkpoint4 = false;
     bool checkpoint5 = false;
 
+    AudioSource countdownSound;
+
     // Use this for initialization
     void Start () {
         text = GetComponent<UnityEngine.UI.Text>();
         text.enabled = false;
+        countdownSound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -41,12 +44,18 @@ public class Ready : MonoBehaviour {
 
         if (routineTimer < 10f && checkpoint3 == false)
         {
+            string oldText = text.text;
             text.fontSize = 800;
             text.color = new Color(255, 255, 255, 0.5f);
             text.text = Mathf.Ceil(routineTimer).ToString();
 
             if (routineTimer < 1f)
                 checkpoint3 = true;
+
+            if(oldText != text.text)
+            {
+                countdownSound.Play();
+            }
         }
 
         if (routineTimer < 0f && checkpoint4 == false)

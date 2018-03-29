@@ -19,6 +19,7 @@ public class DashBoost : Utility {
     bool isPrimed = false;
 
     public float charges;
+    private AudioSource[] sounds;
 
     // Use this for initialization
     void Start () {
@@ -27,6 +28,7 @@ public class DashBoost : Utility {
         camFollow = cam.GetComponent<CameraFollow>();
         player = GameObject.FindGameObjectWithTag("Player");
         rb = player.GetComponent<Rigidbody>();
+        sounds = GetComponents<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -35,7 +37,7 @@ public class DashBoost : Utility {
 
         if (charges < 3f)
         {
-            charges += 0.6f * Time.deltaTime;
+            charges += 0.75f * Time.deltaTime;
         }
         else if (charges > 3f)
             charges = 3f;
@@ -54,6 +56,11 @@ public class DashBoost : Utility {
 
             Instantiate(dashImpact, transform.position, transform.rotation);
             charges -= 1f;
+            sounds[0].Play();
+        }
+        else
+        {
+            sounds[1].Play();
         }
     }
 

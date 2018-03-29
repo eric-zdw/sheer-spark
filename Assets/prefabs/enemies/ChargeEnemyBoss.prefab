@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 54913893957176348}
   - component: {fileID: 114679432962609600}
   m_Layer: 0
-  m_Name: ChargeEnemySmall 1
+  m_Name: ChargeEnemyBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1949764095654824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.369912, y: 4.61, z: -1.6182077}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4872856279968322}
   m_Father: {fileID: 0}
@@ -197,9 +197,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1400260174968392, guid: 23a2a997a2b7d514399a54b225354627, type: 2}
   explosion: {fileID: 1056517570023220, guid: f4e7be3d6450e214ab7516bb01e86c87, type: 2}
-  newHealth: 50
-  jumpChance: 3
-  jumpStrength: 750
+  newHealth: 500
+  jumpChance: 10
+  jumpStrength: 1250
   JumpParticleCharge: {fileID: 1132967370857014, guid: afdc9262f25aa0d478f0b7af49445372,
     type: 2}
   JumpParticle: {fileID: 1132967370857014, guid: da09b21ebaf136c4d89c558e80f1f798,
@@ -207,9 +207,9 @@ MonoBehaviour:
   powerups:
   - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 2}
   - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 2}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 2}
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 2}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 2}
+  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 2}
+  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 2}
+  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 2}
   - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 2}
   colours:
   - {fileID: 2100000, guid: e8a50782ef8a0124bb2190e2883eba9b, type: 2}

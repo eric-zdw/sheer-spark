@@ -25,6 +25,8 @@ public class PurpleWeapon : Weapon {
     public float heatDamageRate = 0.005f;
     public float heatRadiusRate = 0.004f;
 
+    private AudioSource chargeSound;
+
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;
@@ -34,6 +36,7 @@ public class PurpleWeapon : Weapon {
         ps = GetComponent<ParticleSystem>();
         ps.enableEmission = false;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+        chargeSound = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -73,6 +76,7 @@ public class PurpleWeapon : Weapon {
             light.intensity *= 15f;
             light.range *= 2f;
             ps.enableEmission = false;
+            chargeSound.Stop();
         }
 
         if (chargeValue == 0f && light.intensity >= 0)
@@ -80,8 +84,9 @@ public class PurpleWeapon : Weapon {
             light.intensity *= 0.75f;
             light.range *= 0.9f;
         }
-        
-        
+
+        chargeSound.volume = (chargeValue * 0.25f) + 0.25f;
+        chargeSound.pitch = chargeValue;
     }
 
     public override void Fire1()
@@ -92,6 +97,9 @@ public class PurpleWeapon : Weapon {
         + " , maxSize: " + maxSize * (1f + (heatRadiusRate * player.getHeatFactor())));
 
         ps.enableEmission = true;
+        if (chargeSound.isPlaying == false)
+            chargeSound.Play();
+
         if (chargeValue < 1f)
         {
             chargeValue += chargeRate * Time.deltaTime;

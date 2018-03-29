@@ -22,7 +22,7 @@ public class BlueProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        lifeTime = 5f;
+        lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -42,12 +42,12 @@ public class BlueProjectile : Projectile {
         rb.AddForce(new Vector3(0, -extraGravityForce, 0) * Time.deltaTime);
 
 		if (Input.GetButton("Fire1"))
-			rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * 4000f);
+			rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * 80f);
 
 		if (Input.GetButtonUp("Fire1")) {
 			rb.velocity = new Vector3(0, 0, 0);
 			mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
-			rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * 3000f);
+			rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * 60f);
 			//Destroy(gameObject, 1f);
 		}
 
