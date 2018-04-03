@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 33521322730458130}
   - component: {fileID: 23057366498216340}
   - component: {fileID: 135718511573952684}
-  - component: {fileID: 114114168515883900}
+  - component: {fileID: 114661838205573270}
   m_Layer: 0
   m_Name: PurplePowerup
   m_TagString: Untagged
@@ -994,20 +994,6 @@ MonoBehaviour:
   magnitudeUp: -600
   magnitudeRight: 0
   magnitudeForward: 0
---- !u!114 &114114168515883900
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1881794500740252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97006a4548d29847a8d9a9d3c25312c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  redWeapon: {fileID: 1313234464062574, guid: a27618c5b08873b4fb82366b53c108c6, type: 2}
-  newColour: {fileID: 2100000, guid: 2a8c17456e102ca4a9bbf7b7f26eb72a, type: 2}
-  explosion: {fileID: 1445801679278778, guid: 9946ade641f201d449599720cc53a502, type: 2}
 --- !u!114 &114163298133772490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1144,6 +1130,21 @@ MonoBehaviour:
   magnitudeUp: 0
   magnitudeRight: 450
   magnitudeForward: 0
+--- !u!114 &114661838205573270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881794500740252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a54276833864fe44917dc122abee052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redWeapon: {fileID: 1313234464062574, guid: a27618c5b08873b4fb82366b53c108c6, type: 2}
+  newColour: {fileID: 2100000, guid: 2a8c17456e102ca4a9bbf7b7f26eb72a, type: 2}
+  explosion: {fileID: 1445801679278778, guid: 9946ade641f201d449599720cc53a502, type: 2}
+  newMaterial: {fileID: 2100000, guid: 0dd25a814cb49614686c12d915e3e704, type: 2}
 --- !u!114 &114702907030792916
 MonoBehaviour:
   m_ObjectHideFlags: 1

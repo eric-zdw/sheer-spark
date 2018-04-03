@@ -17,7 +17,7 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 25f;
+        projectileSpeed = 35f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camscript = cam.GetComponent<CameraFollow>();

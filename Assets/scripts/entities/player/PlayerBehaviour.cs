@@ -35,6 +35,12 @@ public class PlayerBehaviour : MonoBehaviour {
     private AudioSource collisionSound;
     private CameraFollow cam;
 
+    public GameObject deathExplosion;
+    public Color[] powerColors;
+    private UnityEngine.UI.Image powerupBar;
+    private RectTransform pbSize;
+    private UnityEngine.UI.Text powerupName;
+
     // Use this for initialization
     void Start()
     {
@@ -55,6 +61,10 @@ public class PlayerBehaviour : MonoBehaviour {
 
         collisionSound = GetComponent<AudioSource>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+
+        powerupBar = GameObject.FindGameObjectWithTag("PowerupBar").GetComponent<UnityEngine.UI.Image>();
+        pbSize = powerupBar.GetComponent<RectTransform>();
+        powerupName = GameObject.FindGameObjectWithTag("PowerupName").GetComponent<UnityEngine.UI.Text>();
     }
 
     void Update()
@@ -67,11 +77,19 @@ public class PlayerBehaviour : MonoBehaviour {
         if (powerupTimer >= 0f)
         {
             powerupTimer -= Time.deltaTime;
+            if (pbSize != null)
+            {
+                pbSize.localScale = new Vector3(powerupTimer / powerupDuration, 1f, 1f);
+            }
+
             if (powerupTimer <= 0f)
             {
                 Destroy(weapon.gameObject);
                 weapon = Instantiate(defaultWeapon, transform.position, Quaternion.identity, weaponSlot.transform).GetComponent<Weapon>();
                 mesh.material = defaultColour;
+                GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = new Color(0.549f, 0.608f, 0.678f);
+                powerupBar.GetComponent<UnityEngine.UI.Image>().material = defaultColour;
+                powerupName.text = "BLASTER";
             }
         }
 
@@ -91,6 +109,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (HP == 0f)
         {
+            cam.addShake(30f);
+            Instantiate(deathExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
@@ -143,12 +163,21 @@ public class PlayerBehaviour : MonoBehaviour {
         }
     }
 
-    public void getPowerup(GameObject newWeapon, Material newColour)
+    public void getPowerup(GameObject newWeapon, Material newColour, int index, Material newMaterial, string powerName)
     {
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
         powerupTimer = powerupDuration;
         heatFactor += 1f;
+        GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
+        if (powerupBar != null)
+        {
+            powerupBar.GetComponent<UnityEngine.UI.Image>().material = newMaterial;
+        }
+        if (powerupName != null)
+        {
+            powerupName.text = powerName;
+        }
     }
 
     public void addRecoil(Vector3 direction)
@@ -164,7 +193,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public void takeDamage(int damage)
     {
         HP -= damage;
-        cam.addShake(20f);
+        cam.addShake(10f);
     }
 
     public void OnCollisionEnter(Collision collision)

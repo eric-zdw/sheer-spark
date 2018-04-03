@@ -16,7 +16,7 @@ public class GreenWeapon : Weapon {
     public float heatRadiusRate = 0.002f;
     public float damage = 6f;
     public float radius = 1f;
-
+        
     int altFire = 1;
 
     void Start () {

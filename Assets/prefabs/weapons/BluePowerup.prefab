@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 33466635775168220}
   - component: {fileID: 23174040369566854}
   - component: {fileID: 135876279178381472}
-  - component: {fileID: 114084829021721738}
+  - component: {fileID: 114706170253379318}
   m_Layer: 0
   m_Name: BluePowerup
   m_TagString: Untagged
@@ -1011,20 +1011,6 @@ MonoBehaviour:
   magnitudeUp: 0
   magnitudeRight: 450
   magnitudeForward: 0
---- !u!114 &114084829021721738
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1742119026110102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97006a4548d29847a8d9a9d3c25312c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  redWeapon: {fileID: 1313234464062574, guid: 491ce2bb283bd424c8ef07822c704d80, type: 2}
-  newColour: {fileID: 2100000, guid: 6bc4020373adec5498c931aadc8c3c2a, type: 2}
-  explosion: {fileID: 1445801679278778, guid: f5e2f2d05f04acf4b8ec638e8be3b818, type: 2}
 --- !u!114 &114103265779476892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1161,6 +1147,21 @@ MonoBehaviour:
   magnitudeUp: 0
   magnitudeRight: -600
   magnitudeForward: 0
+--- !u!114 &114706170253379318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1742119026110102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636d6d488f45ced4d95e4c16caf7d837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redWeapon: {fileID: 1313234464062574, guid: 491ce2bb283bd424c8ef07822c704d80, type: 2}
+  newColour: {fileID: 2100000, guid: 6bc4020373adec5498c931aadc8c3c2a, type: 2}
+  explosion: {fileID: 1445801679278778, guid: f5e2f2d05f04acf4b8ec638e8be3b818, type: 2}
+  newMaterial: {fileID: 2100000, guid: a286bd78e31777a46889bb6279091ae1, type: 2}
 --- !u!114 &114854167977983692
 MonoBehaviour:
   m_ObjectHideFlags: 1

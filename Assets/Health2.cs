@@ -7,12 +7,14 @@ public class Health2 : MonoBehaviour
 
     PlayerBehaviour player;
     public UnityEngine.UI.Image damageAlert;
+    private UnityEngine.UI.Image hp;
     bool isActive = true;
 
     // Use this for initialization
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+        hp = GetComponent<UnityEngine.UI.Image>();
     }
 
     // Update is called once per frame
@@ -21,12 +23,12 @@ public class Health2 : MonoBehaviour
         if (player.HP < 2 && isActive == true)
         {
             damageAlert.color = new Color(255, 128, 128, 0.25f);
-            gameObject.SetActive(false);
+            hp.enabled = false;
             isActive = false;
         }
-        else if (isActive == false)
+        else if (player.HP >= 2 && isActive == false)
         {
-            gameObject.SetActive(true);
+            hp.enabled = true;
             isActive = true;
         }
 

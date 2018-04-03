@@ -7,11 +7,12 @@ public class OrangePowerup : MonoBehaviour {
     public GameObject redWeapon;
     public Material newColour;
     public GameObject explosion;
+    public Material newMaterial;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start () {
+        Destroy(gameObject, 8f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,10 +33,9 @@ public class OrangePowerup : MonoBehaviour {
     {
         GameObject weapon = player.GetComponentInChildren<Weapon>().gameObject;
         Transform parent = weapon.transform.parent;
-        print(weapon.tag);
         GameObject newWeapon = Instantiate(redWeapon, player.transform.position, player.transform.rotation, parent);
         PlayerBehaviour playerScript = player.GetComponent<PlayerBehaviour>();
-        playerScript.getPowerup(newWeapon, newColour);
+        playerScript.getPowerup(newWeapon, newColour, 1, newMaterial, "ENERGY GRENADE");
         Destroy(weapon);
         Instantiate(explosion, transform.position, transform.rotation);
     }

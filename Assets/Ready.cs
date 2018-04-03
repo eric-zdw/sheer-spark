@@ -14,6 +14,7 @@ public class Ready : MonoBehaviour {
     bool checkpoint5 = false;
 
     AudioSource countdownSound;
+    public bool gameStarted = false;
 
     // Use this for initialization
     void Start () {
@@ -24,7 +25,10 @@ public class Ready : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        routineTimer -= Time.deltaTime;
+        if (gameStarted)
+        {
+            routineTimer -= Time.deltaTime;
+        }
 
         if (routineTimer < 13f && checkpoint1 == false)
         {
@@ -45,8 +49,8 @@ public class Ready : MonoBehaviour {
         if (routineTimer < 10f && checkpoint3 == false)
         {
             string oldText = text.text;
-            text.fontSize = 800;
-            text.color = new Color(255, 255, 255, 0.5f);
+            text.fontSize = 2000;
+            text.color = new Color(255, 255, 255, 0.3f);
             text.text = Mathf.Ceil(routineTimer).ToString();
 
             if (routineTimer < 1f)

@@ -33,8 +33,8 @@ public class RedProjectile : Projectile {
         }
 
         damage -= damageDecayRate * Time.deltaTime;
-        projectileSpeed *= 1.25f;
-        transform.localScale = new Vector3(transform.localScale.x * 1.2f, transform.localScale.y, transform.localScale.z);
+        projectileSpeed *= 1.3f;
+        transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
 
         if (soundDecreasing)
             humSound.volume -= 0.5f * Time.deltaTime;

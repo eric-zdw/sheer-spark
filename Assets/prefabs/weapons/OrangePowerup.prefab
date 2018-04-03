@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 33521322730458130}
   - component: {fileID: 23057366498216340}
   - component: {fileID: 135718511573952684}
-  - component: {fileID: 114114168515883900}
+  - component: {fileID: 114040781060619018}
   m_Layer: 0
   m_Name: OrangePowerup
   m_TagString: Untagged
@@ -977,6 +977,21 @@ MonoBehaviour:
   magnitudeUp: 450
   magnitudeRight: 0
   magnitudeForward: 0
+--- !u!114 &114040781060619018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881794500740252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec02c2b0163ebf4a98df67bf565646f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redWeapon: {fileID: 1313234464062574, guid: 975a416448d23744fb75cfaf0035f76c, type: 2}
+  newColour: {fileID: 2100000, guid: 73d01f18f2d34844bbcf9395a53717a2, type: 2}
+  explosion: {fileID: 1445801679278778, guid: 640b6e0ee4aef184e82893e6abc2e0f8, type: 2}
+  newMaterial: {fileID: 2100000, guid: 7cd95a6d7152a874eb491720c970bb8d, type: 2}
 --- !u!114 &114052244760318982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -994,20 +1009,6 @@ MonoBehaviour:
   magnitudeUp: -600
   magnitudeRight: 0
   magnitudeForward: 0
---- !u!114 &114114168515883900
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1881794500740252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97006a4548d29847a8d9a9d3c25312c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  redWeapon: {fileID: 1313234464062574, guid: 975a416448d23744fb75cfaf0035f76c, type: 2}
-  newColour: {fileID: 2100000, guid: 73d01f18f2d34844bbcf9395a53717a2, type: 2}
-  explosion: {fileID: 1445801679278778, guid: 640b6e0ee4aef184e82893e6abc2e0f8, type: 2}
 --- !u!114 &114163298133772490
 MonoBehaviour:
   m_ObjectHideFlags: 1

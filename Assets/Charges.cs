@@ -15,6 +15,6 @@ public class Charges : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        bar.localScale = new Vector3(1f, 1f * (db.charges / 3f), 1f);
+        bar.localScale = new Vector3(1f * (db.charges / 3f), 1f, 1f);
 	}
 }

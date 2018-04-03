@@ -39,9 +39,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453142070821372}
-  m_LocalRotation: {x: -0, y: -0, z: 0.36219016, w: 0.9321043}
+  m_LocalRotation: {x: 0, y: 0, z: 0.36219406, w: 0.93210274}
   m_LocalPosition: {x: 7.33705, y: 5.23, z: 0.15791607}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -95,12 +95,12 @@ Rigidbody:
   m_GameObject: {fileID: 1453142070821372}
   serializedVersion: 2
   m_Mass: 10
-  m_Drag: 1
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 8
+  m_Constraints: 120
   m_CollisionDetection: 1
 --- !u!114 &114038740988513150
 MonoBehaviour:
@@ -114,9 +114,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 1526053759308188, guid: d17fd3602f9ec6a409308220723d5a31, type: 2}
-  hitbox: {fileID: 1453142070821372, guid: 8a619c6309b42e740847f325e2452f14, type: 2}
+  explosion2: {fileID: 1447774909938400, guid: 031dcadefaa4c6f47a5f3389a5fc9953, type: 2}
+  hitbox: {fileID: 1453142070821372, guid: 8cd54cffb3797884196922441a6c77c0, type: 2}
+  hitbox2: {fileID: 1453142070821372, guid: f2a7dd176efdd4f4a8571469740b3861, type: 2}
+  tether: {fileID: 1426852688876348, guid: 9fea16f37d215924685611c69d08c605, type: 2}
   extraGravityForce: 0
-  launchForce: 12000
+  launchForce: 7500
 --- !u!135 &135196213308706652
 SphereCollider:
   m_ObjectHideFlags: 1

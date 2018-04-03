@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaveSystem : MonoBehaviour {
     
     public int remainingEnemies;
+    private int activeEnemies;
     public int reserveEnemies;
     public int waveNumber;
     public float enemyPower;
@@ -19,7 +20,6 @@ public class WaveSystem : MonoBehaviour {
     bool started = false;
 
     public GameObject[] enemies;
-    
 
     public GameObject[] uiElements;
     private List<GameObject> spawners;
@@ -29,12 +29,20 @@ public class WaveSystem : MonoBehaviour {
     AudioSource newMusic;
 
     public AudioSource[] musics;
+    private bool[] activeMusics;
+    private bool musicChosen = false;
+    private PlayerBehaviour player;
+    private bool highIntensity = false;
 
     public float[] probabilities;
     private float[] actualProbabilities;
     private float totalProbability;
     public int[] allowedWaves;
     List<int> waveRoster;
+
+    public bool gameStarted = false;
+    private WaveComplete wc;
+    private WaveComplete2 wc2;
 
     // Use this for initialization
     void Start () {
@@ -56,57 +64,124 @@ public class WaveSystem : MonoBehaviour {
             spawnerScripts.Add(spawners[i].GetComponent<Spawner>());
         }
 
-        SetMusic(musics[0]);
+        activeMusics = new bool[3];
+        for (int i = 0; i < 3; i++)
+        {
+            activeMusics[i] = false;
+        }
+
         waveRoster = new List<int>();
         actualProbabilities = new float[probabilities.Length];
         InitializeEnemyList();
+
+        wc = GameObject.Find("WaveComplete").GetComponent<WaveComplete>();
+        wc2 = GameObject.Find("WaveComplete2").GetComponent<WaveComplete2>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
-        //print("remaining enemies: " + remainingEnemies + ", reserve: " + reserveEnemies);
-
-        delay -= Time.deltaTime;
-        if (delay < 0f && started == false)
+        if (gameStarted)
         {
-            for (int i = 0; i < uiElements.Length; i++)
+            remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
+            activeEnemies = remainingEnemies - reserveEnemies;
+
+            for (int i = 0; i < 3; i++)
             {
-                uiElements[i].SetActive(true);
+                if (activeMusics[i] == false && musics[i].volume > 0f)
+                {
+                    musics[i].volume -= 0.15f * Time.deltaTime;
+                }
+                else if (activeMusics[i] == true && musics[i].volume < 0.5f)
+                {
+                    musics[i].volume += 0.15f * Time.deltaTime;
+                }
             }
-            started = true;
-            activeLevel = true;
-            SetMusic(musics[1]);
-        }
-        else if (delay < 0f && started == true && activeLevel == false)
-        {
-            activeLevel = true;
-        }
 
-        if (activeLevel == true && reserveEnemies != 0)
-        {
-            spawnDelay -= Time.deltaTime;
-            if (spawnDelay < 0f)
+            delay -= Time.deltaTime;
+            if (delay < 0f && started == false)
             {
-                Spawn();
-                reserveEnemies--;
-                spawnDelay = spawnInterval;
+                started = true;
+                activeLevel = true;
             }
-        }
+            else if (delay < 0f && started == true && activeLevel == false)
+            {
+                activeLevel = true;
+            }
 
-        if (remainingEnemies == 0)
-            ResetWave();
+            if (delay < 0f && activeLevel == true && musicChosen == false)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    activeMusics[i] = false;
+                }
+
+                if (waveNumber < 3)
+                    activeMusics[0] = true;
+                else if (waveNumber < 5)
+                    activeMusics[1] = true;
+                else
+                    activeMusics[1] = true;
+
+                musicChosen = true;
+                print("choosing music");
+            }
+
+            if (((player.HP == 1) || (activeEnemies > 12f)) && highIntensity == false)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    activeMusics[i] = false;
+                }
+
+                if (waveNumber < 3)
+                    activeMusics[1] = true;
+                else if (waveNumber < 5)
+                    activeMusics[2] = true;
+                else
+                    activeMusics[2] = true;
+
+                highIntensity = true;
+                print("high intensity");
+            }
+
+            if (activeLevel == true && reserveEnemies != 0)
+            {
+                spawnDelay -= Time.deltaTime;
+                if (spawnDelay < 0f)
+                {
+                    Spawn();
+                    reserveEnemies--;
+                    spawnDelay = spawnInterval;
+                }
+            }
+
+            if (remainingEnemies == 0)
+                ResetWave();
+        }
     }
 
     void ResetWave()
     {
+        wc.StartRoutine();
+        wc2.StartRoutine();
         waveNumber++;
-        reserveEnemies = 5 + (waveNumber * waveNumber);
+        reserveEnemies = 5 + (int)(waveNumber * waveNumber * 0.75f);
         delay = 15f;
         enemyPower = 1 + (waveNumber * 0.05f);
-        spawnInterval = Mathf.Sqrt(30 / reserveEnemies);
+        spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
         activeLevel = false;
         InitializeEnemyList();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+        musicChosen = false;
+        highIntensity = false;
+
+        for (int i = 0; i < 3; i++)
+        {
+            activeMusics[i] = false;
+            print("disabling music");
+        }
+        activeMusics[0] = true;
     }
 
     void InitializeEnemyList()
@@ -147,12 +222,5 @@ public class WaveSystem : MonoBehaviour {
             }
             counter++;
         }
-    }
-
-    void SetMusic(AudioSource track)
-    {
-        lastMusic.volume = 0f;
-        lastMusic = track;
-        track.volume = 0.25f;
     }
 }

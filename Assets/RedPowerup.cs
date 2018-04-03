@@ -7,6 +7,7 @@ public class RedPowerup : MonoBehaviour {
     public GameObject redWeapon;
     public Material newColour;
     public GameObject explosion;
+    public Material newMaterial;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,7 @@ public class RedPowerup : MonoBehaviour {
         Transform parent = weapon.transform.parent;
         GameObject newWeapon = Instantiate(redWeapon, player.transform.position, player.transform.rotation, parent);
         PlayerBehaviour playerScript = player.GetComponent<PlayerBehaviour>();
-        playerScript.getPowerup(newWeapon, newColour);
+        playerScript.getPowerup(newWeapon, newColour, 0, newMaterial, "FRACTAL LASER");
         Destroy(weapon);
         Instantiate(explosion, transform.position, transform.rotation);
     }

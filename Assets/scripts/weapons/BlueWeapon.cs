@@ -15,11 +15,22 @@ public class BlueWeapon : Weapon {
     public float heatFireRate = 0.004f;
     public float damage = 6f;
 
+    public float rangeRadius = 0f;
+    private float lastRR = 0f;
+    private float rangeRate = 5f;
+    private float maxRange = 6f;
+
+    public GameObject rangeSphere;
+    private GameObject rs;
+    private AudioSource[] sounds;
+
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+        rs = Instantiate(rangeSphere, transform.position, Quaternion.identity, transform);
+        sounds = GetComponents<AudioSource>();
     }
 
     void Update()
@@ -29,6 +40,24 @@ public class BlueWeapon : Weapon {
 
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
+
+        rs.transform.position = transform.position;
+        rs.transform.localScale = new Vector3(rangeRadius * (2f/0.3f), rangeRadius * (2f / 0.3f), rangeRadius * 0.1f);
+        if (Input.GetButton("Fire1"))
+        {
+            rangeRadius += rangeRate * (maxRange - rangeRadius) * Time.deltaTime;
+            lastRR = rangeRadius;
+        }
+        else
+            rangeRadius = 0f;
+
+        if (Input.GetButtonUp("Fire1"))
+        {
+            sounds[0].volume = (lastRR / maxRange) * 0.5f;
+            sounds[0].Play();
+        }
+
+        //Debug.DrawLine(transform.position, transform.position + new Vector3(rangeRadius, 0, 0));
     }
 
     public override void Fire1()

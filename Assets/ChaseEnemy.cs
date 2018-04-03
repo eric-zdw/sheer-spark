@@ -31,6 +31,10 @@ public class ChaseEnemy : Enemy {
 
     private CameraFollow cam;
 
+    public bool isTethered;
+    private float tetheredCheck = 0.05f;
+    private float tetheredTimer;
+
     void Start()
 	{
 		bar = Instantiate(healthBar);
@@ -58,12 +62,12 @@ public class ChaseEnemy : Enemy {
         {
             playerLocation = player.transform.position;
 
-            if (transform.position.x < playerLocation.x && rb.velocity.x < 10f)
+            if (transform.position.x < playerLocation.x && rb.velocity.x < 9f)
             {
                 rb.AddForce(new Vector3(800f, 0f, 0f) * Time.deltaTime);
                 rb.AddTorque(0, 0, -40f * Time.deltaTime);
             }
-            else if (transform.position.x > playerLocation.x && rb.velocity.x > -10f)
+            else if (transform.position.x > playerLocation.x && rb.velocity.x > -9f)
             {
                 rb.AddForce(new Vector3(-800f, 0f, 0f) * Time.deltaTime);
                 rb.AddTorque(0, 0, 40f * Time.deltaTime);
@@ -71,16 +75,15 @@ public class ChaseEnemy : Enemy {
         }
 
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
-		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
+		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 100f * Time.deltaTime);
 
 
 		//-------------------
 
 		JumpRoutine();
 
-		//-------------------
-
-			
+        //-------------------
+	    
 	}
 
     private void OnCollisionEnter(Collision collision)
