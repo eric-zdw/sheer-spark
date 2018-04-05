@@ -48,7 +48,7 @@ public class PurpleWeapon : Weapon {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
-        if (Input.GetButtonUp("Fire1") && chargeValue > 0.4f)
+        if (Input.GetButtonUp("Fire1") && chargeValue > 0.15f)
         {
             /*
             Ray ray = new Ray(transform.position, (Vector3)mousePosition - transform.position);
@@ -78,7 +78,7 @@ public class PurpleWeapon : Weapon {
             ps.enableEmission = false;
             chargeSound.Stop();
         }
-        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.2f)
+        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.15f)
         {
             chargeValue = 0f;
             ps.enableEmission = false;
