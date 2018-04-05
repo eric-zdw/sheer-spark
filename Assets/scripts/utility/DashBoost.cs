@@ -21,6 +21,9 @@ public class DashBoost : Utility {
     public float charges;
     private AudioSource[] sounds;
 
+    private float dashDelay = 0.05f;
+    private float dashTimer;
+
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
@@ -29,11 +32,17 @@ public class DashBoost : Utility {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = player.GetComponent<Rigidbody>();
         sounds = GetComponents<AudioSource>();
+        dashTimer = 0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camFollow.CameraDistance));
+
+        if (dashTimer > 0f)
+        {
+            dashTimer -= Time.deltaTime;
+        }
 
         if (charges < 3f)
         {
@@ -45,7 +54,7 @@ public class DashBoost : Utility {
 
     public override void Activate()
     {
-        if (charges > 1f)
+        if (charges >= 1f && dashTimer <= 0f)
         {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
             rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
@@ -57,8 +66,9 @@ public class DashBoost : Utility {
             Instantiate(dashImpact, transform.position, transform.rotation);
             charges -= 1f;
             sounds[0].Play();
+            dashTimer = dashDelay;
         }
-        else
+        else if (charges < 1f && dashTimer <= 0f)
         {
             sounds[1].Play();
         }

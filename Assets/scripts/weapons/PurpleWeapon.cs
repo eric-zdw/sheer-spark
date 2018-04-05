@@ -48,7 +48,7 @@ public class PurpleWeapon : Weapon {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1") && chargeValue > 0.4f)
         {
             /*
             Ray ray = new Ray(transform.position, (Vector3)mousePosition - transform.position);
@@ -78,6 +78,12 @@ public class PurpleWeapon : Weapon {
             ps.enableEmission = false;
             chargeSound.Stop();
         }
+        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.2f)
+        {
+            chargeValue = 0f;
+            ps.enableEmission = false;
+            chargeSound.Stop();
+        }
 
         if (chargeValue == 0f && light.intensity >= 0)
         {
@@ -85,8 +91,18 @@ public class PurpleWeapon : Weapon {
             light.range *= 0.9f;
         }
 
-        chargeSound.volume = (chargeValue * 0.25f) + 0.25f;
-        chargeSound.pitch = chargeValue;
+        if (chargeValue > 0f)
+        {
+            chargeSound.volume = (chargeValue * 0.25f) + 0.25f;
+            chargeSound.pitch = (chargeValue * 0.5f) + 0.5f;
+        }
+        else
+        {
+            chargeSound.volume = 0f;
+            chargeSound.pitch = 0f;
+        }
+            
+
     }
 
     public override void Fire1()
@@ -107,7 +123,7 @@ public class PurpleWeapon : Weapon {
                 chargeValue = 1f;
         }
         light.intensity = chargeValue * 3f;
-        light.range = chargeValue * 9f;
+        light.range = chargeValue * 25f;
     }
 
     public override void Fire2()

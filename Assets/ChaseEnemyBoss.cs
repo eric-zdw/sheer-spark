@@ -90,7 +90,7 @@ public class ChaseEnemyBoss : Enemy {
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
+            collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(2);
             Explode();
         }
     }

@@ -3932,7 +3932,7 @@ MonoBehaviour:
 
     D
 
-    LEFT SHIFT / SPACE
+    LEFT SHIFT / SPACE / W
 
     MOUSE
 
@@ -8985,10 +8985,10 @@ RectTransform:
   m_Father: {fileID: 875044329}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.2, y: 0.3}
+  m_AnchorMax: {x: 0.8, y: 0.7}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10000, y: 10000}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969107422
 MonoBehaviour:
@@ -9013,7 +9013,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 031edadfae077b245a74d70074bb2296, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
@@ -9022,7 +9022,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 9
+  m_Text: Get ready
 --- !u!222 &969107423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11023,7 +11023,7 @@ RectTransform:
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.2}
-  m_AnchorMax: {x: 0.8, y: 0.5}
+  m_AnchorMax: {x: 0.8, y: 0.6}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11241,7 +11241,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1197060170
 Transform:
@@ -16858,7 +16858,7 @@ MonoBehaviour:
 
     MOVE RIGHT
 
-    DASH BOOST
+    DASH BOOST TOWARDS CURSOR
 
     AIM WEAPON / DASH BOOST
 

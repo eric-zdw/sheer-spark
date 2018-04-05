@@ -166,7 +166,7 @@ public class WaveSystem : MonoBehaviour {
         wc.StartRoutine();
         wc2.StartRoutine();
         waveNumber++;
-        reserveEnemies = 5 + (int)(waveNumber * waveNumber * 0.75f);
+        reserveEnemies = 3 + (int)(Mathf.Pow(waveNumber, 1.5f));
         delay = 15f;
         enemyPower = 1 + (waveNumber * 0.05f);
         spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
