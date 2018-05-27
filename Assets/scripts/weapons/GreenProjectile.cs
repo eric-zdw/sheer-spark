@@ -26,12 +26,12 @@ public class GreenProjectile : Projectile {
     private float tetherCheck = 0.1f;
     private float tetherTimer;
     private float damageTimer;
-    private float damageInterval = 0.6f;
+    private float damageInterval = 1.2f;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 3.6f;
+        lifeTime = 3.55f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();

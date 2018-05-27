@@ -34,8 +34,6 @@ public class YellowProjectile : Projectile {
         }
 
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 14f));
-        Debug.DrawLine(transform.position, transform.position + transform.right, Color.red, 0.1f);
-        Debug.DrawLine(transform.position, mousePosition, Color.white, 0.1f);
 
 
         /*

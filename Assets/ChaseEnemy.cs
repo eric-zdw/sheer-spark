@@ -23,6 +23,7 @@ public class ChaseEnemy : Enemy {
 	public GameObject JumpParticle;
 	public GameObject[] powerups;
     public Material[] colours;
+    private float YLimit;
     private MeshRenderer outline;
     private int powerupRoll;
 
@@ -115,7 +116,7 @@ public class ChaseEnemy : Enemy {
 		if (isJumping == false) 
 		{
 			jumpCounter = Random.Range(1, 1000);
-			if (jumpCounter <= jumpChance)
+			if (jumpCounter <= jumpChance && transform.position.y <= YLimit)
 			{
 				charge = Instantiate(JumpParticleCharge, transform.position, Quaternion.identity);
 				isJumping = true;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class DashBoost : Utility {
 
     private GameObject player;
+    private PlayerBehaviour playerBehaviour;
     private Rigidbody rb;
     private Camera cam;
     private CameraFollow camFollow;
@@ -15,7 +16,8 @@ public class DashBoost : Utility {
     public float impactDamage = 50f;
     private Enemy targetEnemy;
 
-    public float dashVelocity = 15f;
+    public float dashVelocity = 20f;
+    public float dashHeatVelocity = 20f;
     bool isPrimed = false;
 
     public float charges;
@@ -30,6 +32,7 @@ public class DashBoost : Utility {
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camFollow = cam.GetComponent<CameraFollow>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerBehaviour = player.GetComponent<PlayerBehaviour>();
         rb = player.GetComponent<Rigidbody>();
         sounds = GetComponents<AudioSource>();
         dashTimer = 0f;
@@ -57,7 +60,8 @@ public class DashBoost : Utility {
         if (charges >= 1f && dashTimer <= 0f)
         {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
-            rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
+            float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
+            rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle), dashRealVelocity * Mathf.Sin(angle), 0f);
             if (rb.velocity.x > 0f)
                 rb.angularVelocity = new Vector3(0f, 0f, -10f);
             else
@@ -74,7 +78,7 @@ public class DashBoost : Utility {
         }
     }
 
-	/*
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
@@ -84,5 +88,4 @@ public class DashBoost : Utility {
             targetEnemy.getDamage(impactDamage);
         }
     }
-    */
 }

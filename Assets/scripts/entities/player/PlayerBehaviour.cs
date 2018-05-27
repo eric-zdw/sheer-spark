@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour {
-    public float playerSpeed = 20f;
+    public float playerBaseSpeed = 25f;
+    public float playerHeatSpeed = 25f;
+    private float playerSpeed;
+
     public float dragForceX = 0.025f;
     public float dragForceY = 0.01f;
     public float maxAngularVelocity = 15f;
     public float torqueStrength = 0.5f;
-    public float jumpStrength = 5f;
+    // public float jumpStrength = 5f;
     public int maxHP = 3;
     private Rigidbody rb;
 
@@ -26,6 +29,9 @@ public class PlayerBehaviour : MonoBehaviour {
     public float powerupDuration;
     private float powerupTimer;
 
+    public float powerupLevel;
+    private float heatTimer = 0f;
+    private bool heatOn;
     public float heatFactor;
     public float heatDecayFactor;
     public float heatConstantDecay;
@@ -44,6 +50,8 @@ public class PlayerBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        playerSpeed = playerBaseSpeed;
+
         rb = GetComponent<Rigidbody>();
         weaponSlot = GameObject.Find("WeaponSlot");
         utilitySlot = GameObject.Find("UtilitySlot");
@@ -113,6 +121,24 @@ public class PlayerBehaviour : MonoBehaviour {
             Instantiate(deathExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+
+        if (powerupLevel >= 7.5f && !heatOn)
+        {
+            heatOn = true;
+            heatFactor = 1f;
+            playerSpeed = playerBaseSpeed + (playerHeatSpeed * heatFactor);
+        }
+
+        if (powerupLevel <= 0f && heatOn)
+        {
+            powerupLevel = 0f;
+            heatOn = false;
+            playerSpeed = playerBaseSpeed;
+        }
+        else if (powerupLevel > 0f && heatOn)
+        {
+            powerupLevel -= Time.deltaTime * 0.6f;
+        }
     }
 
     void FixedUpdate () {
@@ -140,11 +166,13 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void Jump()
     {
+        /*
         if (Input.GetButtonDown("Jump"))
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.AddForce(0f, jumpStrength, 0f);
         }
+        */
     }
 
     void Fire()
@@ -168,7 +196,6 @@ public class PlayerBehaviour : MonoBehaviour {
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
         powerupTimer = powerupDuration;
-        heatFactor += 1f;
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
         if (powerupBar != null)
         {
@@ -178,6 +205,8 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             powerupName.text = powerName;
         }
+
+        //powerupLevel++;
     }
 
     public void addRecoil(Vector3 direction)
