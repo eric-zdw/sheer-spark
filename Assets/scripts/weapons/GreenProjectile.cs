@@ -26,12 +26,12 @@ public class GreenProjectile : Projectile {
     private float tetherCheck = 0.1f;
     private float tetherTimer;
     private float damageTimer;
-    private float damageInterval = 1.2f;
+    private float damageInterval = 0.8f;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 3.55f;
+        lifeTime = 2.4f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
@@ -91,7 +91,7 @@ public class GreenProjectile : Projectile {
 
     private void damagePulse()
     {
-        cam.addShake(0.1f);
+        cam.addShake(0.5f);
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
 

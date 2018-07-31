@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChaseEnemy : Enemy {
 	public GameObject healthBar;
-	public GameObject explosion;
 	public float newHealth;
 	private GameObject bar;
 
@@ -23,8 +22,11 @@ public class ChaseEnemy : Enemy {
 	public GameObject JumpParticle;
 	public GameObject[] powerups;
     public Material[] colours;
-    private float YLimit;
+	public Material[] seeThroughs;
+	public GameObject[] explosions;
+    public float YLimit;
     private MeshRenderer outline;
+	private MeshRenderer seeThrough;
     private int powerupRoll;
 
 	private bool isCharging;
@@ -49,7 +51,9 @@ public class ChaseEnemy : Enemy {
 
         powerupRoll = Random.Range(0, 6);
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
+		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
         outline.material = colours[powerupRoll];
+		seeThrough.material = seeThroughs[powerupRoll];
     }
 
 	void FixedUpdate()
@@ -100,7 +104,7 @@ public class ChaseEnemy : Enemy {
 	{
         cam.addShake(0.5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosion, transform.position, transform.rotation);
+		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);
 		Destroy(gameObject);
 	}
@@ -116,8 +120,10 @@ public class ChaseEnemy : Enemy {
 		if (isJumping == false) 
 		{
 			jumpCounter = Random.Range(1, 1000);
+			print("y: " + transform.position.y);
 			if (jumpCounter <= jumpChance && transform.position.y <= YLimit)
 			{
+				print("jumped");
 				charge = Instantiate(JumpParticleCharge, transform.position, Quaternion.identity);
 				isJumping = true;
 				isCharging = true;

@@ -17,7 +17,7 @@ public class BlueWeapon : Weapon {
 
     public float rangeRadius = 0f;
     private float lastRR = 0f;
-    private float rangeRate = 5f;
+    private float rangeRate = 2f;
     private float maxRange = 6f;
 
     public GameObject rangeSphere;

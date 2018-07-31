@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour {
 
-    public
+    public float boost;
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +21,7 @@ public class JumpPad : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y - 200f, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y - boost, rb.velocity.z);
         }
     }
 }

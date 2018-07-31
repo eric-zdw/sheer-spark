@@ -77,10 +77,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown("q"))
-        {
-            Debug.Break();
-        }
 
         if (powerupTimer >= 0f)
         {
@@ -143,7 +139,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void FixedUpdate () {
         Movement();
-        Jump();
         Fire();
 
         rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
@@ -161,19 +156,18 @@ public class PlayerBehaviour : MonoBehaviour {
         else
             rb.AddForce(movement * playerSpeed * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);
-        
     }
 
+/* 
     void Jump()
     {
-        /*
         if (Input.GetButtonDown("Jump"))
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.AddForce(0f, jumpStrength, 0f);
         }
-        */
     }
+*/
 
     void Fire()
     {
@@ -227,7 +221,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void OnCollisionEnter(Collision collision)
     {
-
         collisionSound.volume = collision.relativeVelocity.magnitude * 0.05f;
         collisionSound.Play();
     }

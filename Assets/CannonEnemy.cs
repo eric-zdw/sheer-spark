@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonEnemy : Enemy {
 	public GameObject healthBar;
-	public GameObject explosion;
+	public GameObject[] explosions;
 	public float newHealth;
 	private GameObject bar;
 
@@ -23,7 +23,9 @@ public class CannonEnemy : Enemy {
 	public GameObject JumpParticle;
 	public GameObject[] powerups;
     public Material[] colours;
+    public Material[] seeThroughs;
     private MeshRenderer outline;
+    private MeshRenderer seeThrough;
     private int powerupRoll;
 
 	private bool isCharging;
@@ -73,6 +75,8 @@ public class CannonEnemy : Enemy {
         powerupRoll = Random.Range(0, 6);
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
         outline.material = colours[powerupRoll];
+        seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
+        seeThrough.material = seeThroughs[powerupRoll];
         moveTimer = 1.5f;
         destination = transform.position;
         radius = transform.localScale.y * 1.1f;
@@ -176,7 +180,7 @@ public class CannonEnemy : Enemy {
 	{
         cam.addShake(0.5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosion, transform.position, transform.rotation);
+		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);
 		Destroy(gameObject);
 	}

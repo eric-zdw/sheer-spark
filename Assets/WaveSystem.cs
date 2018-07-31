@@ -8,9 +8,14 @@ public class WaveSystem : MonoBehaviour {
     private int activeEnemies;
     public int reserveEnemies;
     public int waveNumber;
+    public float jumpLimitY;
     public float enemyPower;
 
-    
+    UnityEngine.PostProcessing.PostProcessingProfile ppProfile;
+    UnityEngine.PostProcessing.ColorGradingModel.Settings ppSettings;
+    bool ppChange = false;
+
+
     float delay = 15f;
 
     private float spawnInterval;
@@ -53,6 +58,13 @@ public class WaveSystem : MonoBehaviour {
         spawnDelay = spawnInterval;
 
         musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
+        ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
+        ppSettings = ppProfile.colorGrading.settings;
+        ppSettings.basic.contrast = 1.1f;
+        ppSettings.basic.saturation = 1.1f;
+        ppSettings.basic.postExposure = 0.5f;
+        ppProfile.colorGrading.settings = ppSettings;
+
         lastMusic = musics[0];
         newMusic = musics[0];
 
@@ -159,6 +171,43 @@ public class WaveSystem : MonoBehaviour {
             if (remainingEnemies == 0)
                 ResetWave();
         }
+
+        if (Time.timeScale < 1.1f)
+        {
+            Time.timeScale *= 1.02f;
+        }
+        else if (Time.timeScale > 1.1f)
+            Time.timeScale = 1.1f;
+
+        
+        if (Time.fixedDeltaTime < 0.015f)
+        {
+            Time.fixedDeltaTime += 0.005f * Time.deltaTime;
+        }
+        else if (Time.fixedDeltaTime > 0.015f)
+            Time.fixedDeltaTime = 0.015f;
+        
+
+        ppChange = false;
+        if (ppSettings.basic.contrast > 1.1f)
+        {
+            ppSettings.basic.contrast -= Time.deltaTime;
+            ppChange = true;
+        }
+        if (ppSettings.basic.saturation < 1.1f)
+        {
+            ppSettings.basic.saturation += Time.deltaTime;
+            ppChange = true;
+        }
+        if (ppSettings.basic.postExposure > 0.5f)
+        {
+            ppSettings.basic.postExposure -= Time.deltaTime;
+            ppChange = true;
+        }
+        if (ppChange)
+            ppProfile.colorGrading.settings = ppSettings;
+
+
     }
 
     void ResetWave()
@@ -175,6 +224,13 @@ public class WaveSystem : MonoBehaviour {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
         musicChosen = false;
         highIntensity = false;
+
+        Time.timeScale = 0.025f;
+        Time.fixedDeltaTime = 0.001f;
+        ppSettings.basic.contrast = 2f;
+        ppSettings.basic.saturation = 0.2f;
+        ppSettings.basic.postExposure = 2f;
+        ppProfile.colorGrading.settings = ppSettings;
 
         for (int i = 0; i < 3; i++)
         {
