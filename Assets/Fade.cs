@@ -19,7 +19,6 @@ public class Fade : MonoBehaviour {
 		while (img.color.a > 0f)
 		{
 			img.color = new Color(img.color.r, img.color.b, img.color.g, img.color.a - 0.8f * Time.deltaTime);
-			print(img.color.a);
 			yield return null;
 		}
 	}
