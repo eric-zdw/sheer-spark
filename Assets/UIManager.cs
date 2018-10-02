@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour {
 
-	public UnityEngine.UI.Image fade;
+	private GameObject ui;
+	public GameObject fadeObject;
 
 	// Use this for initialization
 	void Start () {
-		fade.GetComponent<Fade>().StartCoroutine("FadeIn");
+		ui = GameObject.Find("UI");
+		fadeObject = Instantiate(fadeObject, ui.transform);
+		fadeObject.GetComponent<Fade>().StartCoroutine("FadeIn");
 	}
 	
 	// Update is called once per frame

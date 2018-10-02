@@ -39,7 +39,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public int HP;
 
     private AudioSource collisionSound;
-    private CameraFollow cam;
+	private NoiseManager noiseManager;
 
     public GameObject deathExplosion;
     public Color[] powerColors;
@@ -68,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour {
         HP = maxHP;
 
         collisionSound = GetComponent<AudioSource>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         powerupBar = GameObject.FindGameObjectWithTag("PowerupBar").GetComponent<UnityEngine.UI.Image>();
         pbSize = powerupBar.GetComponent<RectTransform>();
@@ -113,7 +113,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (HP == 0f)
         {
-            cam.addShake(30f);
+			noiseManager.AddNoise(50f);
             Instantiate(deathExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -216,7 +216,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public void takeDamage(int damage)
     {
         HP -= damage;
-        cam.addShake(10f);
+		noiseManager.AddNoise(25f);
     }
 
     public void OnCollisionEnter(Collision collision)

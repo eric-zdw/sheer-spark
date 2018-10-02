@@ -29,7 +29,7 @@ public class ChaseEnemyBoss : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-    private CameraFollow cam;
+	private NoiseManager noiseManager;
 
     public bool isTethered;
     private float tetheredCheck = 0.05f;
@@ -44,7 +44,7 @@ public class ChaseEnemyBoss : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         powerupRoll = Random.Range(0, 6);
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -97,7 +97,7 @@ public class ChaseEnemyBoss : Enemy {
 
     void Explode()
 	{
-        cam.addShake(0.5f);
+        noiseManager.AddNoise(20f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosion, transform.position, transform.rotation);
 		Destroy(bar);

@@ -24,7 +24,7 @@ public class CircleEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-	private CameraFollow cam;
+	private NoiseManager noiseManager;
 
 	private float radius;
 	private int layerMask;
@@ -38,7 +38,7 @@ public class CircleEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
 		powerupRoll = Random.Range(0, 6);
 		for (int i = 0; i <= 4; i++)
@@ -79,7 +79,7 @@ public class CircleEnemy : Enemy {
 
 	void Explode()
 	{
-		cam.addShake(0.5f);
+		noiseManager.AddNoise(5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);

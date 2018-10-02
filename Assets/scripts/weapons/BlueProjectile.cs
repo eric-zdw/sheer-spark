@@ -13,6 +13,7 @@ public class BlueProjectile : Projectile {
     private Rigidbody rb;
     private CameraFollow camfollow;
 	private Camera cam;
+	private NoiseManager noiseManager;
 
     private float radius;
 
@@ -36,6 +37,7 @@ public class BlueProjectile : Projectile {
         lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		player = GameObject.FindGameObjectWithTag("Player");
         bw = GameObject.FindGameObjectWithTag("BlueWeapon").GetComponent<BlueWeapon>();
@@ -121,7 +123,7 @@ public class BlueProjectile : Projectile {
 		if (collision.gameObject.CompareTag("Enemy"))
         {
 			Instantiate(explosion, transform.position, transform.rotation);
-            cam.GetComponent<CameraFollow>().addShake(0.4f);
+			noiseManager.AddNoise(2.5f);
 			collision.gameObject.GetComponent<Enemy>().getDamage(damage);
 			Destroy(gameObject);
         }

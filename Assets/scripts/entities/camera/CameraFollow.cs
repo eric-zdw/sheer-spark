@@ -24,6 +24,7 @@ public class CameraFollow : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
+		/*
         Vector3 newPosition;
         //inital camera position
         if (followTarget != null)
@@ -44,6 +45,7 @@ public class CameraFollow : MonoBehaviour {
             transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor);
         }
         shakeFactor *= shakeDecayFactor;
+        */
 
         if (followTarget == null)
         {
@@ -56,11 +58,6 @@ public class CameraFollow : MonoBehaviour {
             }
         }
     }
-
-	public void addShake(float magnitude)
-	{
-        shakeFactor += magnitude;
-	}
 
     IEnumerator ResetScene()
     {

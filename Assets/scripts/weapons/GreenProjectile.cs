@@ -14,7 +14,7 @@ public class GreenProjectile : Projectile {
     public float launchForce;
 
     private Rigidbody rb;
-    private CameraFollow cam;
+	private NoiseManager noiseManager;
 
     private float radius;
 	private float cooldown = 0.0f;
@@ -34,7 +34,7 @@ public class GreenProjectile : Projectile {
         lifeTime = 2.4f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
         pulseTimer = pulseInterval;
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.1f, radius * 0.1f, radius * 0.1f);
@@ -91,7 +91,7 @@ public class GreenProjectile : Projectile {
 
     private void damagePulse()
     {
-        cam.addShake(0.5f);
+        noiseManager.AddNoise(5f);
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
 
@@ -113,7 +113,7 @@ public class GreenProjectile : Projectile {
 
     void Explode()
     {
-        cam.addShake(0.1f);
+        noiseManager.AddNoise(1f);
 
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);

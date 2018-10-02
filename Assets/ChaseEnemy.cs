@@ -32,7 +32,7 @@ public class ChaseEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-    private CameraFollow cam;
+	private NoiseManager noiseManager;
 
     public bool isTethered;
     private float tetheredCheck = 0.05f;
@@ -47,7 +47,7 @@ public class ChaseEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         powerupRoll = Random.Range(0, 6);
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -102,7 +102,7 @@ public class ChaseEnemy : Enemy {
 
     void Explode()
 	{
-        cam.addShake(0.5f);
+		noiseManager.AddNoise(5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);

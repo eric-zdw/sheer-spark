@@ -8,7 +8,7 @@ public class YellowProjectile : Projectile {
     public GameObject hitbox;
 
     private Camera cam;
-    private CameraFollow camscript;
+	private NoiseManager noiseManager;
     private Vector3 mousePosition;
     private float radius;
 
@@ -20,7 +20,7 @@ public class YellowProjectile : Projectile {
         projectileSpeed = 35f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        camscript = cam.GetComponent<CameraFollow>();
+		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
     }
 
     // Update is called once per frame
@@ -104,7 +104,7 @@ public class YellowProjectile : Projectile {
 
     void Explode()
     {
-        camscript.addShake(0.06f);
+		noiseManager.AddNoise(1f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
