@@ -54,15 +54,15 @@ public class DashBoost : Utility {
         else if (charges > 3f)
             charges = 3f;
 
-		print ("horizontal: " + Input.GetAxis ("Horizontal") + ", vertical: " + Input.GetAxis ("Vertical"));
+		//print ("horizontal: " + Input.GetAxis ("Horizontal") + ", vertical: " + Input.GetAxis ("Vertical"));
     }
 
     public override void Activate()
     {
         if (charges >= 1f && dashTimer <= 0f)
         {
-            //angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
-			angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+            angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
+			//angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
 
             float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
             rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle), dashRealVelocity * Mathf.Sin(angle), 0f);
