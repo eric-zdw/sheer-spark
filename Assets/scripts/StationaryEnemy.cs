@@ -28,7 +28,13 @@ public class StationaryEnemy : Enemy {
     private float radius;
     private int layerMask;
 
-	private float currentSpeed = 0f;
+	private float currentSpeedY = 0f;
+	private float currentSpeedX;
+
+	private int moveDirection;
+	private float distanceTravelled = 0f;
+	public float maxTravelDistance = 3f;
+	public int moveSpeed;
 
     void Start()
 	{
@@ -45,6 +51,12 @@ public class StationaryEnemy : Enemy {
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
         outline.material = colours[powerupRoll];
         radius = transform.localScale.y * 1.1f;
+
+		StartCoroutine(Float());
+
+		moveDirection = Random.Range(0, 2);
+		if (moveDirection == 0) moveDirection = -1;
+		currentSpeedX = moveDirection;
     }
 
 	void FixedUpdate()
@@ -53,6 +65,15 @@ public class StationaryEnemy : Enemy {
 		{
 			Explode();
 		}
+
+		transform.position += new Vector3(0, currentSpeedY * Time.deltaTime, 0);
+		transform.position += new Vector3(currentSpeedX * moveSpeed * Time.deltaTime, 0, 0);
+		distanceTravelled += Mathf.Abs(currentSpeedX * moveSpeed * Time.deltaTime);
+		if (distanceTravelled >= maxTravelDistance) {
+			StartCoroutine(SwitchDirection());
+			distanceTravelled -= maxTravelDistance;
+		}
+		print(distanceTravelled);
     }
 		
 
@@ -77,10 +98,33 @@ public class StationaryEnemy : Enemy {
 	IEnumerator Float()
 	{
 		while (true) {
-			while (currentSpeed <= 2f) {
-				currentSpeed += 0.1f;
+			while (currentSpeedY <= 0.5f) {
+				currentSpeedY += 0.3f * Time.deltaTime;
+				yield return null;
+			}
+			while (currentSpeedY >= -0.5f) {
+				currentSpeedY -= 0.3f * Time.deltaTime;
+				yield return null;
 			}
 		}
+	}
 
+	IEnumerator SwitchDirection()
+	{
+		moveDirection *= -1;
+		if (moveDirection == -1) {
+			while (currentSpeedX >= -1f) {
+				currentSpeedX -= 0.5f * Time.deltaTime;
+				yield return null;
+			}
+			currentSpeedX = -1f;
+		}
+		else {
+			while (currentSpeedX <= 1f) {
+				currentSpeedX += 0.5f * Time.deltaTime;
+				yield return null;
+			}
+			currentSpeedX = 1f;
+		}
 	}
 }

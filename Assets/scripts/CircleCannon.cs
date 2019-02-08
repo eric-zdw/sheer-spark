@@ -18,7 +18,7 @@ public class CircleCannon : MonoBehaviour {
 		fireTimer -= Time.deltaTime;
 		if (fireTimer <= 0f) {
 			Vector3 newRotation = transform.rotation.eulerAngles + new Vector3 (0f, 0f, 270f);
-			Instantiate (projectile, transform.position, Quaternion.Euler(newRotation));
+			Instantiate (projectile, transform.position + -transform.up * 2f, Quaternion.Euler(newRotation));
 			fireTimer += fireRate;
 		}
 	}
