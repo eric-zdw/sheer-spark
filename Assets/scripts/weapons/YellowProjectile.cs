@@ -17,7 +17,7 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 35f;
+        projectileSpeed = 32f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
@@ -86,7 +86,7 @@ public class YellowProjectile : Projectile {
         {
             Explode();
         }
-        else if (!other.gameObject.CompareTag("Player"))
+        else if (!(other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Powerup")))
         {
             Explode();
         }
@@ -113,6 +113,7 @@ public class YellowProjectile : Projectile {
         hb.setDamage(damage);
         hb.setRadius(radius / 0.25f);                //minimum damage is 1-x%
         hb.printRadius();
+        transform.GetChild(0).parent = null;
 
         Destroy(gameObject);
     }

@@ -41,7 +41,7 @@ public class OrangeProjectile : Projectile {
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.5f);
+            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.25f);
             Explode();
         }
     }
@@ -66,7 +66,7 @@ public class OrangeProjectile : Projectile {
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
         hb.setDamage(damage);
-        hb.setRadius(radius / 0.5f);
+        hb.setRadius(radius * 1.5f);
         hb.printRadius();
 
         Destroy(gameObject);

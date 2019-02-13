@@ -6,6 +6,7 @@ public class GreenProjectile : Projectile {
 
     public GameObject explosion;
     public GameObject explosion2;
+    public GameObject explosion3;
     public GameObject hitbox;
     public GameObject hitbox2;
     public GameObject tether;
@@ -26,20 +27,22 @@ public class GreenProjectile : Projectile {
     private float tetherCheck = 0.1f;
     private float tetherTimer;
     private float damageTimer;
-    private float damageInterval = 0.8f;
+    private float damageInterval = 1.1f;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 2.4f;
+        lifeTime = 3.3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
         pulseTimer = pulseInterval;
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.1f, radius * 0.1f, radius * 0.1f);
-        tetherTimer = tetherCheck;
         damageTimer = damageInterval;
+
+        StartCoroutine(PulseTimer());
+        StartCoroutine(TetherCheck());
     }
 
     // Update is called once per frame
@@ -57,29 +60,9 @@ public class GreenProjectile : Projectile {
             pulseTimer = pulseInterval;
             GreenProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<GreenProjectileHitbox>();
             hb.GetComponent<SphereCollider>().radius = radius;
-            hb.setDamage(damage * pulseInterval * 0.25f);
+            hb.setDamage(0);
             hb.setRadius(radius / 0.5f);
             hb.printRadius();
-        }
-
-        tetherTimer -= Time.deltaTime;
-        if (tetherTimer <= 0f)
-        {
-            Collider[] tethers = Physics.OverlapSphere(transform.position, radius);
-            for (int i = 0; i < tethers.Length; i++)
-            {
-                if (tethers[i].tag == "Enemy")
-                {
-                    GameObject te = Instantiate(tether, tethers[i].transform.position, Quaternion.identity);
-                }
-            }
-        }
-
-        damageTimer -= Time.deltaTime;
-        if (damageTimer <= 0f)
-        {
-            damageTimer = damageInterval;
-            damagePulse();
         }
 
 		CheckDetonate();
@@ -89,15 +72,37 @@ public class GreenProjectile : Projectile {
 			cooldown -= Time.deltaTime;
     }
 
+    IEnumerator PulseTimer() {
+        while (true) {
+            yield return new WaitForSeconds(damageInterval);
+            damageTimer = damageInterval;
+            damagePulse();
+        }
+    }
+
+    IEnumerator TetherCheck() {
+        while (true) {
+            Collider[] tethers = Physics.OverlapSphere(transform.position, radius);
+            for (int i = 0; i < tethers.Length; i++)
+            {
+                if (tethers[i].tag == "Enemy")
+                {
+                    GameObject te = Instantiate(tether, tethers[i].transform.position, Quaternion.identity);
+                }
+            }
+            yield return new WaitForSeconds(tetherCheck);
+        }
+    }
+
     private void damagePulse()
     {
-        noiseManager.AddNoise(5f);
+        noiseManager.AddNoise(6f);
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage);
+        hb.setDamage(damage * 0.125f);
         hb.setRadius(radius / 0.5f);
     }
 
@@ -113,15 +118,15 @@ public class GreenProjectile : Projectile {
 
     void Explode()
     {
-        noiseManager.AddNoise(1f);
+        noiseManager.AddNoise(15f);
 
-        GameObject exp = Instantiate(explosion2, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
+        GameObject exp = Instantiate(explosion3, transform.position, transform.rotation);
+        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage);
-        hb.setRadius(radius / 0.5f);
+        hb.setDamage(damage * 0.75f);
+        hb.setRadius(radius / 0.75f);
 
         Destroy(gameObject);
     }

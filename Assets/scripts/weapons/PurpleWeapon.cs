@@ -66,10 +66,12 @@ public class PurpleWeapon : Weapon {
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
             newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
             newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
-            newBeam.GetComponent<PurpleBeam>().setDamage(damage * chargeValue * (1f + (heatDamageRate * player.getHeatFactor())));
+            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue) * (1f + (heatDamageRate * player.getHeatFactor())));
+            print("chargevalue: " + (chargeValue*chargeValue));
 
 
             float trueRecoil = recoilForce * chargeValue;
+            playerRB.velocity = new Vector3(0, 0, 0);
             playerRB.AddForce(new Vector3(-trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), -trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
 
             chargeValue = 0f;

@@ -11,8 +11,13 @@ public class PurpleBeam : MonoBehaviour {
     private float damage = 0f;
 
     public GameObject explosion;
+    public GameObject explosion2;
+    public GameObject explosion3;
     private CapsuleCollider collider;
     private AudioSource beamSound;
+
+    private NoiseManager noiseManager;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +25,8 @@ public class PurpleBeam : MonoBehaviour {
         beam = GetComponent<ParticleSystem>();
         Destroy(collider, 0.15f);
         beamSound = GetComponent<AudioSource>();
+        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
+        noiseManager.AddNoise(beam.startSize * 20f);
 	}
 	
 	// Update is called once per frame
@@ -59,8 +66,12 @@ public class PurpleBeam : MonoBehaviour {
             print("damage dealt: " + damage);
             other.GetComponent<Enemy>().getDamage(damage);
             GameObject exp = Instantiate(explosion, collider.ClosestPointOnBounds(other.transform.position), Quaternion.identity);
+            GameObject exp2 = Instantiate(explosion2, collider.ClosestPointOnBounds(other.transform.position), Quaternion.identity);
+            GameObject exp3 = Instantiate(explosion3, collider.ClosestPointOnBounds(other.transform.position), Quaternion.identity);
             float expSize = (beam.startSize * 0.5f) + 0.5f;
             exp.transform.localScale = new Vector3(expSize, expSize, expSize);
+            exp2.transform.localScale = new Vector3(expSize, expSize, expSize);
+            exp3.transform.localScale = new Vector3(expSize, expSize, expSize);
         }
     }
 }

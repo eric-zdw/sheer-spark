@@ -6,6 +6,7 @@ public class RedProjectile : Projectile {
 
     public GameObject explosion;
     public GameObject explosion2;
+    public GameObject explosion3;
 
     private float damageDecayRate;
     private BoxCollider collider;
@@ -13,13 +14,19 @@ public class RedProjectile : Projectile {
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8);
+    private NoiseManager noiseManager;
+
     // Use this for initialization
     void Start() {
         projectileSpeed = 2f;
-        lifeTime = 0.5f;
+        lifeTime = 1f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
+        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
+
+        StartCoroutine(IncreaseSpeed());
     }
 
     // Update is called once per frame
@@ -28,13 +35,13 @@ public class RedProjectile : Projectile {
             Destroy(gameObject);
         else
         {
-            Propogate();
+            CheckLinecastCollision();
+            //Propogate();
             lifeTime -= Time.deltaTime;
         }
 
         damage -= damageDecayRate * Time.deltaTime;
-        projectileSpeed *= 1.3f;
-        transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
+        //transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
 
         if (soundDecreasing)
             humSound.volume -= 0.5f * Time.deltaTime;
@@ -48,25 +55,50 @@ public class RedProjectile : Projectile {
             soundDecreasing = true;
     }
 
+    IEnumerator IncreaseSpeed() {
+        while(true) {
+            projectileSpeed *= 1.25f;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    void CheckLinecastCollision() {
+        RaycastHit info;
+        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+            transform.position = info.point;
+            if (info.collider.gameObject.CompareTag("Enemy")) {
+                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                noiseManager.AddNoise(1f);
+            }
+            Explode();
+        }
+        else
+            transform.position += transform.right * projectileSpeed * Time.deltaTime;
+    }
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
             Vector3 expPosition = collider.ClosestPointOnBounds(other.transform.position);
-            Instantiate(explosion, expPosition, transform.rotation);
+            //Instantiate(explosion, expPosition, transform.rotation);
             //Instantiate(explosion2, expPosition, transform.rotation);
             other.gameObject.GetComponent<Enemy>().getDamage(damage);
             print("real damage: " + damage);
             damage *= 0.6f;
+            Explode();
         }
         else if (!other.gameObject.CompareTag("Player"))
         {
-            //Vector3 expPosition = collider.ClosestPointOnBounds(other.transform.position);
+            Vector3 expPosition = collider.ClosestPointOnBounds(other.transform.position);
             //Instantiate(explosion, expPosition, transform.rotation);
             //Instantiate(explosion2, expPosition, transform.rotation);
-            //damage *= 0.5f;
+            damage *= 0.5f;
+            Explode();
         }
     }
+    */
 
     public void setDamage(float d)
     {
@@ -76,8 +108,11 @@ public class RedProjectile : Projectile {
 
     void Explode()
     {
+        noiseManager.AddNoise(1f);
         Instantiate(explosion, transform.position, transform.rotation);
         Instantiate(explosion2, transform.position, transform.rotation);
+        Instantiate(explosion3, transform.position, transform.rotation);
+        transform.GetChild(0).parent = null;
         Destroy(gameObject);
     }
 

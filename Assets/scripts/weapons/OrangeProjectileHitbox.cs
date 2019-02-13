@@ -27,6 +27,7 @@ public class OrangeProjectileHitbox : MonoBehaviour {
     public void setRadius(float r)
     {
         radius = r;
+        GetComponent<SphereCollider>().radius = radius;
     }
 
     public void printRadius()
