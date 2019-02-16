@@ -14,6 +14,8 @@ public class RedWeapon : Weapon {
     public float heatDamageRate = 0.005f;
     public float heatFireRate = 0.004f;
     public float damage = 6f;
+    public float shotSeparation = 1.5f;
+    public float shotSpread = 1.5f;
 
     void Start () {
         SetFireRate(bFireRate);
@@ -40,13 +42,13 @@ public class RedWeapon : Weapon {
         if (GetCooldown() <= 0)
         {
             
-            for (int i = -2; i <= 2; i++)
+            for (int i = -4; i <= 4; i++)
             {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                     projectile, 
-                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.85f), 
-                    Quaternion.Euler(0, 0, angle + (3f * i) + Random.Range(-1.5f, 1.5f))
+                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f), 
+                    Quaternion.Euler(0, 0, angle + (shotSeparation * i) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
                     );
 
 

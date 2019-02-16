@@ -9,7 +9,7 @@ public class Blaster : Weapon {
     private Camera cam;
     private Vector2 mousePosition;
     private float angle;
-    public float bFireRate = 0.16f;
+    public float bFireRate = 0.18f;
     public float secondaryRate = 0.90f;
 
     void Start () {

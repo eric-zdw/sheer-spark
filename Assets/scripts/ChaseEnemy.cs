@@ -120,10 +120,8 @@ public class ChaseEnemy : Enemy {
 		if (isJumping == false) 
 		{
 			jumpCounter = Random.Range(1, 1000);
-			print("y: " + transform.position.y);
 			if (jumpCounter <= jumpChance && transform.position.y <= YLimit)
 			{
-				print("jumped");
 				charge = Instantiate(JumpParticleCharge, transform.position, Quaternion.identity);
 				isJumping = true;
 				isCharging = true;

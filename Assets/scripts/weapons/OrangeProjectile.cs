@@ -64,7 +64,7 @@ public class OrangeProjectile : Projectile {
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
-        hb.GetComponent<SphereCollider>().radius = radius;
+        hb.GetComponent<SphereCollider>().radius = radius * 1.5f;
         hb.setDamage(damage);
         hb.setRadius(radius * 1.5f);
         hb.printRadius();

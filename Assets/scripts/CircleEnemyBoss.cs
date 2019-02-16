@@ -29,6 +29,10 @@ public class CircleEnemyBoss : Enemy {
 	private float radius;
 	private int layerMask;
 
+	private bool isAttacking = false;
+
+	public GameObject[] cannons;
+
 	void Start()
 	{
 		bar = Instantiate(healthBar);
@@ -40,19 +44,20 @@ public class CircleEnemyBoss : Enemy {
 		rb = GetComponent<Rigidbody>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
-		powerupRoll = Random.Range(0, 6);
 		for (int i = 0; i <= 4; i++)
 		{
 			outline = transform.GetChild(i).GetComponent<MeshRenderer>();
-			outline.material = colours[powerupRoll];
+			outline.material = colours[0];
 		}
 		for (int i = 5; i <= 9; i++)
 		{
 			seeThrough = transform.GetChild(i).GetComponent<MeshRenderer>();
-			seeThrough.material = seeThroughs[powerupRoll];
+			seeThrough.material = seeThroughs[0];
 		}
 
 		radius = transform.localScale.y * 1.1f;
+
+		StartCoroutine(BossRoutine());
 	}
 
 	void FixedUpdate()
@@ -65,7 +70,55 @@ public class CircleEnemyBoss : Enemy {
 		transform.rotation = Quaternion.Euler(new Vector3 (0f, 0f, transform.rotation.eulerAngles.z + (rotationRate * Time.deltaTime)));
 		playerLocation = player.transform.position;
 
-		transform.position = Vector3.Lerp (transform.position, playerLocation, 0.0055f);
+		transform.position = Vector3.Lerp (transform.position, playerLocation, 0.0025f);
+
+		print("rotation rate: " + rotationRate + ", fire rate: " + cannons[0].GetComponent<CircleCannon>().fireRate);
+	}
+
+	IEnumerator BossRoutine() {
+		float actionTimer = 5f;
+		while (true) {
+			yield return new WaitForSeconds(1f);
+			actionTimer--;
+
+			if (actionTimer <= 0f) {
+				StartCoroutine(SpinShootAttack());
+				actionTimer = 5f;
+				yield return new WaitForSeconds(15f);
+			}
+		}
+	}
+
+	void LaserAttack() {
+
+	}
+
+	IEnumerator SpinShootAttack() {
+		bool attacking = true;
+		while (attacking) {
+			if (rotationRate <= 1000f) {
+				rotationRate += 250f * Time.deltaTime;
+				for (int i = 0; i < 4; i++) {
+					cannons[i].GetComponent<CircleCannon>().fireRate -= 0.02f * Time.deltaTime;
+				}
+				yield return new WaitForFixedUpdate();
+			}
+			else {
+				yield return new WaitForSeconds(4f);
+				while (rotationRate > 50f) {
+					rotationRate -= 250f * Time.deltaTime;
+					for (int i = 0; i < 4; i++) {
+						cannons[i].GetComponent<CircleCannon>().fireRate += 0.02f * Time.deltaTime;
+					}
+					yield return new WaitForFixedUpdate();
+				}
+				rotationRate = 50f;
+				for (int i = 0; i < 4; i++) {
+					cannons[i].GetComponent<CircleCannon>().fireRate = 0.2f;
+				}
+				attacking = false;
+			}
+		}
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -79,13 +132,9 @@ public class CircleEnemyBoss : Enemy {
 	void Explode()
 	{
 		noiseManager.AddNoise(5f);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
+		Instantiate(powerups[0], transform.position, Quaternion.identity);
+		Instantiate(explosions[0], transform.position, transform.rotation);
 		Destroy(bar);
 		Destroy(gameObject);
-	}
-
-	IEnumerator BossRoutine() {
-		yield return new WaitForSeconds(0.5f);
 	}
 }

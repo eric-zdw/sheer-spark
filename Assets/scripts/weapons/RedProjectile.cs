@@ -8,18 +8,18 @@ public class RedProjectile : Projectile {
     public GameObject explosion2;
     public GameObject explosion3;
 
-    private float damageDecayRate;
+    //private float damageDecayRate;
     private BoxCollider collider;
 
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
     private NoiseManager noiseManager;
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 2f;
+        projectileSpeed = 1f;
         lifeTime = 1f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
@@ -40,7 +40,7 @@ public class RedProjectile : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        damage -= damageDecayRate * Time.deltaTime;
+        //damage -= damageDecayRate * Time.deltaTime;
         //transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
 
         if (soundDecreasing)
@@ -68,7 +68,7 @@ public class RedProjectile : Projectile {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                noiseManager.AddNoise(1f);
+                noiseManager.AddNoise(2f);
             }
             Explode();
         }
