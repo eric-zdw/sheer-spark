@@ -43,7 +43,6 @@ public class WaveSystem : MonoBehaviour {
     private float[] actualProbabilities;
     private float totalProbability;
     public int[] allowedWaves;
-    List<int> waveRoster;
 
     public bool gameStarted = false;
     private WaveComplete wc;
@@ -51,38 +50,20 @@ public class WaveSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        waveNumber = 1;
-        reserveEnemies = 6;
-        enemyPower = 1f;
-        spawnInterval = 3f;
-        spawnDelay = spawnInterval;
+
+        InitializeWaveParameters();
+        InitializePostProcessing();
+        InitializeSpawners();
 
         musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
-        ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
-        ppSettings = ppProfile.colorGrading.settings;
-        ppSettings.basic.contrast = 1.1f;
-        ppSettings.basic.saturation = 1.1f;
-        ppSettings.basic.postExposure = 0.5f;
-        ppProfile.colorGrading.settings = ppSettings;
-
         lastMusic = musics[0];
         newMusic = musics[0];
-
-        spawners = new List<GameObject>();
-        spawners.AddRange(GameObject.FindGameObjectsWithTag("Spawner"));
-        spawnerScripts = new List<Spawner>();
-        for (int i = 0; i < spawners.Count; i++)
-        {
-            spawnerScripts.Add(spawners[i].GetComponent<Spawner>());
-        }
-
         activeMusics = new bool[3];
         for (int i = 0; i < 3; i++)
         {
             activeMusics[i] = false;
         }
-
-        waveRoster = new List<int>();
+        
         actualProbabilities = new float[probabilities.Length];
         InitializeEnemyList();
 
@@ -91,9 +72,35 @@ public class WaveSystem : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 
-	void InitializeWaveSystem() {
-	
-	}
+    void InitializeWaveParameters()
+    {
+        waveNumber = 1;
+        reserveEnemies = 6;
+        enemyPower = 1f;
+        spawnInterval = 3f;
+        spawnDelay = spawnInterval;
+    }
+
+    void InitializePostProcessing()
+    {
+        ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
+        ppSettings = ppProfile.colorGrading.settings;
+        ppSettings.basic.contrast = 1.1f;
+        ppSettings.basic.saturation = 1.1f;
+        ppSettings.basic.postExposure = 0.5f;
+        ppProfile.colorGrading.settings = ppSettings;
+    }
+
+    void InitializeSpawners()
+    {
+        spawners = new List<GameObject>();
+        spawners.AddRange(GameObject.FindGameObjectsWithTag("Spawner"));
+        spawnerScripts = new List<Spawner>();
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            spawnerScripts.Add(spawners[i].GetComponent<Spawner>());
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -213,6 +220,19 @@ public class WaveSystem : MonoBehaviour {
             ppProfile.colorGrading.settings = ppSettings;
 
 
+    }
+
+    IEnumerator PostProcessChange()
+    {
+
+    }
+
+    IEnumerator UpdateEnemyCount()
+    {
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     void ResetWave()
