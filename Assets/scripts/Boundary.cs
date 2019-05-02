@@ -18,28 +18,27 @@ public class Boundary : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         boundaryMat.SetColor("_TintColor", new Color(0, 0, 0, 1));
         if (player.transform.position.x < minX)
         {
-            float newRed = Mathf.Abs(player.transform.position.x - minX) * sensitivity;
-            print("newRed: " + newRed);
-            boundaryMat.SetColor("_TintColor", new Color(newRed, 0, 0, 1));
+            float newColor = Mathf.Abs(player.transform.position.x - minX) * sensitivity;
+            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
         }
         if (player.transform.position.x > maxX)
         {
-            float newRed = Mathf.Abs(player.transform.position.x - maxX);
-            boundaryMat.SetColor("_TintColor", new Color(newRed, 0, 0, 1));
+            float newColor = Mathf.Abs(player.transform.position.x - maxX) * sensitivity;
+            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
         }
         if (player.transform.position.y < minY)
         {
-            float newRed = Mathf.Abs(player.transform.position.y - minY);
-            boundaryMat.SetColor("_TintColor", new Color(newRed, 0, 0, 1));
+            float newColor = Mathf.Abs(player.transform.position.y - minY) * sensitivity;
+            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
         }
         if (player.transform.position.y > maxY)
         {
-            float newRed = Mathf.Abs(player.transform.position.y - maxY);
-            boundaryMat.SetColor("_TintColor", new Color(newRed, 0, 0, 1));
+            float newColor = Mathf.Abs(player.transform.position.y - maxY) * sensitivity;
+            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
         }
     }
 }

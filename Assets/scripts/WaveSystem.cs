@@ -222,10 +222,12 @@ public class WaveSystem : MonoBehaviour {
 
     }
 
+/* 
     IEnumerator PostProcessChange()
     {
 
     }
+    */
 
     IEnumerator UpdateEnemyCount()
     {
