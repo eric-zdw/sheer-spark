@@ -181,44 +181,8 @@ public class WaveSystem : MonoBehaviour {
             }
 
             if (remainingEnemies == 0)
-                ResetWave();
+                IncrementWave();
         }
-
-        if (Time.timeScale < 1.1f)
-        {
-            Time.timeScale *= 1.02f;
-        }
-        else if (Time.timeScale > 1.1f)
-            Time.timeScale = 1.1f;
-
-        
-        if (Time.fixedDeltaTime < 0.015f)
-        {
-            Time.fixedDeltaTime += 0.005f * Time.deltaTime;
-        }
-        else if (Time.fixedDeltaTime > 0.015f)
-            Time.fixedDeltaTime = 0.015f;
-        
-
-        ppChange = false;
-        if (ppSettings.basic.contrast > 1.1f)
-        {
-            ppSettings.basic.contrast -= Time.deltaTime;
-            ppChange = true;
-        }
-        if (ppSettings.basic.saturation < 1.1f)
-        {
-            ppSettings.basic.saturation += Time.deltaTime;
-            ppChange = true;
-        }
-        if (ppSettings.basic.postExposure > 0.5f)
-        {
-            ppSettings.basic.postExposure -= Time.deltaTime;
-            ppChange = true;
-        }
-        if (ppChange)
-            ppProfile.colorGrading.settings = ppSettings;
-
 
     }
 
@@ -237,7 +201,7 @@ public class WaveSystem : MonoBehaviour {
         }
     }
 
-    void ResetWave()
+    void IncrementWave()
     {
         wc.StartRoutine();
         wc2.StartRoutine();
@@ -249,15 +213,15 @@ public class WaveSystem : MonoBehaviour {
         activeLevel = false;
         InitializeEnemyList();
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+
+        //Stop high-intensity music.
         musicChosen = false;
         highIntensity = false;
 
-        Time.timeScale = 0.025f;
-        Time.fixedDeltaTime = 0.001f;
-        ppSettings.basic.contrast = 2f;
-        ppSettings.basic.saturation = 0.2f;
-        ppSettings.basic.postExposure = 2f;
-        ppProfile.colorGrading.settings = ppSettings;
+        //TODO: add music sting, or cut music entirely after completion.
+
+        //Start slow down and post-processing effects.
+        StartCoroutine(SlowDown());
 
         for (int i = 0; i < 3; i++)
         {
@@ -265,6 +229,55 @@ public class WaveSystem : MonoBehaviour {
             print("disabling music");
         }
         activeMusics[0] = true;
+    }
+
+    IEnumerator SlowDown() {
+        Time.timeScale = 0.025f;
+        Time.fixedDeltaTime = 0.001f;
+        ppSettings.basic.contrast = 2f;
+        ppSettings.basic.saturation = 0.2f;
+        ppSettings.basic.postExposure = 2f;
+        ppProfile.colorGrading.settings = ppSettings;
+
+        while (Time.timeScale != 1.1f || ppChange == false || Time.fixedDeltaTime != 0.015f) {
+            if (Time.timeScale < 1.1f)
+            {
+                Time.timeScale *= 1.1f;
+            }
+            else if (Time.timeScale > 1.1f)
+                Time.timeScale = 1.1f;
+
+
+            if (Time.fixedDeltaTime < 0.015f)
+            {
+                Time.fixedDeltaTime += 0.025f * Time.deltaTime;
+            }
+            else if (Time.fixedDeltaTime > 0.015f)
+                Time.fixedDeltaTime = 0.015f;
+
+
+            ppChange = false;
+            if (ppSettings.basic.contrast > 1.1f)
+            {
+                ppSettings.basic.contrast -= Time.deltaTime;
+                ppChange = true;
+            }
+            if (ppSettings.basic.saturation < 1.1f)
+            {
+                ppSettings.basic.saturation += Time.deltaTime;
+                ppChange = true;
+            }
+            if (ppSettings.basic.postExposure > 0.5f)
+            {
+                ppSettings.basic.postExposure -= Time.deltaTime;
+                ppChange = true;
+            }
+            if (ppChange)
+                ppProfile.colorGrading.settings = ppSettings;
+
+
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
     }
 
     void InitializeEnemyList()
