@@ -12,6 +12,8 @@ public class Boundary : MonoBehaviour {
     public float maxY;
     public float sensitivity;
 
+    private float flashValue = 0f;
+
 	// Use this for initialization
 	void Start () {
         player = GameObject.Find("Player");
@@ -19,26 +21,37 @@ public class Boundary : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
         boundaryMat.SetColor("_TintColor", new Color(0, 0, 0, 1));
+        float colorValue = 0f;
         if (player.transform.position.x < minX)
         {
             float newColor = Mathf.Abs(player.transform.position.x - minX) * sensitivity;
-            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
+            colorValue = Mathf.Max(newColor, colorValue);
         }
         if (player.transform.position.x > maxX)
         {
             float newColor = Mathf.Abs(player.transform.position.x - maxX) * sensitivity;
-            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
+            colorValue = Mathf.Max(newColor, colorValue);
         }
         if (player.transform.position.y < minY)
         {
             float newColor = Mathf.Abs(player.transform.position.y - minY) * sensitivity;
-            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
+            colorValue = Mathf.Max(newColor, colorValue);
         }
         if (player.transform.position.y > maxY)
         {
             float newColor = Mathf.Abs(player.transform.position.y - maxY) * sensitivity;
-            boundaryMat.SetColor("_TintColor", new Color(newColor, 0, 0, 1));
+            colorValue = Mathf.Max(newColor, colorValue);
         }
+        
+        colorValue += flashValue;
+        boundaryMat.SetColor("_TintColor", new Color(colorValue, colorValue, colorValue, 0.1f + flashValue));
+        
+        if (flashValue > 0) flashValue -= Time.deltaTime; else flashValue = 0;
+    }
+
+    public void HitFlash() {
+        flashValue = 0.5f;
     }
 }
