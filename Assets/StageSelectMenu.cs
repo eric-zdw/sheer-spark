@@ -5,14 +5,19 @@ using UnityEngine;
 public class StageSelectMenu : MonoBehaviour {
 
 	public List<string> levels = new List<string>();
-	public UnityEngine.UI.Text stageName;
+	public UnityEngine.UI.Text currentLevelName;
+	private GameObject currentLevelModel;
 	private int currentLevel = 0;
 	public GameObject leftButton;
 	public GameObject rightButton;
 
+	public List<GameObject> levelModels = new List<GameObject>();
+	public List<Vector3> levelPositions = new List<Vector3>();
+
 	// Use this for initialization
 	void Start () {
-		stageName.text = levels[currentLevel];
+		currentLevelName.text = levels[currentLevel];
+		currentLevelModel = Instantiate(levelModels[currentLevel], levelPositions[currentLevel], Quaternion.identity);
 	}
 
 	// Update is called once per frame
@@ -30,11 +35,26 @@ public class StageSelectMenu : MonoBehaviour {
 
 	void IncrementLevel() {
 		currentLevel++;
-		stageName.text = levels[currentLevel];
+		currentLevelName.text = levels[currentLevel];
+		SwitchLevelModel(currentLevel);
 	}
 
 	void DecrementLevel() {
 		currentLevel--;
-		stageName.text = levels[currentLevel];
+		currentLevelName.text = levels[currentLevel];
+		SwitchLevelModel(currentLevel);
+	}
+
+	void SwitchLevelModel(int currentLevel) {
+		Destroy(currentLevelModel);
+		currentLevelModel = Instantiate(levelModels[currentLevel], levelPositions[currentLevel], Quaternion.identity);
+	}
+
+	void OpenOptions() {
+
+	}
+
+	void Cleanup() {
+		Destroy(currentLevelModel);
 	}
 }

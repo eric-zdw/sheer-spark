@@ -238,8 +238,9 @@ public class WaveSystem : MonoBehaviour {
         ppSettings.basic.saturation = 0.2f;
         ppSettings.basic.postExposure = 2f;
         ppProfile.colorGrading.settings = ppSettings;
+        ppChange = true;
 
-        while (Time.timeScale != 1.1f || ppChange == false || Time.fixedDeltaTime != 0.015f) {
+        while (Time.timeScale != 1.1f || ppChange == true || Time.fixedDeltaTime != 0.015f) {
             if (Time.timeScale < 1.1f)
             {
                 Time.timeScale *= 1.1f;
@@ -259,21 +260,22 @@ public class WaveSystem : MonoBehaviour {
             ppChange = false;
             if (ppSettings.basic.contrast > 1.1f)
             {
-                ppSettings.basic.contrast -= Time.deltaTime;
+                ppSettings.basic.contrast -= Time.deltaTime * 2f;
                 ppChange = true;
             }
             if (ppSettings.basic.saturation < 1.1f)
             {
-                ppSettings.basic.saturation += Time.deltaTime;
+                ppSettings.basic.saturation += Time.deltaTime * 2f;
                 ppChange = true;
             }
             if (ppSettings.basic.postExposure > 0.5f)
             {
-                ppSettings.basic.postExposure -= Time.deltaTime;
+                ppSettings.basic.postExposure -= Time.deltaTime * 2f;
                 ppChange = true;
             }
-            if (ppChange)
+            if (ppChange) {
                 ppProfile.colorGrading.settings = ppSettings;
+            }
 
 
             yield return new WaitForSecondsRealtime(0.05f);

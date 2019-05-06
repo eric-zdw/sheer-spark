@@ -27,7 +27,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public GameObject defaultWeapon;
     public float powerupDuration;
-    private float powerupTimer;
+    public float powerupTimer;
 
     public float powerupLevel;
     private float heatTimer = 0f;
@@ -46,6 +46,10 @@ public class PlayerBehaviour : MonoBehaviour {
     private UnityEngine.UI.Image powerupBar;
     private RectTransform pbSize;
     private UnityEngine.UI.Text powerupName;
+
+    public PowerupRadial radialBar;
+    public ParticleSystemRenderer lightTrail;
+    public Material[] trailMaterials;
 
     // Use this for initialization
     void Start()
@@ -94,6 +98,7 @@ public class PlayerBehaviour : MonoBehaviour {
                 GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = new Color(0.549f, 0.608f, 0.678f);
                 powerupBar.GetComponent<UnityEngine.UI.Image>().material = defaultColour;
                 powerupName.text = "BLASTER";
+                lightTrail.material = trailMaterials[0];
             }
         }
 
@@ -199,6 +204,10 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             powerupName.text = powerName;
         }
+
+        radialBar.changePowerup(newColour);
+        //offset for default trail color
+        lightTrail.material = trailMaterials[index + 1];
 
         //powerupLevel++;
     }

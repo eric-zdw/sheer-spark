@@ -744,9 +744,10 @@ MonoBehaviour:
   torqueStrength: 1
   maxHP: 3
   defaultColour: {fileID: 2100000, guid: 2ad49c2a9b982a646a90ac3b3842f722, type: 2}
-  defaultWeapon: {fileID: 1313234464062574, guid: 82b45bf295654ed4385ec6a45c516cd9,
+  defaultWeapon: {fileID: 1313234464062574, guid: a27618c5b08873b4fb82366b53c108c6,
     type: 2}
   powerupDuration: 6
+  powerupTimer: 0
   powerupLevel: 0
   heatFactor: 0
   heatDecayFactor: 1
@@ -761,6 +762,16 @@ MonoBehaviour:
   - {r: 0.25735295, g: 1, b: 0.35466543, a: 0}
   - {r: 0.32352942, g: 0.6081135, b: 1, a: 0}
   - {r: 0.8169369, g: 0.30147058, b: 1, a: 0}
+  radialBar: {fileID: 0}
+  lightTrail: {fileID: 199644185791518564}
+  trailMaterials:
+  - {fileID: 2100000, guid: 11fe30c8788dc0e45b35ba1abfb7b1e6, type: 2}
+  - {fileID: 2100000, guid: 92f74014ea7d22c459eaa141b50f9103, type: 2}
+  - {fileID: 2100000, guid: 3f5c15738cdec7f489d7e80cb77eb782, type: 2}
+  - {fileID: 2100000, guid: c9d248d2c4bf5eb48a9ed1e08de3cc32, type: 2}
+  - {fileID: 2100000, guid: 4d2155db2bc015044922d9101f233aa1, type: 2}
+  - {fileID: 2100000, guid: c6651180a35c992459a9f1ff6a8b582a, type: 2}
+  - {fileID: 2100000, guid: d77b7fc7b853a7d409cdf3be0ca886e0, type: 2}
 --- !u!114 &114346456579545156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5440,7 +5451,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6589,11 +6600,11 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 26214
-        atime2: 29491
+        atime1: 18350
+        atime2: 21627
         atime3: 62258
         atime4: 65535
-        atime5: 0
+        atime5: 65535
         atime6: 0
         atime7: 0
         m_Mode: 0
@@ -9994,7 +10005,7 @@ ParticleSystemRenderer:
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0.5
-  m_LengthScale: 0.5
+  m_LengthScale: 0.25
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_RenderAlignment: 0

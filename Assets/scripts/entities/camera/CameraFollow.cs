@@ -24,7 +24,8 @@ public class CameraFollow : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-		/*
+		
+        /*
         Vector3 newPosition;
         //inital camera position
         if (followTarget != null)
@@ -46,6 +47,7 @@ public class CameraFollow : MonoBehaviour {
         }
         shakeFactor *= shakeDecayFactor;
         */
+        
 
         if (followTarget == null)
         {
