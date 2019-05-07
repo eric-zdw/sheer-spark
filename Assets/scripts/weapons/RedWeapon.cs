@@ -42,7 +42,7 @@ public class RedWeapon : Weapon {
         if (GetCooldown() <= 0)
         {
             
-            for (int i = -4; i <= 4; i++)
+            for (int i = -3; i <= 3; i++)
             {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(

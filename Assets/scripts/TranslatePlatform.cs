@@ -10,6 +10,7 @@ public class TranslatePlatform : MonoBehaviour {
 	public Vector3 endPos;
 	private Rigidbody rb;
 
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
@@ -19,9 +20,10 @@ public class TranslatePlatform : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		currentLerp += Time.deltaTime * moveRate;
-		if (currentLerp >= 1f)
-			currentLerp -= 1f;
+		if (currentLerp >= 1f || currentLerp <= 0f)
+			moveRate *= -1;
 		rb.MovePosition(Vector3.Lerp(startPos, endPos, currentLerp));
 		//transform.position = center + new Vector3 (radius * Mathf.Cos (Mathf.Deg2Rad * currentAngle), radius * Mathf.Sin (Mathf.Deg2Rad * currentAngle), transform.position.z);
 	}
+
 }

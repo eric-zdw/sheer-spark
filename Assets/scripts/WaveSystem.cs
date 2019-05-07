@@ -48,6 +48,8 @@ public class WaveSystem : MonoBehaviour {
     private WaveComplete wc;
     private WaveComplete2 wc2;
 
+    public int arcadeModeNumberOfWaves;
+
     // Use this for initialization
     void Start () {
 
