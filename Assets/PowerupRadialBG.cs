@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PowerupRadial : MonoBehaviour {
+public class PowerupRadialBG : MonoBehaviour {
 
 	public GameObject player;
 	public GameObject followTarget;
@@ -21,8 +21,6 @@ public class PowerupRadial : MonoBehaviour {
 		image = GetComponent<Image>();
 
 		playerBehaviour = player.GetComponent<PlayerBehaviour>();
-
-		Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
@@ -30,11 +28,7 @@ public class PowerupRadial : MonoBehaviour {
 		cam.ResetWorldToCameraMatrix();
 		uiPosition = cam.WorldToScreenPoint(followTarget.transform.position);
 		rect.SetPositionAndRotation(uiPosition, Quaternion.identity);
-
-		image.fillAmount = (playerBehaviour.powerupTimer / playerBehaviour.powerupDuration);
 	}
 
-	public void changePowerup(Material mat) {
-		image.material = mat;
-	}
+	
 }

@@ -50,6 +50,8 @@ public class WaveSystem : MonoBehaviour {
 
     public int arcadeModeNumberOfWaves;
 
+    public int maxWaves = 10;
+
     // Use this for initialization
     void Start () {
 
@@ -205,9 +207,30 @@ public class WaveSystem : MonoBehaviour {
 
     void IncrementWave()
     {
+        
+        //Start slow down and post-processing effects.
+        StartCoroutine(SlowDown());
+        //TODO: add music sting, or cut music entirely after completion.
+        for (int i = 0; i < 3; i++)
+        {
+            activeMusics[i] = false;
+            print("disabling music");
+        }
+        activeMusics[0] = true;
+
+        //Stop high-intensity music.
+        musicChosen = false;
+        highIntensity = false;
+
+        waveNumber++;
+        if (waveNumber > maxWaves)
+        {
+            StartCoroutine(YouWin());
+        }
+
         wc.StartRoutine();
         wc2.StartRoutine();
-        waveNumber++;
+        
         reserveEnemies = 3 + (int)(Mathf.Pow(waveNumber, 1.5f));
         delay = 15f;
         enemyPower = 1 + (waveNumber * 0.05f);
@@ -215,22 +238,11 @@ public class WaveSystem : MonoBehaviour {
         activeLevel = false;
         InitializeEnemyList();
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+    }
 
-        //Stop high-intensity music.
-        musicChosen = false;
-        highIntensity = false;
+    IEnumerator YouWin() {
+        yield return new WaitForSeconds(5f);
 
-        //TODO: add music sting, or cut music entirely after completion.
-
-        //Start slow down and post-processing effects.
-        StartCoroutine(SlowDown());
-
-        for (int i = 0; i < 3; i++)
-        {
-            activeMusics[i] = false;
-            print("disabling music");
-        }
-        activeMusics[0] = true;
     }
 
     IEnumerator SlowDown() {
