@@ -47,9 +47,12 @@ public class PlayerBehaviour : MonoBehaviour {
     private RectTransform pbSize;
     private UnityEngine.UI.Text powerupName;
 
-    public PowerupRadial radialBar;
+    public GameObject playerUI;
+    private PowerupRadial radialBar;
     public ParticleSystemRenderer lightTrail;
     public Material[] trailMaterials;
+
+    
 
     // Use this for initialization
     void Start()
@@ -77,6 +80,8 @@ public class PlayerBehaviour : MonoBehaviour {
         powerupBar = GameObject.FindGameObjectWithTag("PowerupBar").GetComponent<UnityEngine.UI.Image>();
         pbSize = powerupBar.GetComponent<RectTransform>();
         powerupName = GameObject.FindGameObjectWithTag("PowerupName").GetComponent<UnityEngine.UI.Text>();
+
+        radialBar = Instantiate(playerUI, Vector3.zero, Quaternion.identity).GetComponentInChildren<PowerupRadial>();
     }
 
     void Update()

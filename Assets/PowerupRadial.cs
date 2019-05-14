@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PowerupRadial : MonoBehaviour {
 
-	public GameObject player;
-	public GameObject followTarget;
+	private GameObject player;
+	private GameObject followTarget;
 	private PlayerBehaviour playerBehaviour;
 	public Camera cam;
 
@@ -20,7 +20,12 @@ public class PowerupRadial : MonoBehaviour {
 		rect = GetComponent<RectTransform>();
 		image = GetComponent<Image>();
 
+		player = GameObject.FindGameObjectWithTag("Player");
 		playerBehaviour = player.GetComponent<PlayerBehaviour>();
+
+		followTarget = GameObject.Find("MouseObject");
+
+		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		Cursor.visible = false;
 	}

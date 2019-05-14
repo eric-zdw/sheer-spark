@@ -10,9 +10,6 @@ public class WaveSystem : MonoBehaviour {
 	public int waveNumber;
     public float jumpLimitY;
     public float enemyPower;
-
-    UnityEngine.PostProcessing.PostProcessingProfile ppProfile;
-    UnityEngine.PostProcessing.ColorGradingModel.Settings ppSettings;
     bool ppChange = false;
 
 
@@ -26,7 +23,6 @@ public class WaveSystem : MonoBehaviour {
 
     public GameObject[] enemies;
 
-    public GameObject[] uiElements;
     private List<GameObject> spawners;
     private List<Spawner> spawnerScripts;
 
@@ -49,14 +45,14 @@ public class WaveSystem : MonoBehaviour {
     private WaveComplete2 wc2;
 
     public int arcadeModeNumberOfWaves;
-
     public int maxWaves = 10;
+
+    public PPManager ppManager;
 
     // Use this for initialization
     void Start () {
 
         InitializeWaveParameters();
-        InitializePostProcessing();
         InitializeSpawners();
 
         musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
@@ -83,16 +79,6 @@ public class WaveSystem : MonoBehaviour {
         enemyPower = 1f;
         spawnInterval = 3f;
         spawnDelay = spawnInterval;
-    }
-
-    void InitializePostProcessing()
-    {
-        ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
-        ppSettings = ppProfile.colorGrading.settings;
-        ppSettings.basic.contrast = 1.1f;
-        ppSettings.basic.saturation = 1.1f;
-        ppSettings.basic.postExposure = 0.5f;
-        ppProfile.colorGrading.settings = ppSettings;
     }
 
     void InitializeSpawners()
@@ -190,13 +176,6 @@ public class WaveSystem : MonoBehaviour {
 
     }
 
-/* 
-    IEnumerator PostProcessChange()
-    {
-
-    }
-    */
-
     IEnumerator UpdateEnemyCount()
     {
         while (true)
@@ -209,7 +188,8 @@ public class WaveSystem : MonoBehaviour {
     {
         
         //Start slow down and post-processing effects.
-        StartCoroutine(SlowDown());
+        StartCoroutine(ppManager.SlowDown());
+        StartCoroutine(ppManager.ChangePP());
         //TODO: add music sting, or cut music entirely after completion.
         for (int i = 0; i < 3; i++)
         {
@@ -243,57 +223,6 @@ public class WaveSystem : MonoBehaviour {
     IEnumerator YouWin() {
         yield return new WaitForSeconds(5f);
 
-    }
-
-    IEnumerator SlowDown() {
-        Time.timeScale = 0.025f;
-        Time.fixedDeltaTime = 0.001f;
-        ppSettings.basic.contrast = 2f;
-        ppSettings.basic.saturation = 0.2f;
-        ppSettings.basic.postExposure = 2f;
-        ppProfile.colorGrading.settings = ppSettings;
-        ppChange = true;
-
-        while (Time.timeScale != 1.1f || ppChange == true || Time.fixedDeltaTime != 0.015f) {
-            if (Time.timeScale < 1.1f)
-            {
-                Time.timeScale *= 1.1f;
-            }
-            else if (Time.timeScale > 1.1f)
-                Time.timeScale = 1.1f;
-
-
-            if (Time.fixedDeltaTime < 0.015f)
-            {
-                Time.fixedDeltaTime += 0.025f * Time.deltaTime;
-            }
-            else if (Time.fixedDeltaTime > 0.015f)
-                Time.fixedDeltaTime = 0.015f;
-
-
-            ppChange = false;
-            if (ppSettings.basic.contrast > 1.1f)
-            {
-                ppSettings.basic.contrast -= Time.deltaTime * 2f;
-                ppChange = true;
-            }
-            if (ppSettings.basic.saturation < 1.1f)
-            {
-                ppSettings.basic.saturation += Time.deltaTime * 2f;
-                ppChange = true;
-            }
-            if (ppSettings.basic.postExposure > 0.5f)
-            {
-                ppSettings.basic.postExposure -= Time.deltaTime * 2f;
-                ppChange = true;
-            }
-            if (ppChange) {
-                ppProfile.colorGrading.settings = ppSettings;
-            }
-
-
-            yield return new WaitForSecondsRealtime(0.05f);
-        }
     }
 
     void InitializeEnemyList()

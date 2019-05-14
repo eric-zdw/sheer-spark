@@ -96,7 +96,7 @@ public class GreenProjectile : Projectile {
 
     private void damagePulse()
     {
-        noiseManager.AddNoise(6f);
+        noiseManager.AddNoise(10f);
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
 

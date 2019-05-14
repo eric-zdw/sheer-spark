@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class PowerupRadialBG : MonoBehaviour {
 
-	public GameObject player;
-	public GameObject followTarget;
-	private PlayerBehaviour playerBehaviour;
-	public Camera cam;
+	private GameObject followTarget;
+	private Camera cam;
 
 	private Vector3 uiPosition;
 
@@ -20,7 +18,8 @@ public class PowerupRadialBG : MonoBehaviour {
 		rect = GetComponent<RectTransform>();
 		image = GetComponent<Image>();
 
-		playerBehaviour = player.GetComponent<PlayerBehaviour>();
+		followTarget = GameObject.Find("MouseObject");
+		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 	}
 	
 	// Update is called once per frame

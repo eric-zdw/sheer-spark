@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ui = GameObject.Find("UI");
+		ui = GameObject.Find("GameUI");
 		fadeObject = Instantiate(fadeObject, ui.transform);
 		fadeObject.GetComponent<Fade>().StartCoroutine("FadeIn");
 	}

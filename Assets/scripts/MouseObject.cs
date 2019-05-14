@@ -14,7 +14,7 @@ public class MouseObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		mouseLocation = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 15f));
+		mouseLocation = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20f));
 		transform.position = mouseLocation;
 	}
 }

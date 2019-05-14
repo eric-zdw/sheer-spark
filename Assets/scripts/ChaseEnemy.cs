@@ -24,7 +24,9 @@ public class ChaseEnemy : Enemy {
     public Material[] colours;
 	public Material[] seeThroughs;
 	public GameObject[] explosions;
+	public Material damagedMaterial;
     public float YLimit;
+	private MeshRenderer damageFlash;
     private MeshRenderer outline;
 	private MeshRenderer seeThrough;
     private int powerupRoll;
@@ -38,6 +40,10 @@ public class ChaseEnemy : Enemy {
     private float tetheredCheck = 0.05f;
     private float tetheredTimer;
 
+	private PPManager ppManager;
+
+	private MaterialPropertyBlock damageMatBlock;
+
     void Start()
 	{
 		bar = Instantiate(healthBar);
@@ -50,10 +56,13 @@ public class ChaseEnemy : Enemy {
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         powerupRoll = Random.Range(0, 6);
+		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
 		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
         outline.material = colours[powerupRoll];
 		seeThrough.material = seeThroughs[powerupRoll];
+
+		damageMatBlock = new MaterialPropertyBlock();
     }
 
 	void FixedUpdate()
@@ -102,7 +111,7 @@ public class ChaseEnemy : Enemy {
 
     void Explode()
 	{
-		noiseManager.AddNoise(5f);
+		noiseManager.AddNoise(10f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);
@@ -136,6 +145,25 @@ public class ChaseEnemy : Enemy {
 			isCharging = false;
 			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 			rb.AddForce(0f, jumpStrength, 0f);
+		}
+	}
+
+	public override void getDamage(float damage)
+    {
+        health -= damage;
+		StartCoroutine(FlashWhite());
+    }
+
+	IEnumerator FlashWhite() {
+		float colorValue = 2f;
+		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
+		while (colorValue > 0f) {
+			print("colorValue: " + colorValue);
+			colorValue -= 5f * Time.deltaTime;
+			newColor = new Color(colorValue, colorValue, colorValue, 1);
+			damageMatBlock.SetColor("_EmissionColor", newColor);
+			damageFlash.SetPropertyBlock(damageMatBlock);
+			yield return new WaitForFixedUpdate();
 		}
 	}
 }

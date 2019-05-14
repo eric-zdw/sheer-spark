@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour {
         health = 100f;
     }
 
-    public void getDamage(float damage)
+    public virtual void getDamage(float damage)
     {
         health -= damage;
     }
