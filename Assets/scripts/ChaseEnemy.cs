@@ -44,6 +44,8 @@ public class ChaseEnemy : Enemy {
 
 	private MaterialPropertyBlock damageMatBlock;
 
+	private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+
     void Start()
 	{
 		bar = Instantiate(healthBar);
@@ -89,12 +91,13 @@ public class ChaseEnemy : Enemy {
         }
 
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
-		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 100f * Time.deltaTime);
+		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 80f * Time.deltaTime);
 
 
 		//-------------------
 
-		JumpRoutine();
+		CheckLinecastCollision();
+		//JumpRoutine();
 
         //-------------------
 	    
@@ -147,6 +150,14 @@ public class ChaseEnemy : Enemy {
 			rb.AddForce(0f, jumpStrength, 0f);
 		}
 	}
+
+	void CheckLinecastCollision() {
+        RaycastHit info;
+        if (Physics.Linecast(transform.position, transform.position + Vector3.down, out info, layermask)) {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+			rb.AddForce(0f, jumpStrength, 0f);
+        }
+    }
 
 	public override void getDamage(float damage)
     {
