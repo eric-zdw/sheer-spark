@@ -205,7 +205,7 @@ MonoBehaviour:
   ppSlowSaturation: -0.5
   ppDefaultExposure: 0
   ppSlowExposure: 1.5
-  ppTransitionTime: 1
+  ppTransitionTime: 2
   ppDefaultTimeScale: 1.1
   ppSlowTimeScale: 0.011
   ppFixedScale: 60
@@ -223,29 +223,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainingEnemies: 0
   reserveEnemies: 0
+  beginningEnemies: 10
   waveNumber: 0
   jumpLimitY: 0
   enemyPower: 0
   enemies:
-  - {fileID: 1949764095654824, guid: dd080802bc3c6f049921e2d254ef2712, type: 2}
+  - {fileID: 1949764095654824, guid: 4502e939191c6b94aa005295d4da77fa, type: 2}
   - {fileID: 1058871039476194, guid: c63c48da53b004c459cc68daccc3a07b, type: 2}
-  - {fileID: 1133079584551048, guid: 561535f4893222449a732b32a0fc7b51, type: 2}
-  uiElements:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1949764095654824, guid: 898d13c5282dbd7499eef75ed357c8b5, type: 2}
   musics:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   probabilities:
-  - 75
-  - 25
-  - 25
-  allowedWaves: 010000000300000005000000
+  - 70
+  - 30
+  - 3
+  allowedWaves: 010000000300000007000000
   gameStarted: 0
   arcadeModeNumberOfWaves: 0
   maxWaves: 10
