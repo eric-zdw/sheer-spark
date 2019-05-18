@@ -140,6 +140,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a36114ebe1bba4cb67fa10d7e72281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveData:
+    levelsClearedOnNormal:
+    - LEVEL 1
+    - LEVEL 2
+    levelsClearedOnHard: []
+    weaponsUnlocked: []
+    musicVolume: 50
+    effectsVolume: 50
+    normalControlScheme: 1
 --- !u!4 &65944528
 Transform:
   m_ObjectHideFlags: 0
@@ -1926,33 +1935,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - LEVEL 1
-  - LEVEL 2
-  - LEVEL 3
-  - LEVEL 4
-  - LEVEL 5
-  - LEVEL 6
-  - LEVEL 7
-  - LEVEL 8
-  - LEVEL 9
-  - LEVEL 10
-  - LEVEL 11
-  - LEVEL 12
-  - LEVEL 13
-  - LEVEL 14
-  - LEVEL 15
-  - FINAL LEVEL
+  - BALANCE
+  - ATRIUM
+  - SCAFFOLD
+  - VESTIGE
+  - OVERGROWTH
+  - ORANGE1
+  - ORANGE2
+  - SIERRA
+  - MESA
+  - CORE
+  - DEPTH
+  - PILLARS
+  - MONUMENT
+  - ASCENSION
+  - FINAL
   currentLevelName: {fileID: 1741532357}
   leftButton: {fileID: 488008699}
   rightButton: {fileID: 1873452953}
+  levelIndices: 0e0000000c0000000b000000070000000800000003000000040000000500000006000000090000000a00000001000000020000000d00000000000000
   levelModels:
   - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
-  - {fileID: 1209414373987864, guid: d040a52b673e92d48ae06cad036c07d1, type: 2}
-  - {fileID: 1046227131033164, guid: c5319f011c94f594182b59e1dfe8f836, type: 2}
-  - {fileID: 1458381405400596, guid: 0e26380c7890d7748ae7cb6c781739f2, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
+  - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
+  - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
+  - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
+  - {fileID: 1892335600878328, guid: de00e52ec7c87404082d84b4cd07ddfb, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -1978,7 +1986,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  bgColours: []
 --- !u!1001 &1123262583
 Prefab:
   m_ObjectHideFlags: 0
@@ -2183,6 +2191,17 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1090787821}
+        m_MethodName: StartUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 443794659}
         m_MethodName: SetActive
