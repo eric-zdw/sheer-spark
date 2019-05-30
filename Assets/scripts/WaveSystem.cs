@@ -45,7 +45,6 @@ public class WaveSystem : MonoBehaviour {
     private WaveComplete wc;
     private WaveComplete2 wc2;
 
-    public int arcadeModeNumberOfWaves;
     public int maxWaves = 10;
 
     public PPManager ppManager;

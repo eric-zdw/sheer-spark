@@ -57,7 +57,7 @@ public class ChaseEnemy : Enemy {
 		rb = GetComponent<Rigidbody>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
-        powerupRoll = Random.Range(0, 6);
+		powerupRoll = Random.Range(0, 6);
 		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
 		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
