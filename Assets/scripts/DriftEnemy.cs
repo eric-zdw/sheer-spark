@@ -58,7 +58,7 @@ public class DriftEnemy : Enemy {
 			Explode();
 		}
 
-		rb.AddForce(Vector3.Normalize(player.transform.position - transform.position) * 1500f * Time.deltaTime);
+		rb.AddForce(Vector3.Normalize(player.transform.position - transform.position) * 1200f * Time.deltaTime);
 
 		//rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
 		//rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 80f * Time.deltaTime);
