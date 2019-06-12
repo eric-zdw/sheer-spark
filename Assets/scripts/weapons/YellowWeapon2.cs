@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedWeapon1 : Weapon {
+public class YellowWeapon2 : Weapon {
 
     public GameObject projectile;
     private Camera cam;
@@ -13,9 +13,11 @@ public class RedWeapon1 : Weapon {
 
     public float heatDamageRate = 0.005f;
     public float heatFireRate = 0.004f;
+    public float heatRadiusRate = 0.002f;
     public float damage = 6f;
-    public float shotSeparation = 1.5f;
-    public float shotSpread = 1.5f;
+    public float radius = 1f;
+
+    int altFire = 1;
 
     void Start () {
         SetFireRate(bFireRate);
@@ -35,37 +37,22 @@ public class RedWeapon1 : Weapon {
 
     public override void Fire1()
     {
-        print(
+        /*print(
             "Current heat factor: " + player.getHeatFactor()
             + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));*/
         if (GetCooldown() <= 0)
         {
-            
-            for (int i = -3; i <= 3; i++)
-            {
-                float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-                GameObject proj = Instantiate(
-                    projectile, 
-                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f), 
-                    Quaternion.Euler(0, 0, angle + (shotSeparation * i) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
-                    );
-
-
-                proj.GetComponent<RedProjectile1>().setDamage(realDamage);
-            }
-            
-            /*
+            altFire *= -1;
             float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
+                Quaternion.Euler(0, 0, angle + Random.Range(-5f, 5f) + (altFire * 4f))
                 );
-                
-            proj.GetComponent<RedProjectile>().setDamage(realDamage);
-            */
-            
+            proj.GetComponent<YellowProjectile2>().setDamage(realDamage);
+            proj.GetComponent<YellowProjectile2>().setRadius(realRadius);
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }
     }

@@ -11,6 +11,6 @@ public class BlueRod : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate(new Vector3 (650f * Time.deltaTime, 0f, 0f));
+		transform.Rotate(new Vector3 (800f * Time.deltaTime, 0f, 0f));
 	}
 }

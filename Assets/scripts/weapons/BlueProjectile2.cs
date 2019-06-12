@@ -10,14 +10,23 @@ public class BlueProjectile2 : Projectile {
 	private List<Collider> currentHits;
 
 	private float damageDecayRate;
-	private CapsuleCollider collider;
+	private SphereCollider collider;
+
+	private Rigidbody rb;
+
+	private float projectileForce;
+
+	private GameObject player;
 
 
 	// Use this for initialization
 	void Start() {
-		projectileSpeed = 30f;
-		lifeTime = 5f;
-		collider = GetComponent<CapsuleCollider>();
+		projectileForce = -450f;
+		lifeTime = 2f;
+		collider = GetComponent<SphereCollider>();
+		rb = GetComponent<Rigidbody>();
+		rb.AddForce(-transform.up * 16000f * Time.deltaTime);
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
 
 	// Update is called once per frame
@@ -26,11 +35,11 @@ public class BlueProjectile2 : Projectile {
 			Destroy(gameObject);
 		else
 		{
-			transform.position += -transform.up * projectileSpeed * Time.deltaTime;
+			//transform.position += -transform.up * projectileForce * Time.deltaTime;
+			//rb.AddForce(-transform.up * projectileForce * Time.deltaTime);
+			rb.AddForce(Vector3.Normalize(transform.position - player.transform.position) * projectileForce * Time.deltaTime);
 			lifeTime -= Time.deltaTime;
 		}
-
-		projectileSpeed -= 25f * Time.deltaTime;
 	}
 
 	private void OnTriggerEnter(Collider other)

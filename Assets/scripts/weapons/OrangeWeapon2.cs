@@ -2,35 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueWeapon2 : Weapon {
+public class OrangeWeapon2 : Weapon {
 
     public GameObject projectile;
+    public GameObject projectile2;
     private Camera cam;
     private PlayerBehaviour player;
     private Vector2 mousePosition;
     private float angle;
-    public float bFireRate = 0.2f;
+    public float bFireRate = 0.16f;
 
     public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.004f;
-    public float damage = 6f;
-
-    public float rangeRadius = 0f;
-    private float lastRR = 0f;
-    private float rangeRate = 2f;
-    private float maxRange = 6f;
-
-    public GameObject rangeSphere;
-    private GameObject rs;
-    private AudioSource[] sounds;
+    public float heatFireRate = 0.001f;
+    public float heatRadiusRate = 0.002f;
+    public float damage = 35f;
+    public float radius = 5f;
 
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-        rs = Instantiate(rangeSphere, transform.position, Quaternion.identity, transform);
-        sounds = GetComponents<AudioSource>();
     }
 
     void Update()
@@ -40,8 +32,6 @@ public class BlueWeapon2 : Weapon {
 
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 11f));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
-
-        //Debug.DrawLine(transform.position, transform.position + new Vector3(rangeRadius, 0, 0));
     }
 
     public override void Fire1()
@@ -49,19 +39,16 @@ public class BlueWeapon2 : Weapon {
         print(
             "Current heat factor: " + player.getHeatFactor()
             + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor()))
+            + " , radius: " + radius * (1f + (heatRadiusRate * player.getHeatFactor())));
+
         if (GetCooldown() <= 0)
         {
             float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-            GameObject proj = Instantiate(
-                projectile, 
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.5f), 
-                Quaternion.Euler(0f, 0f, angle + 90f)
-                );
-
-
-            proj.GetComponent<BlueProjectile2>().setDamage(realDamage);
-
+            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
+            OrangeProjectile2 proj = Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle + Random.Range(-15f, 15f))).GetComponent<OrangeProjectile2>();
+            proj.setDamage(realDamage);
+            proj.setRadius(realRadius);
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }
     }
