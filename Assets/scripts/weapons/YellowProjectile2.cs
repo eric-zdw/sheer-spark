@@ -12,6 +12,9 @@ public class YellowProjectile2 : Projectile {
     private Vector3 mousePosition;
     private float radius;
 
+    private float projectileSpeedIncrease = 10f;
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+
     //private float angle1;
     //private float angle2;
     
@@ -29,7 +32,8 @@ public class YellowProjectile2 : Projectile {
             Destroy(gameObject);
         else
         {
-            Propogate();
+            CheckLinecastCollision();
+            //Propogate();
             lifeTime -= Time.deltaTime;
         }
 
@@ -77,7 +81,7 @@ public class YellowProjectile2 : Projectile {
         }
         print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        projectileSpeed += 128f * Time.deltaTime;
+        projectileSpeed += 100f * Time.deltaTime;
     }
     
 
@@ -91,6 +95,20 @@ public class YellowProjectile2 : Projectile {
         {
             Explode();
         }
+    }
+
+    void CheckLinecastCollision() {
+        RaycastHit info;
+        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+            transform.position = info.point;
+            if (info.collider.gameObject.CompareTag("Enemy")) {
+                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                noiseManager.AddNoise(2f);
+            }
+            Explode();
+        }
+        else
+            transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
     public void setDamage(float d)

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4588452637633552}
   - component: {fileID: 114211066895869916}
   - component: {fileID: 82177956575510094}
+  - component: {fileID: 108777765498021604}
   m_Layer: 9
   m_Name: YellowProjectileExplosion 1
   m_TagString: Untagged
@@ -82,8 +83,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453142070821372}
   m_LocalRotation: {x: -0, y: -0, z: 0.36219016, w: 0.9321043}
-  m_LocalPosition: {x: 9.488384, y: 26.92, z: 0.033242226}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 16.956232, y: 20.043772, z: 1}
   m_Children:
   - {fileID: 4590039776057122}
   - {fileID: 4113062482368196}
@@ -198,6 +199,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!108 &108777765498021604
+Light:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453142070821372}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 2
+  m_Color: {r: 1, g: 0.83137256, b: 0.25098038, a: 1}
+  m_Intensity: 2
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!114 &114211066895869916
 MonoBehaviour:
   m_ObjectHideFlags: 1

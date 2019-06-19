@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4782420551980082}
   - component: {fileID: 96028046557573036}
+  - component: {fileID: 114698012644267170}
   m_Layer: 9
   m_Name: Trail
   m_TagString: Untagged
@@ -197,7 +198,7 @@ TrailRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: ab6c779660d09bb41bf6f27de2e9d0b6, type: 2}
+  - {fileID: 2100000, guid: 2b07bea073637d7449d894269c4ebb9f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -217,7 +218,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.05
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.25
@@ -233,22 +234,13 @@ TrailRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -91.60019
-        outSlope: Infinity
-        tangentMode: 1
-        weightedMode: 3
-        inWeight: 0.010917008
-        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.514151, b: 0.514151, a: 1}
-      key1: {r: 1, g: 0.36320752, b: 0.36320752, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -296,6 +288,17 @@ MonoBehaviour:
   explosion: {fileID: 1132967370857014, guid: 6acb63675f868f64885be986ba192ec7, type: 2}
   explosion2: {fileID: 1132967370857014, guid: 5c2da9c4ca5b20d4391f9b5771bb0909, type: 2}
   explosion3: {fileID: 1526053759308188, guid: 203b3f52a5c235340bfa7b1a2d1c1030, type: 2}
+--- !u!114 &114698012644267170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862026862335360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b93bc228453f534c913f00fc8f48e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198065640682407200
 ParticleSystem:
   m_ObjectHideFlags: 1

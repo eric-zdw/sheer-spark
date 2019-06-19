@@ -19,7 +19,7 @@ public class RedProjectile2 : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 200f;
+        projectileSpeed = 2000f;
         lifeTime = 2f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
