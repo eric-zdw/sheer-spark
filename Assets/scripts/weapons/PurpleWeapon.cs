@@ -64,10 +64,10 @@ public class PurpleWeapon : Weapon {
             */
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
-            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
-            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
-            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue) * (1f + (heatDamageRate * player.getHeatFactor())));
-            print("chargevalue: " + (chargeValue*chargeValue));
+            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
+            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
+            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (heatDamageRate * player.getHeatFactor())));
+            print("damage charged: " + (chargeValue*chargeValue*chargeValue*damage));
 
 
             float trueRecoil = recoilForce * chargeValue;
@@ -96,7 +96,7 @@ public class PurpleWeapon : Weapon {
         if (chargeValue > 0f)
         {
             chargeSound.volume = (chargeValue * 0.25f) + 0.25f;
-            chargeSound.pitch = (chargeValue * 0.5f) + 0.5f;
+            chargeSound.pitch = (chargeValue * chargeValue * chargeValue * 0.5f) + 0.5f;
         }
         else
         {

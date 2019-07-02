@@ -8,25 +8,26 @@ public class RedProjectile1 : Projectile {
     public GameObject explosion2;
     public GameObject explosion3;
 
-    //private float damageDecayRate;
+    public float damageDecayRate = 20f;
+    public float minimumDamage = 2f;
     private BoxCollider collider;
 
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 2);
     private NoiseManager noiseManager;
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 150;
-        lifeTime = 2f;
+        projectileSpeed = 250f;
+        lifeTime = 1.25f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
         noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
-        //StartCoroutine(IncreaseSpeed());
+        StartCoroutine(DecreaseSpeed());
     }
 
     // Update is called once per frame
@@ -40,7 +41,9 @@ public class RedProjectile1 : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        //damage -= damageDecayRate * Time.deltaTime;
+        if (damage > minimumDamage) {
+            damage -= damageDecayRate * Time.deltaTime;
+        }
         //transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
 
         if (soundDecreasing)
@@ -55,9 +58,9 @@ public class RedProjectile1 : Projectile {
             soundDecreasing = true;
     }
 
-    IEnumerator IncreaseSpeed() {
+    IEnumerator DecreaseSpeed() {
         while(true) {
-            projectileSpeed *= 1.5f;
+            projectileSpeed *= .8f;
             yield return new WaitForSeconds(0.01f);
         }
     }
@@ -70,10 +73,11 @@ public class RedProjectile1 : Projectile {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
                 noiseManager.AddNoise(2f);
             }
-            Explode();
+            if (!info.collider.gameObject.CompareTag("Enemy")) {
+                Explode();
+            } else ExplodeWithoutDestroy();
         }
-        else
-            transform.position += transform.right * projectileSpeed * Time.deltaTime;
+        transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
     /*
@@ -115,6 +119,14 @@ public class RedProjectile1 : Projectile {
         transform.GetChild(0).parent = null;
         Destroy(gameObject);
     }
+    
+    void ExplodeWithoutDestroy()
+    {
+        noiseManager.AddNoise(1f);
+        Instantiate(explosion, transform.position, transform.rotation);
+        Instantiate(explosion2, transform.position, transform.rotation);
+        Instantiate(explosion3, transform.position, transform.rotation);
+    }    
 
 
 }

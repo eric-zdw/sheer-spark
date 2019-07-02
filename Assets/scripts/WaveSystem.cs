@@ -207,17 +207,20 @@ public class WaveSystem : MonoBehaviour {
         {
             StartCoroutine(YouWin());
         }
-
-        wc.StartRoutine();
-        wc2.StartRoutine();
+        else {
+            wc.StartRoutine();
+            wc2.StartRoutine();
         
-        reserveEnemies = beginningEnemies + (int)(Mathf.Pow(waveNumber, 1.5f));
-        delay = 15f;
-        enemyPower = 1 + (waveNumber * 0.05f);
-        spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
-        activeLevel = false;
-        InitializeEnemyList();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+            reserveEnemies = beginningEnemies + (int)(Mathf.Pow(waveNumber, 1.5f));
+            delay = 15f;
+            enemyPower = 1 + (waveNumber * 0.05f);
+            spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
+            activeLevel = false;
+            InitializeEnemyList();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+        }
+
+        
     }
 
     IEnumerator YouWin() {

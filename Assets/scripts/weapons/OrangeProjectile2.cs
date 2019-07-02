@@ -14,10 +14,11 @@ public class OrangeProjectile2 : Projectile {
     private NoiseManager noiseManager;
 
     private float radius;
+    private bool isStuck = false;
 
     // Use this for initialization
     void Start() {
-        lifeTime = 4f;
+        lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce + transform.right * Random.Range(-200f, 200f));
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
@@ -32,6 +33,8 @@ public class OrangeProjectile2 : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
+        if (isStuck == true && transform.parent == null) Explode();
+
 		CheckDetonate();
     }
 
@@ -40,8 +43,11 @@ public class OrangeProjectile2 : Projectile {
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.25f);
-            Explode();
+            Destroy(GetComponent<Rigidbody>());
+            transform.SetParent(collision.transform);
+            isStuck = true;
+            //collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.25f);
+            //Explode();
         }
     }
 

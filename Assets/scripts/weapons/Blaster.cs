@@ -12,6 +12,7 @@ public class Blaster : Weapon {
     public float bFireRate = 0.18f;
     public float secondaryRate = 0.90f;
 
+
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;

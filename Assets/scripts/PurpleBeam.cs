@@ -43,7 +43,7 @@ public class PurpleBeam : MonoBehaviour {
         }
         if (beam.startSize <= 0f)
         {
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 2f);
             beam.startSize = 0f;
         }
 	}

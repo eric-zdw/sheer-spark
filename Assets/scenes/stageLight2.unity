@@ -245,11 +245,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224289494420213842, guid: 1091e0289460cb842a491e66fd39275f,
     type: 2}
   m_PrefabInternal: {fileID: 1063057348}
---- !u!1 &74337731 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1758840841590134, guid: 27596b5d0d7938041b776cd76e74d9f3,
-    type: 2}
-  m_PrefabInternal: {fileID: 908276977}
 --- !u!4 &81992572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
@@ -1329,11 +1324,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
     type: 2}
   m_PrefabInternal: {fileID: 1298113814}
---- !u!1 &711647472 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1430481742649492, guid: 27596b5d0d7938041b776cd76e74d9f3,
-    type: 2}
-  m_PrefabInternal: {fileID: 908276977}
 --- !u!1001 &725903244
 Prefab:
   m_ObjectHideFlags: 0
@@ -1457,11 +1447,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30496c083da92664c8db95786b073754, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &802651092 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1531071427266716, guid: 27596b5d0d7938041b776cd76e74d9f3,
-    type: 2}
-  m_PrefabInternal: {fileID: 908276977}
 --- !u!1 &818518868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,7 +1505,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 818518868}
-  m_LocalRotation: {x: -0.035121415, y: 0.9253745, z: -0.088586025, w: -0.36688018}
+  m_LocalRotation: {x: -0.03512141, y: 0.9253745, z: -0.08858602, w: -0.36688018}
   m_LocalPosition: {x: 46.1, y: 28, z: 49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3637,7 +3622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: bc780fef6ed36fb428d0c1322685b1e7, type: 2}
+  profile: {fileID: 11400000, guid: ec013a19674ed66449aee799eae33c0b, type: 2}
 --- !u!82 &1713549721
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4296,6 +4281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainingEnemies: 0
   reserveEnemies: 0
+  beginningEnemies: 3
   waveNumber: 0
   jumpLimitY: 0
   enemyPower: 0
@@ -4304,13 +4290,6 @@ MonoBehaviour:
   - {fileID: 1949764095654824, guid: dd080802bc3c6f049921e2d254ef2712, type: 2}
   - {fileID: 1058871039476194, guid: c63c48da53b004c459cc68daccc3a07b, type: 2}
   - {fileID: 1133079584551048, guid: 561535f4893222449a732b32a0fc7b51, type: 2}
-  uiElements:
-  - {fileID: 711647472}
-  - {fileID: 0}
-  - {fileID: 2096195216}
-  - {fileID: 802651092}
-  - {fileID: 74337731}
-  - {fileID: 0}
   musics:
   - {fileID: 1713549721}
   - {fileID: 0}
@@ -4322,7 +4301,8 @@ MonoBehaviour:
   - 25
   allowedWaves: 01000000020000000500000008000000
   gameStarted: 0
-  arcadeModeNumberOfWaves: 0
+  maxWaves: 10
+  ppManager: {fileID: 0}
 --- !u!4 &1885238375
 Transform:
   m_ObjectHideFlags: 0
@@ -4584,11 +4564,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
     type: 2}
   m_PrefabInternal: {fileID: 873572049}
---- !u!1 &2096195216 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1743280418657046, guid: 27596b5d0d7938041b776cd76e74d9f3,
-    type: 2}
-  m_PrefabInternal: {fileID: 908276977}
 --- !u!1 &2138013603
 GameObject:
   m_ObjectHideFlags: 0

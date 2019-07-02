@@ -53,12 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BlueCrystalGlow.cs" />
      <Compile Include="Assets\BoundaryHitbox.cs" />
      <Compile Include="Assets\DamageFlash.cs" />
      <Compile Include="Assets\FloatingPlatform.cs" />
+     <Compile Include="Assets\FloatPad.cs" />
      <Compile Include="Assets\GateEnemyPair.cs" />
      <Compile Include="Assets\LastEnemyArrow.cs" />
      <Compile Include="Assets\LevelInfo.cs" />
+     <Compile Include="Assets\LoadoutGeneratePowerupModels.cs" />
      <Compile Include="Assets\MainCameraTilt.cs" />
      <Compile Include="Assets\OrbGlow.cs" />
      <Compile Include="Assets\PlatformStick.cs" />
@@ -229,6 +232,8 @@
      <Compile Include="Assets\StageShowcase.cs" />
      <Compile Include="Assets\TipText.cs" />
      <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Fog.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -239,9 +244,11 @@
      <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\ACES.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Blit.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
@@ -252,23 +259,36 @@
      <None Include="Assets\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Common.cginc" />
      <None Include="Assets\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\PostProcessing\Editor Resources\UI\Trackball.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Bloom.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\TAA.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
      <None Include="Assets\PostProcessing\Resources\Shaders\TAA.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\GrainGen.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\FXAA.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Bloom.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
  <Reference Include="Cinemachine">
  <HintPath>C:/Users/Eric/Documents/Sheer Spark/Library/ScriptAssemblies/Cinemachine.dll</HintPath>

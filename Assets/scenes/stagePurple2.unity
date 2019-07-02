@@ -56,8 +56,8 @@ LightmapSettings:
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
-    m_Resolution: 0.5
-    m_BakeResolution: 20
+    m_Resolution: 0.25
+    m_BakeResolution: 16
     m_AtlasSize: 1024
     m_AO: 0
     m_AOMaxDistance: 1
@@ -7221,6 +7221,16 @@ Prefab:
       value: 
       objectReference: {fileID: 1891980674198916, guid: d91ee6c3d44287b47b35a18127a7e0e1,
         type: 2}
+    - target: {fileID: 114387652076419702, guid: cbeabda06ab33c54f86b666525af6d98,
+        type: 2}
+      propertyPath: ppTransitionTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114387652076419702, guid: cbeabda06ab33c54f86b666525af6d98,
+        type: 2}
+      propertyPath: ppTimeIncreaseRate
+      value: 1.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbeabda06ab33c54f86b666525af6d98, type: 2}
   m_IsPrefabAsset: 0
@@ -9161,11 +9171,11 @@ Light:
   m_GameObject: {fileID: 902153267}
   m_Enabled: 1
   serializedVersion: 8
-  m_Type: 2
+  m_Type: 0
   m_Color: {r: 0.93149143, g: 0.7122642, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 100
-  m_SpotAngle: 30
+  m_SpotAngle: 150
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -9182,7 +9192,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -14041,11 +14051,11 @@ Light:
   m_GameObject: {fileID: 1408287573}
   m_Enabled: 1
   serializedVersion: 8
-  m_Type: 2
+  m_Type: 0
   m_Color: {r: 0.93149143, g: 0.7122642, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 100
-  m_SpotAngle: 30
+  m_SpotAngle: 150
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -14062,7 +14072,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -17523,7 +17533,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -19078,7 +19088,7 @@ ReflectionProbe:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882235065}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Type: 0
   m_Mode: 0

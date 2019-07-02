@@ -43,6 +43,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public GameObject deathExplosion;
     public Color[] powerColors;
+    private GameObject[] powerups;
     private UnityEngine.UI.Image powerupBar;
     private RectTransform pbSize;
     private UnityEngine.UI.Text powerupName;
@@ -52,7 +53,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public ParticleSystemRenderer lightTrail;
     public Material[] trailMaterials;
 
-    
+    private MaterialPropertyBlock matBlock;
 
     // Use this for initialization
     void Start()
@@ -82,6 +83,9 @@ public class PlayerBehaviour : MonoBehaviour {
         powerupName = GameObject.FindGameObjectWithTag("PowerupName").GetComponent<UnityEngine.UI.Text>();
 
         radialBar = Instantiate(playerUI, Vector3.zero, Quaternion.identity).GetComponentInChildren<PowerupRadial>();
+        matBlock = new MaterialPropertyBlock();
+
+        powerups = new GameObject[6];
     }
 
     void Update()
@@ -199,6 +203,7 @@ public class PlayerBehaviour : MonoBehaviour {
     {
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
+
         powerupTimer = powerupDuration;
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
         if (powerupBar != null)
