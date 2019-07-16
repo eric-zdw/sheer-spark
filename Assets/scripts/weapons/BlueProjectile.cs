@@ -7,7 +7,8 @@ public class BlueProjectile : Projectile {
     public GameObject explosion;
     public GameObject hitbox;
 
-    public float launchForce;
+    public float launchSpeed;
+    private Vector3 launchVector;
     public float pullForce;
 
     private Rigidbody rb;
@@ -39,13 +40,18 @@ public class BlueProjectile : Projectile {
     private float currentCharge = 0f;
     public float chargeDamage = 0f;
 
+    private bool projectileMode = false;
+
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+
 
     // Use this for initialization
     void Start() {
         lifeTime = 6.5f;
         rb = GetComponent<Rigidbody>();
         rb.mass = 0.01f;
-        //rb.AddForce(transform.right * launchForce);
+        projectileSpeed = launchSpeed;
+        //rb.AddForce(transform.right * launchSpeed);
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		player = GameObject.FindGameObjectWithTag("Player");
@@ -65,35 +71,37 @@ public class BlueProjectile : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-		CheckDetonate();
-
         //isCharged = false;
-        if (Input.GetButton("Fire1"))
-        {
-            rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * pullForce * (rb.mass * 0.8f));
-            if (Vector3.Magnitude(bw.gameObject.transform.position - transform.position) < bw.rangeRadius)
+        if (projectileMode == false) {
+            if (Input.GetButton("Fire1"))
             {
-                //transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0.5f * Time.deltaTime);
-                currentCharge += chargeRate * (chargeCapacity - currentCharge) * Time.deltaTime;
-                print("charge: " + currentCharge);
-                float newScale = currentCharge * chargeScale;
-                transform.localScale = new Vector3(newScale, newScale, newScale);
-                rb.mass = currentCharge * chargeMass;
-                damage = currentCharge * chargeDamage;
-                print("mass: " + rb.mass);
+                rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * pullForce * (rb.mass * 0.8f));
+                if (Vector3.Magnitude(bw.gameObject.transform.position - transform.position) < bw.rangeRadius)
+                {
+                    //transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0.5f * Time.deltaTime);
+                    currentCharge += chargeRate * (chargeCapacity - currentCharge) * Time.deltaTime;
+                    print("charge: " + currentCharge);
+                    float newScale = currentCharge * chargeScale;
+                    transform.localScale = new Vector3(newScale, newScale, newScale);
+                    rb.mass = currentCharge * chargeMass;
+                    damage = currentCharge * chargeDamage;
+                    print("mass: " + rb.mass);
+                }
             }
-        }
 
-		if (Input.GetButtonUp("Fire1")) {
-            if (Vector3.Magnitude(bw.gameObject.transform.position - transform.position) < bw.rangeRadius)
-            {
+            if (Input.GetButtonUp("Fire1")) {
                 //isShot = true;
                 //chargeTimer = chargeMax;
-                rb.velocity = new Vector3(0, 0, 0);
+                //rb.velocity = new Vector3(0, 0, 0);
                 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20f));
-                rb.AddForce(Vector3.Normalize(mousePosition - (transform.position)) * launchForce * (rb.mass * 0.8f));
+                launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;
+                Destroy(rb);
+                projectileMode = true;
             }
-		}
+        }
+        else if (projectileMode == true) {
+            CheckLinecastCollision();
+        }
 
         /*
         if (chargeTimer > 0f)
@@ -137,14 +145,31 @@ public class BlueProjectile : Projectile {
 
     private void OnCollisionEnter(Collision collision)
     {
-		if (collision.gameObject.CompareTag("Enemy"))
+		if (collision.gameObject.CompareTag("Enemy") && projectileMode == false)
         {
+            /*
 			Instantiate(explosion, transform.position, transform.rotation);
-			noiseManager.AddNoise(2.5f);
+			noiseManager.AddNoise(2f);
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(500f, transform.position, radius * 2);
 			collision.gameObject.GetComponent<Enemy>().getDamage(damage);
 			//Destroy(gameObject);
+            */
+            Explode();
         }
+    }
+
+    void CheckLinecastCollision() {
+        RaycastHit info;
+        if (Physics.Linecast(transform.position, transform.position + launchVector * Time.deltaTime, out info, layermask)) {
+            transform.position = info.point;
+            if (info.collider.gameObject.CompareTag("Enemy")) {
+                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                noiseManager.AddNoise(2f);
+            }
+            Explode();
+        }
+        else
+            transform.position += launchVector * Time.deltaTime;
     }
 
     public void setDamage(float d)
@@ -159,26 +184,21 @@ public class BlueProjectile : Projectile {
 
     void Explode()
     {
+        noiseManager.AddNoise(5f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
-        hb.GetComponent<SphereCollider>().radius = radius;
+        hb.GetComponent<SphereCollider>().radius = radius * 1.5f;
         hb.setDamage(damage);
-        hb.setRadius(radius / 0.5f);
+        hb.setRadius(radius * 1.5f);
         hb.printRadius();
+
+        transform.GetChild(0).parent = null;
 
         Destroy(gameObject);
     }
-
-	void CheckDetonate()
-	{
-		if (Input.GetButtonDown("Fire2"))
-		{
-			//Explode();
-		}
-	}
 
 
 }

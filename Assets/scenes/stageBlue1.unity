@@ -996,12 +996,12 @@ Prefab:
     - target: {fileID: 198275138631960124, guid: a6e07a612f2a3d04785cb598b637ea29,
         type: 2}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 198275138631960124, guid: a6e07a612f2a3d04785cb598b637ea29,
         type: 2}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 198275138631960124, guid: a6e07a612f2a3d04785cb598b637ea29,
         type: 2}
@@ -1511,7 +1511,7 @@ Transform:
   m_GameObject: {fileID: 675681584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -20, y: -10, z: 40}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
@@ -5006,6 +5006,11 @@ Prefab:
     - target: {fileID: 4391533002025772, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_LocalScale.z
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 54335321118115812, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
@@ -9859,7 +9864,6 @@ MonoBehaviour:
   - 3
   allowedWaves: 010000000300000007000000
   gameStarted: 0
-  arcadeModeNumberOfWaves: 0
   maxWaves: 10
   ppManager: {fileID: 0}
 --- !u!4 &1885238375
@@ -10040,6 +10044,11 @@ Prefab:
     - target: {fileID: 4391533002025772, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54335321118115812, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
