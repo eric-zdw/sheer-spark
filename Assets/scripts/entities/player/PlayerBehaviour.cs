@@ -54,6 +54,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public Material[] trailMaterials;
 
     private MaterialPropertyBlock matBlock;
+    public GameObject[] weaponsList;
 
     // Use this for initialization
     void Start()

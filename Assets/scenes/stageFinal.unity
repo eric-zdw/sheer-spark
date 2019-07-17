@@ -33425,7 +33425,7 @@ Prefab:
         type: 2}
       propertyPath: defaultWeapon
       value: 
-      objectReference: {fileID: 1313234464062574, guid: 491ce2bb283bd424c8ef07822c704d80,
+      objectReference: {fileID: 1313234464062574, guid: 2e8618b32f19a254081ccdb951594528,
         type: 2}
     - target: {fileID: 114050058241825968, guid: 59b5c683b4f45fd4cad8cc0043dfed9a,
         type: 2}
@@ -34040,6 +34040,32 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
     type: 2}
   m_PrefabInternal: {fileID: 1315677238}
+--- !u!1 &1460374212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1707743835570632, guid: c934b5a287cb82044b4abfb7cdec43e8,
+    type: 2}
+  m_PrefabInternal: {fileID: 223006402}
+--- !u!114 &1460374213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460374212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef52311be620324dab189003efb3655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  newHealth: 0
+  powerups: []
+  colours: []
+  seeThroughs: []
+  explosions: []
+  damagedMaterial: {fileID: 0}
+  YLimit: 0
+  isTethered: 0
+  gateEnemyPair: {fileID: 0}
 --- !u!4 &1480911971 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
@@ -53427,6 +53453,36 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &1856158762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1891980674198916, guid: c934b5a287cb82044b4abfb7cdec43e8,
+    type: 2}
+  m_PrefabInternal: {fileID: 223006402}
+--- !u!114 &1856158763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1856158762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b43e3c971ecb14945ba979086ca5d783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy1: {fileID: 0}
+  enemy2: {fileID: 0}
+  enemy3: {fileID: 0}
+  enemy4: {fileID: 0}
+  enemy5: {fileID: 0}
+  rb1: {fileID: 0}
+  rb2: {fileID: 0}
+  rb3: {fileID: 0}
+  rb4: {fileID: 0}
+  rb5: {fileID: 0}
+  particles: {fileID: 0}
+  powerupRoll: 0
+  colours: []
+  particleColours: []
 --- !u!4 &1875652899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4206437350432134, guid: 30496c083da92664c8db95786b073754,
