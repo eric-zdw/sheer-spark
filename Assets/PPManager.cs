@@ -89,4 +89,21 @@ public class PPManager : MonoBehaviour {
 		Time.timeScale = 1.1f;
 		print(Time.timeScale);
 	}
+
+	public IEnumerator GameEndEffects() {
+		ppSettings.basic.contrast = ppDefaultContrast + ppSlowContrast;
+		ppSettings.basic.saturation = ppDefaultSaturation + ppSlowSaturation;
+		ppSettings.basic.postExposure = ppDefaultExposure + 10f;
+		ppProfile.colorGrading.settings = ppSettings;
+
+		Time.timeScale = 0.022f;
+		Time.fixedDeltaTime = Time.timeScale / 60f;
+
+		while (true) {
+			ppSettings.basic.postExposure -= 2f * Time.unscaledDeltaTime;
+			ppProfile.colorGrading.settings = ppSettings;
+
+			yield return new WaitForEndOfFrame();
+		}
+	}
 }

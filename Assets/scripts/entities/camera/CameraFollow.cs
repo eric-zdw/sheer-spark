@@ -63,7 +63,7 @@ public class CameraFollow : MonoBehaviour {
 
     IEnumerator ResetScene()
     {
-        AsyncOperation load = SceneManager.LoadSceneAsync(0);
+        AsyncOperation load = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         while(!load.isDone)
         {
             yield return null;

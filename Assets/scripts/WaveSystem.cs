@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WaveSystem : MonoBehaviour {
     
@@ -12,6 +13,7 @@ public class WaveSystem : MonoBehaviour {
     public float jumpLimitY;
     public float enemyPower;
     bool ppChange = false;
+    public int currentStage;
 
 
     float delay = 10f;
@@ -42,18 +44,22 @@ public class WaveSystem : MonoBehaviour {
     public int[] allowedWaves;
 
     public bool gameStarted = false;
-    private WaveComplete wc;
-    private WaveComplete2 wc2;
+    public WaveComplete wc;
+    public WaveComplete2 wc2;
 
     public int maxWaves = 10;
 
     public PPManager ppManager;
+
+    private bool gameFinished;
 
     // Use this for initialization
     void Start () {
 
         InitializeWaveParameters();
         InitializeSpawners();
+
+        currentStage = PlayerPrefs.GetInt("ActiveStage");
 
         musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
         lastMusic = musics[0];
@@ -66,9 +72,6 @@ public class WaveSystem : MonoBehaviour {
         
         actualProbabilities = new float[probabilities.Length];
         InitializeEnemyList();
-
-        wc = GameObject.Find("WaveComplete").GetComponent<WaveComplete>();
-        wc2 = GameObject.Find("WaveComplete2").GetComponent<WaveComplete2>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 
@@ -170,7 +173,7 @@ public class WaveSystem : MonoBehaviour {
                 }
             }
 
-            if (remainingEnemies == 0)
+            if (remainingEnemies == 0 && gameFinished == false)
                 IncrementWave();
         }
 
@@ -186,11 +189,6 @@ public class WaveSystem : MonoBehaviour {
 
     void IncrementWave()
     {
-        
-        //Start slow down and post-processing effects.
-        StartCoroutine(ppManager.SlowDown());
-        StartCoroutine(ppManager.ChangePP());
-        //TODO: add music sting, or cut music entirely after completion.
         for (int i = 0; i < 3; i++)
         {
             activeMusics[i] = false;
@@ -205,10 +203,17 @@ public class WaveSystem : MonoBehaviour {
         waveNumber++;
         if (waveNumber > maxWaves)
         {
+            gameFinished = true;
+            StartCoroutine(ppManager.GameEndEffects());
             StartCoroutine(YouWin());
         }
         else {
-            wc.StartRoutine();
+            //Start slow down and post-processing effects.
+            StartCoroutine(ppManager.SlowDown());
+            StartCoroutine(ppManager.ChangePP());
+            //TODO: add music sting, or cut music entirely after completion.            
+
+            StartCoroutine(wc.WaveCompleteRoutine());
             wc2.StartRoutine();
         
             reserveEnemies = beginningEnemies + (int)(Mathf.Pow(waveNumber, 1.5f));
@@ -224,8 +229,19 @@ public class WaveSystem : MonoBehaviour {
     }
 
     IEnumerator YouWin() {
-        yield return new WaitForSeconds(5f);
+        PlayerPrefs.SetInt("Stage" + currentStage + "Complete", 1);
+        wc.LevelCompleteRoutine();
+        yield return new WaitForSecondsRealtime(10f);
+        StartCoroutine(ReturnToMenu());
+    }
 
+    IEnumerator ReturnToMenu()
+    {
+        AsyncOperation load = SceneManager.LoadSceneAsync(0);
+        while(!load.isDone)
+        {
+            yield return null;
+        }
     }
 
     void InitializeEnemyList()

@@ -14,10 +14,12 @@ public class WaveComplete : MonoBehaviour {
         txt = GetComponent<UnityEngine.UI.Text>();
         rt = GetComponent<RectTransform>();
         ws = GameObject.FindGameObjectWithTag("WaveSystem").GetComponent<WaveSystem>();
+        txt.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        /*
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -56,10 +58,62 @@ public class WaveComplete : MonoBehaviour {
 
             txt.text = "NEXT WAVE STARTS IN";
         }
+        */
 	}
 
     public void StartRoutine()
     {
         timer = 15f;
+    }
+
+    public IEnumerator WaveCompleteRoutine() {
+        txt.enabled = true;
+
+        rt.anchorMin = new Vector2(0.1f, 0.1f);
+        rt.anchorMax = new Vector2(0.9f, 0.9f);
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        if (ws.waveNumber > ws.maxWaves) {
+            txt.text = "FINAL WAVE COMPLETE";
+        }
+        else {
+            txt.text = "WAVE " + (ws.waveNumber - 1) + " COMPLETE";
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        txt.enabled = false;
+
+        yield return new WaitForSeconds(1f);
+
+        txt.enabled = true;
+        rt.anchorMin = new Vector2(0.3f, 0.6f);
+        rt.anchorMax = new Vector2(0.7f, 0.8f);
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        if (ws.waveNumber == ws.maxWaves) {
+            txt.text = "THE FINAL WAVE ARRIVES";
+        }
+        else {
+            txt.text = "NEXT WAVE STARTS IN";
+        }
+        
+
+        yield return new WaitForSeconds(11f);
+
+        txt.enabled = false;
+    }
+
+    public void LevelCompleteRoutine() {
+        txt.enabled = true;
+
+        rt.anchorMin = new Vector2(0.1f, 0.1f);
+        rt.anchorMax = new Vector2(0.9f, 0.9f);
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        txt.text = "FINAL WAVE COMPLETE";
     }
 }
