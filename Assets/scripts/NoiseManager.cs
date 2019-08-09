@@ -26,7 +26,7 @@ public class NoiseManager : MonoBehaviour {
 		while (true) {
 			amplitude *= 0.5f;
 			noiseSettings.m_AmplitudeGain = amplitude;
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSecondsRealtime(0.1f);
 		}
 	}
 }

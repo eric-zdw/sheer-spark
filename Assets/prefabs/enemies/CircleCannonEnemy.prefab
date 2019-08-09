@@ -277,7 +277,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133079584551048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.43, y: 25.14, z: 0}
+  m_LocalPosition: {x: 10.461723, y: 12.31, z: 0.3407712}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4346572457519848}
@@ -827,11 +827,11 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133079584551048}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 5
+  m_Drag: 2
+  m_AngularDrag: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -880,7 +880,7 @@ MonoBehaviour:
   - {fileID: 1056517570023220, guid: 9475927b474b208468a4e14d51879518, type: 2}
   - {fileID: 1056517570023220, guid: 07ef49889075ffe4a8b7a328f83eab02, type: 2}
   - {fileID: 1056517570023220, guid: d865ba5571cd9464eb4d8856f8283eb5, type: 2}
-  newHealth: 150
+  newHealth: 800
   rotationRate: 80
   powerups:
   - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 2}
@@ -903,6 +903,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: edc992d98b7cebb43a56d7693faa6066, type: 2}
   - {fileID: 2100000, guid: bbcda083515deb04ebe1d0e0a59b78c8, type: 2}
   - {fileID: 2100000, guid: a10f8b35ac8ca8c45945127933099f00, type: 2}
+  moveForce: 80
 --- !u!114 &114570103230112842
 MonoBehaviour:
   m_ObjectHideFlags: 1

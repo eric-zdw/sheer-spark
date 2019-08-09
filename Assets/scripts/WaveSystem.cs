@@ -53,9 +53,16 @@ public class WaveSystem : MonoBehaviour {
 
     private bool gameFinished;
 
+    public static bool isPaused = false;
+
+    private float savedTimeScale = 1.1f;
+
+    public GameObject pauseMenu;
+
     // Use this for initialization
     void Start () {
 
+        WaveSystem.isPaused = false;
         InitializeWaveParameters();
         InitializeSpawners();
 
@@ -97,6 +104,11 @@ public class WaveSystem : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (!isPaused) PauseGame();
+            else UnpauseGame();
+        }
+
         if (gameStarted)
         {
             remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
@@ -281,5 +293,18 @@ public class WaveSystem : MonoBehaviour {
             }
             counter++;
         }
+    }
+
+    public void PauseGame() {
+        WaveSystem.isPaused = true;
+        savedTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+    }
+
+    public void UnpauseGame() {
+        WaveSystem.isPaused = false;
+        Time.timeScale = savedTimeScale;
+        pauseMenu.SetActive(false);
     }
 }

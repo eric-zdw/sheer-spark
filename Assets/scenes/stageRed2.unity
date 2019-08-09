@@ -11823,7 +11823,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 818518868}
-  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853856, w: 0.34959492}
+  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853853, w: 0.34959495}
   m_LocalPosition: {x: 67.62, y: 93.98, z: 71.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12001,12 +12001,12 @@ Prefab:
     - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.3443396
+      value: 0.25098035
       objectReference: {fileID: 0}
     - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.3443396
+      value: 0.25098035
       objectReference: {fileID: 0}
     - target: {fileID: 4391533002025772, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_LocalScale.y
@@ -12016,6 +12016,51 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.magnitude.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.dampen
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
@@ -13368,7 +13413,7 @@ Prefab:
         type: 2}
       propertyPath: defaultWeapon
       value: 
-      objectReference: {fileID: 1313234464062574, guid: 2e8618b32f19a254081ccdb951594528,
+      objectReference: {fileID: 1313234464062574, guid: 491ce2bb283bd424c8ef07822c704d80,
         type: 2}
     - target: {fileID: 114050058241825968, guid: 59b5c683b4f45fd4cad8cc0043dfed9a,
         type: 2}
@@ -15661,12 +15706,12 @@ Prefab:
     - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.3443396
+      value: 0.25098035
       objectReference: {fileID: 0}
     - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.3443396
+      value: 0.25098035
       objectReference: {fileID: 0}
     - target: {fileID: 4391533002025772, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_LocalScale.y
@@ -15676,6 +15721,41 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.magnitude.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198206285936385970, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: ClampVelocityModule.dampen
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}

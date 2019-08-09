@@ -12,12 +12,15 @@ public class YellowProjectile : Projectile {
     private Vector3 mousePosition;
     private float radius;
 
+    private float projectileSpeedIncrease = 0f;
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+
     //private float angle1;
     //private float angle2;
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 32f;
+        projectileSpeed = 0f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
@@ -29,7 +32,8 @@ public class YellowProjectile : Projectile {
             Destroy(gameObject);
         else
         {
-            Propogate();
+            CheckLinecastCollision();
+            //Propogate();
             lifeTime -= Time.deltaTime;
         }
 
@@ -67,16 +71,17 @@ public class YellowProjectile : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2.5f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2.5f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
         print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
+        projectileSpeed += 10f * Time.deltaTime;
     }
     
 
@@ -90,6 +95,20 @@ public class YellowProjectile : Projectile {
         {
             Explode();
         }
+    }
+
+    void CheckLinecastCollision() {
+        RaycastHit info;
+        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+            transform.position = info.point;
+            if (info.collider.gameObject.CompareTag("Enemy")) {
+                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                noiseManager.AddNoise(2f);
+            }
+            Explode();
+        }
+        else
+            transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
     public void setDamage(float d)
@@ -113,7 +132,13 @@ public class YellowProjectile : Projectile {
         hb.setDamage(damage);
         hb.setRadius(radius / 0.25f);                //minimum damage is 1-x%
         hb.printRadius();
+
+        ParticleSystem.EmissionModule emission = transform.GetChild(0).GetComponent<ParticleSystem>().emission;
+        emission.rateOverTime = 0f;
+        Destroy(transform.GetChild(0).gameObject, 2f);
         transform.GetChild(0).parent = null;
+        
+        
 
         Destroy(gameObject);
     }

@@ -29,6 +29,8 @@ public class CircleEnemy : Enemy {
 	private float radius;
 	private int layerMask;
 
+	public float moveForce;
+
 	void Start()
 	{
 		bar = Instantiate(healthBar);
@@ -65,7 +67,8 @@ public class CircleEnemy : Enemy {
 		transform.rotation = Quaternion.Euler(new Vector3 (0f, 0f, transform.rotation.eulerAngles.z + (rotationRate * Time.deltaTime)));
 		playerLocation = player.transform.position;
 
-		transform.position = Vector3.Lerp (transform.position, playerLocation, 0.0035f);
+		rb.AddForce((playerLocation - transform.position) * moveForce * Time.deltaTime);
+		//transform.position = Vector3.Lerp (transform.position, playerLocation, 0.0035f);
 	}
 
 	private void OnCollisionEnter(Collision collision)

@@ -46,4 +46,10 @@ public class CircleCannonProjectile : Projectile {
         Instantiate(explosion2, transform.position, transform.rotation);
         Destroy(gameObject);
     }
+
+    public IEnumerator FlashWhite() {
+        while (true) {
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }

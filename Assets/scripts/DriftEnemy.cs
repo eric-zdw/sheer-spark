@@ -93,7 +93,6 @@ public class DriftEnemy : Enemy {
 		float colorValue = 2f;
 		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
 		while (colorValue > 0f) {
-			print("colorValue: " + colorValue);
 			colorValue -= 5f * Time.deltaTime;
 			newColor = new Color(colorValue, colorValue, colorValue, 1);
 			damageMatBlock.SetColor("_EmissionColor", newColor);

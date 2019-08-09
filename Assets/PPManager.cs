@@ -41,14 +41,15 @@ public class PPManager : MonoBehaviour {
 		float ppMagnitude = ppTimer / ppTransitionTime;
 
 		while (ppTimer > 0f) {
-			ppTimer -= 0.01f;
-			ppMagnitude = ppTimer / ppTransitionTime;
+			if (!WaveSystem.isPaused) {
+				ppTimer -= 0.01f;
+				ppMagnitude = ppTimer / ppTransitionTime;
 
-			ppSettings.basic.contrast = ppDefaultContrast + (ppSlowContrast * ppMagnitude);
-			ppSettings.basic.saturation = ppDefaultSaturation + (ppSlowSaturation * ppMagnitude);
-			ppSettings.basic.postExposure = ppDefaultExposure + (ppSlowExposure * ppMagnitude);
-			ppProfile.colorGrading.settings = ppSettings;
-			
+				ppSettings.basic.contrast = ppDefaultContrast + (ppSlowContrast * ppMagnitude);
+				ppSettings.basic.saturation = ppDefaultSaturation + (ppSlowSaturation * ppMagnitude);
+				ppSettings.basic.postExposure = ppDefaultExposure + (ppSlowExposure * ppMagnitude);
+				ppProfile.colorGrading.settings = ppSettings;
+			}
 			yield return new WaitForSecondsRealtime(0.01f);
 		}
 
@@ -63,15 +64,16 @@ public class PPManager : MonoBehaviour {
 		Time.fixedDeltaTime = Time.timeScale / 60f;
 
 		while (Time.timeScale < ppDefaultTimeScale) {
-			Time.timeScale *= ppTimeIncreaseRate;
-			Time.fixedDeltaTime = Time.timeScale / 60f;
+			if (!WaveSystem.isPaused) {
+				Time.timeScale *= ppTimeIncreaseRate;
+				Time.fixedDeltaTime = Time.timeScale / 60f;
 
-			print(Time.timeScale);
+				print(Time.timeScale);
 
-			if (Time.timeScale >= ppDefaultTimeScale) {
-				Time.timeScale = ppDefaultTimeScale;
+				if (Time.timeScale >= ppDefaultTimeScale) {
+					Time.timeScale = ppDefaultTimeScale;
+				}
 			}
-
 			yield return new WaitForSecondsRealtime(0.01f);
 		}
 		

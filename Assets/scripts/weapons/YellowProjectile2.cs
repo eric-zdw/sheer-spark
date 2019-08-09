@@ -12,7 +12,7 @@ public class YellowProjectile2 : Projectile {
     private Vector3 mousePosition;
     private float radius;
 
-    private float projectileSpeedIncrease = 10f;
+    private float projectileSpeedIncrease = 50f;
     private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
 
     //private float angle1;
@@ -81,7 +81,8 @@ public class YellowProjectile2 : Projectile {
         }
         print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        projectileSpeed += 100f * Time.deltaTime;
+        projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
+        projectileSpeedIncrease *= 1.05f;
     }
     
 
