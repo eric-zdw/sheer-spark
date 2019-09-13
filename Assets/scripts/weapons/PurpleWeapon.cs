@@ -80,7 +80,7 @@ public class PurpleWeapon : Weapon {
             ps.enableEmission = false;
             chargeSound.Stop();
         }
-        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.15f)
+        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.2f)
         {
             chargeValue = 0f;
             ps.enableEmission = false;
@@ -120,7 +120,7 @@ public class PurpleWeapon : Weapon {
 
         if (chargeValue < 1f)
         {
-            chargeValue += chargeRate * Time.deltaTime;
+            chargeValue += chargeRate * (chargeValue + 0.1f) * Time.deltaTime;
             if (chargeValue > 1f)
                 chargeValue = 1f;
         }

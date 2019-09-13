@@ -44,17 +44,18 @@ public class PlayerBehaviour : MonoBehaviour {
     public GameObject deathExplosion;
     public Color[] powerColors;
     private GameObject[] powerups;
-    private UnityEngine.UI.Image powerupBar;
     private RectTransform pbSize;
-    private UnityEngine.UI.Text powerupName;
 
     public GameObject playerUI;
     private PowerupRadial radialBar;
+    private PlayerHealthBar healthBar;
     public ParticleSystemRenderer lightTrail;
     public Material[] trailMaterials;
 
     private MaterialPropertyBlock matBlock;
     public GameObject[] weaponsList;
+
+    private DamageAlert damageAlert;
 
     // Use this for initialization
     void Start()
@@ -79,12 +80,11 @@ public class PlayerBehaviour : MonoBehaviour {
         collisionSound = GetComponent<AudioSource>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
-        powerupBar = GameObject.FindGameObjectWithTag("PowerupBar").GetComponent<UnityEngine.UI.Image>();
-        pbSize = powerupBar.GetComponent<RectTransform>();
-        powerupName = GameObject.FindGameObjectWithTag("PowerupName").GetComponent<UnityEngine.UI.Text>();
-
-        radialBar = Instantiate(playerUI, Vector3.zero, Quaternion.identity).GetComponentInChildren<PowerupRadial>();
+        GameObject ui = Instantiate(playerUI, Vector3.zero, Quaternion.identity);
+        radialBar = ui.GetComponentInChildren<PowerupRadial>();
+        healthBar = ui.GetComponentInChildren<PlayerHealthBar>();
         matBlock = new MaterialPropertyBlock();
+        damageAlert = GameObject.Find("DamageAlert").GetComponent<DamageAlert>();
 
         powerups = new GameObject[6];
     }
@@ -106,8 +106,8 @@ public class PlayerBehaviour : MonoBehaviour {
                 weapon = Instantiate(defaultWeapon, transform.position, Quaternion.identity, weaponSlot.transform).GetComponent<Weapon>();
                 mesh.material = defaultColour;
                 GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = new Color(0.549f, 0.608f, 0.678f);
-                powerupBar.GetComponent<UnityEngine.UI.Image>().material = defaultColour;
-                powerupName.text = "BLASTER";
+                //powerupBar.GetComponent<UnityEngine.UI.Image>().material = defaultColour;
+                //powerupName.text = "BLASTER";
                 lightTrail.material = trailMaterials[0];
             }
         }
@@ -126,7 +126,7 @@ public class PlayerBehaviour : MonoBehaviour {
             decayTimer += 0.1f;
         }
 
-        if (HP == 0f)
+        if (HP <= 0f)
         {
 			noiseManager.AddNoise(50f);
             Instantiate(deathExplosion, transform.position, Quaternion.identity);
@@ -207,14 +207,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
         powerupTimer = powerupDuration;
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
-        if (powerupBar != null)
-        {
-            powerupBar.GetComponent<UnityEngine.UI.Image>().material = newMaterial;
-        }
-        if (powerupName != null)
-        {
-            powerupName.text = powerName;
-        }
 
         radialBar.changePowerup(newColour);
         //offset for default trail color
@@ -237,6 +229,18 @@ public class PlayerBehaviour : MonoBehaviour {
     {
         HP -= damage;
 		noiseManager.AddNoise(25f);
+
+        for (int i = 0; i < 4; i++) {
+            if (HP - 1 >= i) {
+                healthBar.piecesEnabled[i] = true;
+            }
+            else {
+                healthBar.piecesEnabled[i] = false;
+            }
+        }
+
+        StartCoroutine(healthBar.Flash());
+        damageAlert.Flash(new Color(1f, 0f, 0f));
     }
 
     public void OnCollisionEnter(Collision collision)

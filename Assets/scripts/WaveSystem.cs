@@ -234,7 +234,7 @@ public class WaveSystem : MonoBehaviour {
             spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
             activeLevel = false;
             InitializeEnemyList();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 3;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 4;
         }
 
         

@@ -3,55 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalBossEnemy : Enemy {
-	public GameObject healthBar;
 	public float newHealth;
-	private GameObject bar;
 
 	private GameObject player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
 
-	public GameObject[] powerups;
-    public Material[] colours;
-	public Material[] seeThroughs;
-	public GameObject[] explosions;
-	public Material damagedMaterial;
     public float YLimit;
-	private MeshRenderer damageFlash;
-    private MeshRenderer outline;
-	private MeshRenderer seeThrough;
     private int powerupRoll;
 
 	private NoiseManager noiseManager;
 
-    public bool isTethered;
-    private float tetheredCheck = 0.05f;
-    private float tetheredTimer;
-
 	private MaterialPropertyBlock damageMatBlock;
 
-	private int numberOfAttacks = 5;
+	private int numberOfAttacks = 6;
+	private int numberOfAttacksPhaseTwo = 2;
+
+	private enum BossAttack {RedSpread, OrangeMines, YellowMissiles, GreenVortex, BlueTornado, PurpleBeams};
+	private enum BossAttackPhaseTwo {WhiteLaserColumns, WhiteLaserSpinning};
+
+	private UnityEngine.UI.Image healthBarLeft;
+	private UnityEngine.UI.Image healthBarRight;
 
     void Start()
 	{
-		bar = Instantiate(healthBar);
 		maxHealth = newHealth;
 		health = maxHealth;
-		bar.GetComponent<HealthBar>().setTarget(gameObject);
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
 		powerupRoll = Random.Range(0, 6);
-		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
-        outline = transform.GetChild(0).GetComponent<MeshRenderer>();
-		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
-        outline.material = colours[powerupRoll];
-		seeThrough.material = seeThroughs[powerupRoll];
 
 		damageMatBlock = new MaterialPropertyBlock();
 		StartCoroutine(BossAttackRoutine());
+		ActivateHealthBar();
     }
 
 	void FixedUpdate()
@@ -80,9 +67,6 @@ public class FinalBossEnemy : Enemy {
     void Explode()
 	{
 		noiseManager.AddNoise(10f);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(bar);
 		Destroy(gameObject);
 	}
 
@@ -98,8 +82,6 @@ public class FinalBossEnemy : Enemy {
 		while (colorValue > 0f) {
 			colorValue -= 5f * Time.deltaTime;
 			newColor = new Color(colorValue, colorValue, colorValue, 1);
-			damageMatBlock.SetColor("_EmissionColor", newColor);
-			damageFlash.SetPropertyBlock(damageMatBlock);
 			yield return new WaitForFixedUpdate();
 		}
 	}
@@ -110,8 +92,32 @@ public class FinalBossEnemy : Enemy {
 			yield return new WaitForSeconds(5f);
 
 			//Attack period
-			int chooseAttack = Random.Range(1, numberOfAttacks+1);
+			BossAttack chooseAttack = (BossAttack)Random.Range(1, numberOfAttacks+1);
+
+			if (chooseAttack == BossAttack.RedSpread) {
+
+			}
 			
+		}
+	}
+
+	private void ActivateHealthBar() {
+		GameObject.Find("BossHealthPanel").GetComponent<UnityEngine.UI.Image>().enabled = true;
+		GameObject.Find("BossTitle").GetComponent<UnityEngine.UI.Text>().enabled = true;
+		healthBarLeft = GameObject.Find("BossHealthBarLeft").GetComponent<UnityEngine.UI.Image>();
+		healthBarLeft.enabled = true;
+		healthBarRight = GameObject.Find("BossHealthBarRight").GetComponent<UnityEngine.UI.Image>();
+		healthBarRight.enabled = true;
+		StartCoroutine(UpdateHealthBar());
+	}
+
+	private IEnumerator UpdateHealthBar() {
+		while(true) {
+			float oldFill = healthBarLeft.fillAmount;
+			float newFill = health / maxHealth;
+			healthBarLeft.fillAmount = Mathf.Lerp(oldFill, newFill, 0.1f);
+			healthBarRight.fillAmount = Mathf.Lerp(oldFill, newFill, 0.1f);
+			yield return new WaitForFixedUpdate();
 		}
 	}
 }

@@ -14,6 +14,10 @@ public class DamageAlert : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (damageAlert.color.a > 0f)
-            damageAlert.color = new Color(255, 0, 0, damageAlert.color.a - 0.5f * Time.deltaTime);
+            damageAlert.color = new Color(damageAlert.color.r, damageAlert.color.g, damageAlert.color.b, damageAlert.color.a - 0.5f * Time.deltaTime);
+	}
+
+	public void Flash(Color newColor) {
+		damageAlert.color = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
 	}
 }
