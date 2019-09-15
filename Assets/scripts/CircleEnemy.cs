@@ -34,7 +34,7 @@ public class CircleEnemy : Enemy {
 	void Start()
 	{
 		bar = Instantiate(healthBar);
-		maxHealth = newHealth;
+		maxHealth = newHealth * WaveSystem.enemyPower;
 		health = maxHealth;
 		bar.GetComponent<HealthBar>().setTarget(gameObject);
 
@@ -82,7 +82,7 @@ public class CircleEnemy : Enemy {
 
 	void Explode()
 	{
-		noiseManager.AddNoise(5f);
+		noiseManager.AddNoise(150f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);

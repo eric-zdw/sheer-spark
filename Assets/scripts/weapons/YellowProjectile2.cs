@@ -13,7 +13,7 @@ public class YellowProjectile2 : Projectile {
     private float radius;
 
     private float projectileSpeedIncrease = 50f;
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
 
     //private float angle1;
     //private float angle2;
@@ -79,7 +79,7 @@ public class YellowProjectile2 : Projectile {
             Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * .5f);
             transform.rotation = Quaternion.Euler(newR);
         }
-        print(360 - (Mathf.Abs(leftAngle - rightAngle)));
+        //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
         projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
         projectileSpeedIncrease *= 1.05f;
@@ -126,12 +126,12 @@ public class YellowProjectile2 : Projectile {
     {
 		noiseManager.AddNoise(1f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
+        exp.transform.localScale = new Vector3(radius * 0.3f, radius * 0.3f, radius * 0.3f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
         hb.setDamage(damage);
-        hb.setRadius(radius / 0.25f);                //minimum damage is 1-x%
+        hb.setRadius(radius);               
         hb.printRadius();
         transform.GetChild(0).parent = null;
 

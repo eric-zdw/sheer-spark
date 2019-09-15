@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33163265314589870}
   - component: {fileID: 23112215260750444}
   - component: {fileID: 114592630955826684}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Cannon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4818791684419138}
   - component: {fileID: 33926429032806776}
   - component: {fileID: 23710094075626634}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: GameObject (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 23535672779606302}
   - component: {fileID: 114341028927026638}
   - component: {fileID: 54615170689646986}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CircleCannonEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 33708626776535424}
   - component: {fileID: 23163333731533918}
   - component: {fileID: 114219753269313394}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Cannon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4827554613696346}
   - component: {fileID: 33986590003202218}
   - component: {fileID: 23732107163702324}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: SeeThrough3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4901042757634668}
   - component: {fileID: 33588575996268568}
   - component: {fileID: 23907656787122414}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: GameObject (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 4952674728991578}
   - component: {fileID: 33714633908458050}
   - component: {fileID: 23778473079833800}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: SeeThrough1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 4657517476423142}
   - component: {fileID: 33235900825791282}
   - component: {fileID: 23831268170898230}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: SeeThrough4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 33411660625007354}
   - component: {fileID: 23130957006862222}
   - component: {fileID: 114570103230112842}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 33432372640134790}
   - component: {fileID: 23042311746142152}
   - component: {fileID: 114128438770767842}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Cannon (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 4008813670639194}
   - component: {fileID: 33978808387788248}
   - component: {fileID: 23815543989930596}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: SeeThrough2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,8 +277,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133079584551048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.461723, y: 12.31, z: 0.3407712}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 8.98, y: 6.77, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4346572457519848}
   - {fileID: 4907914602571508}
@@ -833,7 +833,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!114 &114128438770767842
 MonoBehaviour:
@@ -874,13 +874,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1400260174968392, guid: 23a2a997a2b7d514399a54b225354627, type: 2}
   explosions:
-  - {fileID: 1056517570023220, guid: f4e7be3d6450e214ab7516bb01e86c87, type: 2}
-  - {fileID: 1056517570023220, guid: 75a71f9455b0679408bd63fc39135f34, type: 2}
-  - {fileID: 1056517570023220, guid: 6942576ea01b53c42b47380bd88b85dc, type: 2}
-  - {fileID: 1056517570023220, guid: 9475927b474b208468a4e14d51879518, type: 2}
-  - {fileID: 1056517570023220, guid: 07ef49889075ffe4a8b7a328f83eab02, type: 2}
-  - {fileID: 1056517570023220, guid: d865ba5571cd9464eb4d8856f8283eb5, type: 2}
-  newHealth: 800
+  - {fileID: 1276265848024092, guid: ce7c317800fad2946aeb64b585c57e5a, type: 2}
+  - {fileID: 1775100572780514, guid: 95dd34b8988eda74c8eb5676e4704ad6, type: 2}
+  - {fileID: 1752014190355960, guid: 43697730af1433b499333679ad510462, type: 2}
+  - {fileID: 1192514712049200, guid: cd78ab72268afce469b770f0435f24c8, type: 2}
+  - {fileID: 1881181869773268, guid: eedfa8765a1ad8d40b9e8665dd4f8804, type: 2}
+  - {fileID: 1560179891503674, guid: 587d028cdcf189b459169e0d60070e4f, type: 2}
+  newHealth: 600
   rotationRate: 80
   powerups:
   - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 2}

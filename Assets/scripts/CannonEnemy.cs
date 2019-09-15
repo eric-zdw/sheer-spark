@@ -64,7 +64,7 @@ public class CannonEnemy : Enemy {
     void Start()
 	{
 		bar = Instantiate(healthBar);
-		maxHealth = newHealth;
+		maxHealth = newHealth * WaveSystem.enemyPower;
 		health = maxHealth;
 		bar.GetComponent<HealthBar>().setTarget(gameObject);
 

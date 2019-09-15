@@ -28,8 +28,6 @@ public class BlueProjectile : Projectile {
     private MeshRenderer mr;
     public Material chargeMaterial;
     public Material normalMaterial;
-
-    private ParticleSystem ps;
     //private float chargeTimer;
     //private float chargeMax = 0.75f;
 
@@ -42,23 +40,20 @@ public class BlueProjectile : Projectile {
 
     private bool projectileMode = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
 
 
     // Use this for initialization
     void Start() {
         lifeTime = 6.5f;
         rb = GetComponent<Rigidbody>();
-        rb.mass = 0.01f;
         projectileSpeed = launchSpeed;
-        //rb.AddForce(transform.right * launchSpeed);
+        rb.AddForce(Random.insideUnitCircle * 2000f);
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		player = GameObject.FindGameObjectWithTag("Player");
         bw = GameObject.FindGameObjectWithTag("BlueWeapon").GetComponent<BlueWeapon>();
         mr = GetComponent<MeshRenderer>();
-        ps = GetComponent<ParticleSystem>();
-        ps.enableEmission = true;
         //chargeTimer = chargeMax;
     }
 
@@ -76,17 +71,6 @@ public class BlueProjectile : Projectile {
             if (Input.GetButton("Fire1"))
             {
                 rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * pullForce * (rb.mass * 0.8f));
-                if (Vector3.Magnitude(bw.gameObject.transform.position - transform.position) < bw.rangeRadius)
-                {
-                    //transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0.5f * Time.deltaTime);
-                    currentCharge += chargeRate * (chargeCapacity - currentCharge) * Time.deltaTime;
-                    print("charge: " + currentCharge);
-                    float newScale = currentCharge * chargeScale;
-                    transform.localScale = new Vector3(newScale, newScale, newScale);
-                    rb.mass = currentCharge * chargeMass;
-                    damage = currentCharge * chargeDamage;
-                    print("mass: " + rb.mass);
-                }
             }
 
             if (Input.GetButtonUp("Fire1")) {
@@ -195,6 +179,7 @@ public class BlueProjectile : Projectile {
         hb.setRadius(radius * 1.5f);
         hb.printRadius();
 
+        GameObject.Destroy(transform.GetChild(0).gameObject, 1f);
         transform.GetChild(0).parent = null;
 
         Destroy(gameObject);

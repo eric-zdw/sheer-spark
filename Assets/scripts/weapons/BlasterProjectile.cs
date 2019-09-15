@@ -7,7 +7,7 @@ public class BlasterProjectile : Projectile {
     public GameObject explosion;
     public GameObject explosion2;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
 
     // Use this for initialization
     void Start() {

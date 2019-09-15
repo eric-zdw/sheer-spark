@@ -9,9 +9,9 @@ public class BlueCrystalGlow : MonoBehaviour {
 	private float currentEmission;
 	private int direction;
 
-	public float minimumGlow = 1f;
-	public float maximumGlow = 2f;
-	public float glowSpeed = 0.25f;
+	private float minimumGlow = 2f;
+	private float maximumGlow = 6f;
+	private float glowSpeed = 1.5f;
 	private float realGlowSpeed = 0f;
 
 	// Use this for initialization
@@ -20,7 +20,7 @@ public class BlueCrystalGlow : MonoBehaviour {
 		matBlock = new MaterialPropertyBlock();
 		currentEmission = Random.Range(minimumGlow, maximumGlow);
 		direction = Random.Range(0, 1);
-		realGlowSpeed = glowSpeed + Random.Range(realGlowSpeed *= -0.5f, realGlowSpeed *= 0.5f);
+		realGlowSpeed = glowSpeed + Random.Range(realGlowSpeed *= 0.5f, realGlowSpeed *= 1.5f);
 	}
 	
 	// Update is called once per frame

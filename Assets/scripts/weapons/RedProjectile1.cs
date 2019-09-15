@@ -15,7 +15,7 @@ public class RedProjectile1 : Projectile {
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 2);
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 2 | 1 << 18);
     private NoiseManager noiseManager;
 
     // Use this for initialization

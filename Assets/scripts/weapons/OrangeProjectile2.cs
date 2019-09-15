@@ -66,12 +66,12 @@ public class OrangeProjectile2 : Projectile {
         noiseManager.AddNoise(5f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
+        exp.transform.localScale = new Vector3(radius * 0.35f, radius * 0.35f, radius * 0.35f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius * 1.5f;
         hb.setDamage(damage);
-        hb.setRadius(radius * 1.5f);
+        hb.setRadius(radius);
         hb.printRadius();
 
         Destroy(gameObject);

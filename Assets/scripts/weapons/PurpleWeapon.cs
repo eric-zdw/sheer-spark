@@ -48,7 +48,7 @@ public class PurpleWeapon : Weapon {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
-        if (Input.GetButtonUp("Fire1") && chargeValue > 0.15f)
+        if (Input.GetButtonUp("Fire1") && chargeValue > 0.2f)
         {
             /*
             Ray ray = new Ray(transform.position, (Vector3)mousePosition - transform.position);
@@ -67,10 +67,10 @@ public class PurpleWeapon : Weapon {
             newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
             newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
             newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (heatDamageRate * player.getHeatFactor())));
-            print("damage charged: " + (chargeValue*chargeValue*chargeValue*damage));
+            print("chargeValue: " + chargeValue + ", damage charged: " + (chargeValue*chargeValue*chargeValue*damage));
 
 
-            float trueRecoil = recoilForce * chargeValue;
+            float trueRecoil = recoilForce * chargeValue * chargeValue;
             playerRB.velocity = new Vector3(0, 0, 0);
             playerRB.AddForce(new Vector3(-trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), -trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
 
@@ -95,7 +95,7 @@ public class PurpleWeapon : Weapon {
 
         if (chargeValue > 0f)
         {
-            chargeSound.volume = (chargeValue * 0.25f) + 0.25f;
+            chargeSound.volume = (chargeValue * chargeValue * chargeValue * 0.25f) + 0.25f;
             chargeSound.pitch = (chargeValue * chargeValue * chargeValue * 0.5f) + 0.5f;
         }
         else
@@ -120,12 +120,12 @@ public class PurpleWeapon : Weapon {
 
         if (chargeValue < 1f)
         {
-            chargeValue += chargeRate * (chargeValue + 0.1f) * Time.deltaTime;
+            chargeValue += chargeRate * Time.deltaTime;
             if (chargeValue > 1f)
                 chargeValue = 1f;
         }
-        light.intensity = chargeValue * 3f;
-        light.range = chargeValue * 25f;
+        light.intensity = chargeValue * chargeValue * chargeValue * 3f;
+        light.range = chargeValue * chargeValue * chargeValue * 25f;
     }
 
     public override void Fire2()

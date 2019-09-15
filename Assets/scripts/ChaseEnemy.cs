@@ -44,12 +44,12 @@ public class ChaseEnemy : Enemy {
 
 	private MaterialPropertyBlock damageMatBlock;
 
-	private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+	private int layermask;
 
     void Start()
 	{
 		bar = Instantiate(healthBar);
-		maxHealth = newHealth;
+		maxHealth = newHealth * WaveSystem.enemyPower;
 		health = maxHealth;
 		bar.GetComponent<HealthBar>().setTarget(gameObject);
 
@@ -63,6 +63,8 @@ public class ChaseEnemy : Enemy {
 		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
         outline.material = colours[powerupRoll];
 		seeThrough.material = seeThroughs[powerupRoll];
+
+		layermask = LayerMask.GetMask("Geometry");
 
 		damageMatBlock = new MaterialPropertyBlock();
     }

@@ -11,7 +11,11 @@ public class WaveSystem : MonoBehaviour {
     public int beginningEnemies = 3;
 	public int waveNumber;
     public float jumpLimitY;
-    public float enemyPower;
+    public static float enemyPower;
+    public float enemyPowerIncreasePerWave = 0.08f;
+    public float easyPowerMultiplier = 0.5f;
+    public float normalPowerMultiplier = 1f;
+    public float hardPowerMultiplier = 2f;
     bool ppChange = false;
     public int currentStage;
 
@@ -58,6 +62,9 @@ public class WaveSystem : MonoBehaviour {
     private float savedTimeScale = 1.1f;
 
     public GameObject pauseMenu;
+
+    public bool isBossStage = false;
+    public GameObject BossEnemy;
 
     // Use this for initialization
     void Start () {
@@ -230,7 +237,7 @@ public class WaveSystem : MonoBehaviour {
         
             reserveEnemies = beginningEnemies + (int)(Mathf.Pow(waveNumber, 1.5f));
             delay = 15f;
-            enemyPower = 1 + (waveNumber * 0.05f);
+            enemyPower = 1 + (waveNumber * enemyPowerIncreasePerWave);
             spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
             activeLevel = false;
             InitializeEnemyList();
