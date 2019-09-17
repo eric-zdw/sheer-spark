@@ -12,18 +12,21 @@ public class YellowProjectile2 : Projectile {
     private Vector3 mousePosition;
     private float radius;
 
-    private float projectileSpeedIncrease = 50f;
+    private float projectileSpeedIncrease = 20f;
     private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
+
+    private GameObject player;
 
     //private float angle1;
     //private float angle2;
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 0f;
+        projectileSpeed = 5f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -71,18 +74,23 @@ public class YellowProjectile2 : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * .5f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * .5f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
-        projectileSpeedIncrease *= 1.05f;
+        if (projectileSpeed < 50f) {
+            projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
+            projectileSpeedIncrease *= 1.05f;
+        }
+        else {
+            projectileSpeed = 50f;
+        }
     }
     
 

@@ -467,6 +467,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1627452560682814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4485870383283876}
+  - component: {fileID: 114233532800369108}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1634769148863470
 GameObject:
   m_ObjectHideFlags: 1
@@ -710,6 +726,7 @@ Transform:
   - {fileID: 4535094298814996}
   - {fileID: 224418300858545188}
   - {fileID: 4506267675558540}
+  - {fileID: 4485870383283876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -725,6 +742,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000220771516380}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4485870383283876
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627452560682814}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.9835193, y: -22.505497, z: -5.5199547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4000220771516380}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4506267675558540
 Transform:
@@ -1989,6 +2019,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: WAVE COMPLETE
+--- !u!114 &114233532800369108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627452560682814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3287958020ee8e40937c4d3c8c707ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floor: {x: -60, y: -20}
+  ceiling: {x: 90, y: 60}
+  density: 4
+  padding: 2
+  node: {fileID: 1163349827675426, guid: b03716835800bd847ab335868a03fdbd, type: 2}
 --- !u!114 &114241793142673156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2848,7 +2894,10 @@ MonoBehaviour:
   beginningEnemies: 4
   waveNumber: 0
   jumpLimitY: 0
-  enemyPower: 0
+  enemyPowerIncreasePerWave: 0.08
+  easyPowerMultiplier: 0.5
+  normalPowerMultiplier: 1
+  hardPowerMultiplier: 2
   currentStage: 0
   enemies:
   - {fileID: 1398825127943648, guid: 6d682ec8db1a3ca41a138d26711d9e6e, type: 2}
@@ -2877,6 +2926,8 @@ MonoBehaviour:
   maxWaves: 10
   ppManager: {fileID: 114387652076419702}
   pauseMenu: {fileID: 1315802565011274}
+  isBossStage: 0
+  BossEnemy: {fileID: 0}
 --- !u!114 &114941007142229278
 MonoBehaviour:
   m_ObjectHideFlags: 1
