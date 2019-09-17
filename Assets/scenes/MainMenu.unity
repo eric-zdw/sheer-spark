@@ -113184,6 +113184,7 @@ GameObject:
   - component: {fileID: 1613384486}
   - component: {fileID: 1613384488}
   - component: {fileID: 1613384487}
+  - component: {fileID: 1613384489}
   m_Layer: 5
   m_Name: SplashPanel
   m_TagString: Untagged
@@ -113245,6 +113246,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1613384485}
   m_CullTransparentMesh: 0
+--- !u!114 &1613384489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1613384485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844f24d0202e1af4fa2a11fc013ba3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuScreen: {fileID: 443794659}
 --- !u!1 &1637897156
 GameObject:
   m_ObjectHideFlags: 0
@@ -133145,6 +133158,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6d19eec795ddc42a7dbe17a9f2176d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positions:
+  - {x: 0, y: 0, z: -50}
+  - {x: -10, y: 0, z: -25}
+  rotations:
+  - {x: 0, y: 0, z: 0}
+  - {x: -25, y: 5, z: 0}
+  transitionRate: 0.1
 --- !u!1 &1918382845
 GameObject:
   m_ObjectHideFlags: 0
