@@ -22,4 +22,8 @@ public class MenuCameraRig : MonoBehaviour {
 	public static void ChangePosition(int index) {
 		currentPosition = index;
 	}
+
+	public void ChangePositionInstance(int index) {
+		ChangePosition(index);
+	}
 }
