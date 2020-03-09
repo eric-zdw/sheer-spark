@@ -39,7 +39,6 @@ public class PlayerBehaviour : MonoBehaviour {
     public int HP;
 
     private AudioSource collisionSound;
-	private NoiseManager noiseManager;
 
     public GameObject deathExplosion;
     public Color[] powerColors;
@@ -56,6 +55,12 @@ public class PlayerBehaviour : MonoBehaviour {
     public GameObject[] weaponsList;
 
     private DamageAlert damageAlert;
+
+    private GameObject inside;
+    private GameObject inside2;
+    private GameObject inside3;
+
+    public float invincible = 0f;
 
     // Use this for initialization
     void Start()
@@ -78,7 +83,6 @@ public class PlayerBehaviour : MonoBehaviour {
         HP = maxHP;
 
         collisionSound = GetComponent<AudioSource>();
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         GameObject ui = Instantiate(playerUI, Vector3.zero, Quaternion.identity);
         radialBar = ui.GetComponentInChildren<PowerupRadial>();
@@ -87,6 +91,13 @@ public class PlayerBehaviour : MonoBehaviour {
         damageAlert = GameObject.Find("DamageAlert").GetComponent<DamageAlert>();
 
         powerups = new GameObject[6];
+
+        inside = GameObject.Find("Inside");
+        inside2 = GameObject.Find("Inside2");
+        inside3 = GameObject.Find("Inside3");
+
+        //weapon selection
+        transform.position = GameObject.Find("PlayerSpawn").transform.position;
     }
 
     void Update()
@@ -105,6 +116,9 @@ public class PlayerBehaviour : MonoBehaviour {
                 Destroy(weapon.gameObject);
                 weapon = Instantiate(defaultWeapon, transform.position, Quaternion.identity, weaponSlot.transform).GetComponent<Weapon>();
                 mesh.material = defaultColour;
+                inside.GetComponent<MeshRenderer>().material = defaultColour;
+                inside2.GetComponent<MeshRenderer>().material = defaultColour;
+                inside3.GetComponent<MeshRenderer>().material = defaultColour;
                 GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = new Color(0.549f, 0.608f, 0.678f);
                 //powerupBar.GetComponent<UnityEngine.UI.Image>().material = defaultColour;
                 //powerupName.text = "BLASTER";
@@ -128,7 +142,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (HP <= 0f)
         {
-			noiseManager.AddNoise(50f);
+			Camera.main.GetComponent<CameraFollow>().AddNoise(50f);
             Instantiate(deathExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -149,6 +163,10 @@ public class PlayerBehaviour : MonoBehaviour {
         else if (powerupLevel > 0f && heatOn)
         {
             powerupLevel -= Time.deltaTime * 0.6f;
+        }
+
+        if (invincible > 0f) {
+            invincible -= Time.deltaTime;
         }
     }
 
@@ -204,6 +222,10 @@ public class PlayerBehaviour : MonoBehaviour {
     {
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
+        inside.GetComponent<MeshRenderer>().material = newColour;
+        inside2.GetComponent<MeshRenderer>().material = newColour;
+        inside3.GetComponent<MeshRenderer>().material = newColour;
+
 
         powerupTimer = powerupDuration;
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
@@ -228,7 +250,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public void takeDamage(int damage)
     {
         HP -= damage;
-		noiseManager.AddNoise(25f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(25f);
 
         for (int i = 0; i < 4; i++) {
             if (HP - 1 >= i) {
@@ -238,6 +260,8 @@ public class PlayerBehaviour : MonoBehaviour {
                 healthBar.piecesEnabled[i] = false;
             }
         }
+
+        invincible = 2f;
 
         StartCoroutine(healthBar.Flash());
         damageAlert.Flash(new Color(1f, 0f, 0f));

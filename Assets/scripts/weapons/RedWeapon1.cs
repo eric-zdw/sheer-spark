@@ -14,7 +14,7 @@ public class RedWeapon1 : Weapon {
     public float heatDamageRate = 0.005f;
     public float heatFireRate = 0.004f;
     public float damage = 6f;
-    public float shotSeparation = 1.5f;
+    public float shotSeparation = 1.25f;
     public float shotSpread = 0f;
 
     void Start () {

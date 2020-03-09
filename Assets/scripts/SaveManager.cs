@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[System.Serializable]
 public class SaveManager : MonoBehaviour {
 
     public SaveData saveData = new SaveData();
@@ -10,8 +11,6 @@ public class SaveManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        savePath = Path.Combine(Application.persistentDataPath, "SaveData.txt");
-        SaveManager.WriteToFile(saveData, savePath);
 	}
 	
 	// Update is called once per frame
@@ -19,18 +18,28 @@ public class SaveManager : MonoBehaviour {
 		
     }
 
-    public static void WriteToFile(SaveData data, string path)
+    public static void WriteToFile(SaveData data)
     {
         string newJson = JsonUtility.ToJson(data);
 
-        using (StreamWriter writer = File.CreateText(path)) {
+        using (StreamWriter writer = File.CreateText(Application.persistentDataPath + "/savedata.json")) {
             writer.Write(newJson);
         }
 
-        print("file saved at: " + path);
+        print("file saved");
     }
 
-    public int[] GetSelectedWeapons() {
+    public static void LoadSaveData(SaveData data)
+    {
+        if (File.Exists(Application.persistentDataPath + "/savedata.json")) {
+            string newJson = File.ReadAllText(Application.persistentDataPath + "/savedata.json");
+            JsonUtility.FromJsonOverwrite(newJson, data);
+
+            print("file loaded");
+        }
+    }
+
+    public int[] GetSelectedWeapons(SaveData data) {
         int[] weaponsList = new int[6];
         weaponsList[0] = PlayerPrefs.GetInt("SelectedWeaponRed", 1);
         weaponsList[1] = PlayerPrefs.GetInt("SelectedWeaponOrange", 1);

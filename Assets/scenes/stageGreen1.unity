@@ -1480,7 +1480,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 818518868}
-  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853856, w: 0.34959492}
+  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853853, w: 0.34959495}
   m_LocalPosition: {x: 67.62, y: 93.98, z: 71.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1662,6 +1662,7 @@ GameObject:
   - component: {fileID: 871211202}
   - component: {fileID: 871211201}
   - component: {fileID: 871211200}
+  - component: {fileID: 871211203}
   m_Layer: 4
   m_Name: WaterProDaytime
   m_TagString: Untagged
@@ -1749,6 +1750,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 871211198}
   m_Mesh: {fileID: 4300006, guid: ba6a41dc489914734857bb5924eb70ad, type: 3}
+--- !u!114 &871211203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 871211198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84bc29a52a6f865499229269fdeab9c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &877554874
 Prefab:
   m_ObjectHideFlags: 0
@@ -2366,6 +2378,16 @@ Prefab:
       propertyPath: maxY
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114646877816749084, guid: e20713e379cc21043838cf9c3fe51d98,
+        type: 2}
+      propertyPath: boundaryMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 4043b56ff166ee04792b4b1a703803f6, type: 2}
+    - target: {fileID: 23119280555151136, guid: e20713e379cc21043838cf9c3fe51d98,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4043b56ff166ee04792b4b1a703803f6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e20713e379cc21043838cf9c3fe51d98, type: 2}
   m_IsPrefabAsset: 0
@@ -4074,7 +4096,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 0.87068933, g: 1, b: 0.8156863, a: 1}
+  m_Color: {r: 0.579134, g: 0.6698113, b: 0.54027236, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -4415,13 +4437,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1863989329}
-  m_LocalRotation: {x: -0.17216264, y: 0.022665638, z: 0.12854314, w: 0.9763827}
-  m_LocalPosition: {x: -27.099998, y: -6.6000004, z: 3.5}
+  m_LocalRotation: {x: 0, y: -0.17364825, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: -27.099998, y: -3.68, z: 3.5}
   m_LocalScale: {x: 32, y: 24, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 15}
+  m_LocalEulerAnglesHint: {x: 0, y: -20, z: 0}
 --- !u!54 &1863989331
 Rigidbody:
   m_ObjectHideFlags: 0

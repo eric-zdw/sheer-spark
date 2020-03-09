@@ -28,7 +28,6 @@ public class BlueWeapon : Weapon {
     private AudioSource[] sounds;
 
     public Material rangeMaterial;
-    private NoiseManager noiseManager;
 
     private BlueChargeHitbox chargeHit;
 
@@ -42,7 +41,6 @@ public class BlueWeapon : Weapon {
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
         rs = Instantiate(rangeSphere, transform.position, Quaternion.identity, transform);
-        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
     }
 
     void Update()

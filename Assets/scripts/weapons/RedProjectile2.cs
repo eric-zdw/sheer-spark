@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,16 +15,14 @@ public class RedProjectile2 : Projectile {
     private bool soundDecreasing = false;
 
     private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
-    private NoiseManager noiseManager;
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 2000f;
+        projectileSpeed = 200f;
         lifeTime = 2f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
-        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         //StartCoroutine(IncreaseSpeed());
     }
@@ -68,7 +66,7 @@ public class RedProjectile2 : Projectile {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                noiseManager.AddNoise(2f);
+                Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
             }
             Explode();
         }
@@ -108,7 +106,7 @@ public class RedProjectile2 : Projectile {
 
     void Explode()
     {
-        noiseManager.AddNoise(1f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(.5f);
         Instantiate(explosion, transform.position, transform.rotation);
         Instantiate(explosion2, transform.position, transform.rotation);
         Instantiate(explosion3, transform.position, transform.rotation);

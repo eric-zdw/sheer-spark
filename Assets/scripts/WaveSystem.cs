@@ -11,13 +11,17 @@ public class WaveSystem : MonoBehaviour {
     public int beginningEnemies = 3;
 	public int waveNumber;
     public float jumpLimitY;
-    public static float enemyPower;
+    public static float enemyPower = 1f;
     public float enemyPowerIncreasePerWave = 0.08f;
     public float easyPowerMultiplier = 0.5f;
     public float normalPowerMultiplier = 1f;
     public float hardPowerMultiplier = 2f;
     bool ppChange = false;
     public int currentStage;
+
+    public int[] cameraBoundaries;
+
+    private int spawningEnemies = 0;
 
 
     float delay = 10f;
@@ -59,7 +63,7 @@ public class WaveSystem : MonoBehaviour {
 
     public static bool isPaused = false;
 
-    private float savedTimeScale = 1.1f;
+    private float savedTimeScale = 1.5f;
 
     public GameObject pauseMenu;
 
@@ -78,8 +82,8 @@ public class WaveSystem : MonoBehaviour {
         musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
         lastMusic = musics[0];
         newMusic = musics[0];
-        activeMusics = new bool[3];
-        for (int i = 0; i < 3; i++)
+        activeMusics = new bool[5];
+        for (int i = 0; i < 5; i++)
         {
             activeMusics[i] = false;
         }
@@ -87,6 +91,10 @@ public class WaveSystem : MonoBehaviour {
         actualProbabilities = new float[probabilities.Length];
         InitializeEnemyList();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+
+        
+        
+
     }
 
     void InitializeWaveParameters()
@@ -119,9 +127,9 @@ public class WaveSystem : MonoBehaviour {
         if (gameStarted)
         {
             remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
-            activeEnemies = remainingEnemies - reserveEnemies;
+            activeEnemies = remainingEnemies + spawningEnemies - reserveEnemies;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (activeMusics[i] == false && musics[i].volume > 0f)
                 {
@@ -146,23 +154,28 @@ public class WaveSystem : MonoBehaviour {
 
             if (delay < 0f && activeLevel == true && musicChosen == false)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     activeMusics[i] = false;
                 }
 
-                if (waveNumber < 3)
+                if (waveNumber < 2)
                     activeMusics[0] = true;
-                else if (waveNumber < 5)
+                else if (waveNumber < 4)
                     activeMusics[1] = true;
+                else if (waveNumber < 6)
+                    activeMusics[2] = true;
+                else if (waveNumber < 8)
+                    activeMusics[3] = true;
                 else
-                    activeMusics[1] = true;
+                    activeMusics[4] = true;
 
                 musicChosen = true;
                 print("choosing music");
             }
 
 			//activate high-intensity music if player is damaged or many enemies remain
+            /*
             if (((player.HP == 2) || (activeEnemies > 8f)) && highIntensity == false)
             {
                 for (int i = 0; i < 3; i++)
@@ -180,6 +193,7 @@ public class WaveSystem : MonoBehaviour {
                 highIntensity = true;
                 print("high intensity");
             }
+            */
 
             if (activeLevel == true && reserveEnemies != 0)
             {
@@ -188,6 +202,7 @@ public class WaveSystem : MonoBehaviour {
                 {
                     Spawn();
                     reserveEnemies--;
+                    spawningEnemies++;
                     spawnDelay = spawnInterval;
                 }
             }
@@ -208,12 +223,14 @@ public class WaveSystem : MonoBehaviour {
 
     void IncrementWave()
     {
-        for (int i = 0; i < 3; i++)
+        /*
+        for (int i = 0; i < 5; i++)
         {
             activeMusics[i] = false;
             print("disabling music");
         }
-        activeMusics[0] = true;
+        */
+        //activeMusics[0] = true;
 
         //Stop high-intensity music.
         musicChosen = false;
@@ -297,6 +314,7 @@ public class WaveSystem : MonoBehaviour {
             {
                 availableSpawners[rngSpawner].Spawn(enemies[counter]);
                 hasSpawned = true;
+                spawningEnemies--;
             }
             counter++;
         }

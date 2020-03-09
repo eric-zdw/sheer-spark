@@ -16,7 +16,7 @@ public abstract class Enemy : MonoBehaviour {
     {
         health -= damage;
     }
-
+    
     public void setHealth(float h)
     {
         health = h;

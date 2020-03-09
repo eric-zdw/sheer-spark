@@ -11,7 +11,6 @@ public class OrangeProjectile2 : Projectile {
     public float launchForce;
 
     private Rigidbody rb;
-    private NoiseManager noiseManager;
 
     private float radius;
     private bool isStuck = false;
@@ -21,7 +20,6 @@ public class OrangeProjectile2 : Projectile {
         lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce + transform.right * Random.Range(-200f, 200f));
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
     }
 
     // Update is called once per frame
@@ -63,7 +61,7 @@ public class OrangeProjectile2 : Projectile {
 
     void Explode()
     {
-        noiseManager.AddNoise(5f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.35f, radius * 0.35f, radius * 0.35f);

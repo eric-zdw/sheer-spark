@@ -31,8 +31,6 @@ public class CannonEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-	private NoiseManager noiseManager;
-
     private float moveInterval = 10f;
     private float moveTimer;
     private Vector3 destination;
@@ -70,7 +68,6 @@ public class CannonEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         powerupRoll = Random.Range(0, 6);
         outline = transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -178,7 +175,7 @@ public class CannonEnemy : Enemy {
 
     void Explode()
 	{
-		noiseManager.AddNoise(5f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);

@@ -16,16 +16,14 @@ public class RedProjectile1 : Projectile {
     private bool soundDecreasing = false;
 
     private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 2 | 1 << 18);
-    private NoiseManager noiseManager;
 
     // Use this for initialization
     void Start() {
         projectileSpeed = 250f;
-        lifeTime = 1.25f;
+        lifeTime = 1.00f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
-        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
         StartCoroutine(DecreaseSpeed());
     }
@@ -60,24 +58,24 @@ public class RedProjectile1 : Projectile {
 
     IEnumerator DecreaseSpeed() {
         while(true) {
-            projectileSpeed *= .8f;
-            yield return new WaitForSeconds(0.01f);
+            projectileSpeed *= .70f;
+            yield return new WaitForFixedUpdate();
         }
     }
 
     void CheckLinecastCollision() {
         RaycastHit info;
         if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
-            transform.position = info.point;
+            //transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                noiseManager.AddNoise(1f);
+                Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
             }
             if (!info.collider.gameObject.CompareTag("Enemy")) {
-                Explode();
-            } else ExplodeWithoutDestroy();
+                Explode(info.point);
+            } else ExplodeWithoutDestroy(info.point);
         }
-        transform.position += transform.right * projectileSpeed * Time.deltaTime;
+        transform.position += transform.right * projectileSpeed * Time.fixedDeltaTime;
     }
 
     /*
@@ -110,22 +108,22 @@ public class RedProjectile1 : Projectile {
         //damageDecayRate = damage * 0.5f;
     }
 
-    void Explode()
+    void Explode(Vector3 pos)
     {
-        noiseManager.AddNoise(1f);
-        Instantiate(explosion, transform.position, transform.rotation);
-        Instantiate(explosion2, transform.position, transform.rotation);
-        Instantiate(explosion3, transform.position, transform.rotation);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
+        Instantiate(explosion, pos, transform.rotation);
+        Instantiate(explosion2, pos, transform.rotation);
+        Instantiate(explosion3, pos, transform.rotation);
         transform.GetChild(0).parent = null;
         Destroy(gameObject);
     }
     
-    void ExplodeWithoutDestroy()
+    void ExplodeWithoutDestroy(Vector3 pos)
     {
-        noiseManager.AddNoise(1f);
-        Instantiate(explosion, transform.position, transform.rotation);
-        Instantiate(explosion2, transform.position, transform.rotation);
-        Instantiate(explosion3, transform.position, transform.rotation);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
+        Instantiate(explosion, pos, transform.rotation);
+        Instantiate(explosion2, pos, transform.rotation);
+        Instantiate(explosion3, pos, transform.rotation);
     }    
 
 

@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4139330159084140}
   - component: {fileID: 198605278732645152}
   - component: {fileID: 199819369205342972}
-  - component: {fileID: 114051694178698480}
   - component: {fileID: 82858555442502388}
+  - component: {fileID: 114408946264067014}
   m_Layer: 0
   m_Name: RedWeapon2Explosion
   m_TagString: Untagged
@@ -85,7 +85,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7638e8dfe36680f409b8f413cbba4d17, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -169,7 +169,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114051694178698480
+--- !u!114 &114408946264067014
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1526053759308188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc21d2c6c0822842853e246f9d5d771, type: 3}
+  m_Script: {fileID: 11500000, guid: a3458d7b49703254090f477490705031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &198255232605014954
@@ -1113,7 +1113,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 0
-      cycleCount: 5
+      cycleCount: 2
       repeatInterval: 0.025
   SizeModule:
     enabled: 0
@@ -4777,10 +4777,10 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526053759308188}
   serializedVersion: 5
-  lengthInSec: 5
+  lengthInSec: 0.25
   simulationSpeed: 1
-  stopAction: 0
-  looping: 1
+  stopAction: 2
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4956,7 +4956,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.3529412}
+      maxColor: {r: 1, g: 0.2509804, b: 0.2509804, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5653,7 +5653,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 3
+        scalar: 2
         minScalar: 0
         maxCurve:
           serializedVersion: 2
@@ -9376,7 +9376,7 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f63c576739a709747a1a571260d4fabd, type: 2}
+  - {fileID: 2100000, guid: 5dd9171e968daee42b3c01ea00fdc474, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

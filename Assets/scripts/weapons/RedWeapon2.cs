@@ -57,14 +57,17 @@ public class RedWeapon2 : Weapon {
             }
             */
             
-            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-            GameObject proj = Instantiate(
+            for (int i = 0; i < 5; i++) {
+                float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+                GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
                 Quaternion.Euler(0, 0, angle + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
                 );
                 
-            proj.GetComponent<RedProjectile2>().setDamage(realDamage);
+                proj.GetComponent<RedProjectile2>().setDamage(realDamage);
+            }
+            
             
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }

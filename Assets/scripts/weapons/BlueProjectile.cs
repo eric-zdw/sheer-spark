@@ -14,7 +14,6 @@ public class BlueProjectile : Projectile {
     private Rigidbody rb;
     private CameraFollow camfollow;
 	private Camera cam;
-	private NoiseManager noiseManager;
 
     private float radius;
 
@@ -49,7 +48,6 @@ public class BlueProjectile : Projectile {
         rb = GetComponent<Rigidbody>();
         projectileSpeed = launchSpeed;
         rb.AddForce(Random.insideUnitCircle * 2000f);
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		player = GameObject.FindGameObjectWithTag("Player");
         bw = GameObject.FindGameObjectWithTag("BlueWeapon").GetComponent<BlueWeapon>();
@@ -148,7 +146,7 @@ public class BlueProjectile : Projectile {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                noiseManager.AddNoise(2f);
+                Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
             }
             Explode();
         }
@@ -168,7 +166,7 @@ public class BlueProjectile : Projectile {
 
     void Explode()
     {
-        noiseManager.AddNoise(5f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);

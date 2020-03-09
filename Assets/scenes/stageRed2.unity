@@ -11823,7 +11823,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 818518868}
-  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853856, w: 0.34959492}
+  m_LocalRotation: {x: 0.12312782, y: -0.87602913, z: 0.30853853, w: 0.34959495}
   m_LocalPosition: {x: 67.62, y: 93.98, z: 71.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11982,7 +11982,7 @@ Prefab:
     - target: {fileID: 114884468593997024, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: boost
-      value: 150
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1142671092988752, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_Name
@@ -12061,6 +12061,11 @@ Prefab:
         type: 2}
       propertyPath: InitialModule.startSize.scalar
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884468593997024, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: boost.y
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
@@ -15687,7 +15692,7 @@ Prefab:
     - target: {fileID: 114884468593997024, guid: c9d11d9822724d54e8cba40e8c7ba527,
         type: 2}
       propertyPath: boost
-      value: 150
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1142671092988752, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}
       propertyPath: m_Name
@@ -15756,6 +15761,11 @@ Prefab:
         type: 2}
       propertyPath: ClampVelocityModule.dampen
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884468593997024, guid: c9d11d9822724d54e8cba40e8c7ba527,
+        type: 2}
+      propertyPath: boost.y
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d11d9822724d54e8cba40e8c7ba527, type: 2}

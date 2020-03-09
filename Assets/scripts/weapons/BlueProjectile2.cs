@@ -21,11 +21,11 @@ public class BlueProjectile2 : Projectile {
 
 	// Use this for initialization
 	void Start() {
-		projectileForce = -450f;
+		projectileForce = -300f;
 		lifeTime = 2f;
 		collider = GetComponent<SphereCollider>();
 		rb = GetComponent<Rigidbody>();
-		rb.AddForce(-transform.up * 16000f * Time.deltaTime);
+		rb.AddForce(-transform.up * 8000f * Time.deltaTime);
 		player = GameObject.FindGameObjectWithTag("Player");
 	}
 

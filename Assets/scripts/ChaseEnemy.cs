@@ -34,8 +34,6 @@ public class ChaseEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-	private NoiseManager noiseManager;
-
     public bool isTethered;
     private float tetheredCheck = 0.05f;
     private float tetheredTimer;
@@ -55,7 +53,6 @@ public class ChaseEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
 		powerupRoll = Random.Range(0, 6);
 		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
@@ -109,14 +106,16 @@ public class ChaseEnemy : Enemy {
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            Explode();
+			if (collision.gameObject.GetComponent<PlayerBehaviour>().invincible <= 0f) {
+				collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
+            	Explode();
+			}
         }
     }
 
     void Explode()
 	{
-		noiseManager.AddNoise(10f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);

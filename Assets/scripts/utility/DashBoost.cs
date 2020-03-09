@@ -26,6 +26,8 @@ public class DashBoost : Utility {
     private float dashDelay = 0.05f;
     private float dashTimer;
 
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18 | 1 << 16);
+
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
@@ -47,12 +49,17 @@ public class DashBoost : Utility {
             dashTimer -= Time.deltaTime;
         }
 
-        if (charges < 3f)
+        if (charges < 4f)
         {
-            charges += 0.75f * Time.deltaTime;
+            if (Physics.Raycast(transform.position, Vector3.down, 1f, layermask)) {
+                charges += 2f * Time.deltaTime;
+            }
+            else {
+                charges += 0.5f * Time.deltaTime;
+            }
         }
-        else if (charges > 3f)
-            charges = 3f;
+        else if (charges > 4f)
+            charges = 4f;
 
 		//print ("horizontal: " + Input.GetAxis ("Horizontal") + ", vertical: " + Input.GetAxis ("Vertical"));
     }

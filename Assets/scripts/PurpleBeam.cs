@@ -15,8 +15,6 @@ public class PurpleBeam : MonoBehaviour {
     public GameObject explosion3;
     private CapsuleCollider collider;
     private AudioSource beamSound;
-
-    private NoiseManager noiseManager;
     
 
 	// Use this for initialization
@@ -25,8 +23,7 @@ public class PurpleBeam : MonoBehaviour {
         beam = GetComponent<ParticleSystem>();
         Destroy(collider, 0.15f);
         beamSound = GetComponent<AudioSource>();
-        noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
-        noiseManager.AddNoise(beam.startSize * 20f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(beam.startSize * 20f);
 	}
 	
 	// Update is called once per frame

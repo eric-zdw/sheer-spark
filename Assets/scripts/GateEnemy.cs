@@ -25,8 +25,6 @@ public class GateEnemy : Enemy {
 	private bool isCharging;
 	private GameObject charge;
 
-	private NoiseManager noiseManager;
-
     public bool isTethered;
     private float tetheredCheck = 0.05f;
     private float tetheredTimer;
@@ -48,7 +46,6 @@ public class GateEnemy : Enemy {
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-		noiseManager = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<NoiseManager>();
 
 		powerupRoll = gateEnemyPair.powerupRoll;
 		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
@@ -88,7 +85,7 @@ public class GateEnemy : Enemy {
 
     void Explode()
 	{
-		noiseManager.AddNoise(10f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);
