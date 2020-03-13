@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour {
 
     private float timer;
     private float animTime = 0.5f;
-    private float animationTimer;
+    private float animationTimer = 0.5f;
     private bool isSpawning;
     private GameObject player;
 

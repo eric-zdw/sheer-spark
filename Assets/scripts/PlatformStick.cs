@@ -17,7 +17,7 @@ public class PlatformStick : MonoBehaviour {
 	void FixedUpdate () {
 		platformVelocity = platformRB.velocity;
 		foreach (Rigidbody rb in movingList) {
-			rb.AddForce(platformVelocity * (rb.mass * 150f) * Time.deltaTime);
+			rb.AddForce(platformVelocity * (rb.mass * 100f) * Time.deltaTime);
 		}
 
 	}

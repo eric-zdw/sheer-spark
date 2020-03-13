@@ -32,7 +32,7 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 
     public void printRadius()
     {
-        print("radius: " + radius + ", damage: " + damage);
+        //print("radius: " + radius + ", damage: " + damage);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -57,7 +57,7 @@ public class RedWeapon2 : Weapon {
             }
             */
             
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 7; i++) {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                 projectile,

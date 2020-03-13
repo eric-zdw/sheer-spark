@@ -19,5 +19,8 @@ public class deathBoundary : MonoBehaviour {
         if (other.tag == "Player") {
             other.GetComponent<PlayerBehaviour>().takeDamage(10);
         }
+        else if (other.tag == "Enemy") {
+            other.GetComponent<Enemy>().getDamage(9999);
+        }
     }
 }
