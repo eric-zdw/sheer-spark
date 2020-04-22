@@ -12,7 +12,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float maxAngularVelocity = 15f;
     public float torqueStrength = 0.5f;
     // public float jumpStrength = 5f;
-    public int maxHP = 3;
+    public float maxHP = 3;
     private Rigidbody rb;
 
     private GameObject weaponSlot;
@@ -28,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public GameObject defaultWeapon;
     public float powerupDuration;
     public float powerupTimer;
+    public float powerupHealth;
 
     public float powerupLevel;
     private float heatTimer = 0f;
@@ -36,7 +37,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float heatDecayFactor;
     public float heatConstantDecay;
     private float decayTimer;
-    public int HP;
+    public float HP;
 
     private AudioSource collisionSound;
 
@@ -84,9 +85,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
         collisionSound = GetComponent<AudioSource>();
 
-        GameObject ui = Instantiate(playerUI, Vector3.zero, Quaternion.identity);
-        radialBar = ui.GetComponentInChildren<PowerupRadial>();
-        healthBar = ui.GetComponentInChildren<PlayerHealthBar>();
+        radialBar = playerUI.GetComponentInChildren<PowerupRadial>();
+        healthBar = playerUI.GetComponentInChildren<PlayerHealthBar>();
         matBlock = new MaterialPropertyBlock();
         damageAlert = GameObject.Find("DamageAlert").GetComponent<DamageAlert>();
 
@@ -235,6 +235,13 @@ public class PlayerBehaviour : MonoBehaviour {
         lightTrail.material = trailMaterials[index + 1];
 
         //powerupLevel++;
+
+        if (HP < maxHP) {
+            StartCoroutine(healthBar.Flash());
+        }
+
+        HP = Mathf.Clamp(HP + powerupHealth, 0f, maxHP);
+        
     }
 
     public void addRecoil(Vector3 direction)
@@ -252,6 +259,7 @@ public class PlayerBehaviour : MonoBehaviour {
         HP -= damage;
 		Camera.main.GetComponent<CameraFollow>().AddNoise(25f);
 
+        /*
         for (int i = 0; i < 4; i++) {
             if (HP - 1 >= i) {
                 healthBar.piecesEnabled[i] = true;
@@ -260,6 +268,7 @@ public class PlayerBehaviour : MonoBehaviour {
                 healthBar.piecesEnabled[i] = false;
             }
         }
+        */
 
         invincible = 2f;
 

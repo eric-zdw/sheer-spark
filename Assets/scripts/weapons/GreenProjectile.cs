@@ -37,6 +37,8 @@ public class GreenProjectile : Projectile {
         pulseTimer = pulseInterval;
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.1f, radius * 0.1f, radius * 0.1f);
+        //gravity well radius
+        transform.GetChild(0).GetComponent<SphereCollider>().radius = radius * 2f;
         damageTimer = damageInterval;
 
         StartCoroutine(PulseTimer());

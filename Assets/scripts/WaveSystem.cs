@@ -70,6 +70,8 @@ public class WaveSystem : MonoBehaviour {
     public bool isBossStage = false;
     public GameObject BossEnemy;
 
+    public SaveManager saveManager;
+
     // Use this for initialization
     void Start () {
 
@@ -249,6 +251,7 @@ public class WaveSystem : MonoBehaviour {
             StartCoroutine(ppManager.ChangePP());
             //TODO: add music sting, or cut music entirely after completion.            
 
+            
             StartCoroutine(wc.WaveCompleteRoutine());
             wc2.StartRoutine();
         
@@ -258,14 +261,14 @@ public class WaveSystem : MonoBehaviour {
             spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
             activeLevel = false;
             InitializeEnemyList();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().HP = 4;
         }
 
         
     }
 
     IEnumerator YouWin() {
-        PlayerPrefs.SetInt("Stage" + currentStage + "Complete", 1);
+        saveManager.saveData.levelsClearedOnNormal.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        SaveManager.WriteToFile(saveManager.saveData);
         wc.LevelCompleteRoutine();
         yield return new WaitForSecondsRealtime(10f);
         StartCoroutine(ReturnToMenu());

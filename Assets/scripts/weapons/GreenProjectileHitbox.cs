@@ -41,8 +41,8 @@ public class GreenProjectileHitbox : MonoBehaviour {
 			other.GetComponent<Enemy>().getDamage(damage * (1 - (distance / radius)));
 			print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - (distance / radius)));
 
-            other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 0.5f;
-            other.GetComponent<Rigidbody>().AddExplosionForce((explosionForce * 0.2f) + explosionForce * Vector3.Magnitude(other.transform.position - transform.position), transform.position, radius, 0f);
+            //other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 0.1f;
+            //other.GetComponent<Rigidbody>().AddExplosionForce((explosionForce * 0.2f) + explosionForce * Vector3.Magnitude(other.transform.position - transform.position), transform.position, radius, 0f);
         }
 	}
 }

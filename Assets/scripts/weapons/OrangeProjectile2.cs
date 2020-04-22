@@ -49,6 +49,10 @@ public class OrangeProjectile2 : Projectile {
         }
     }
 
+    public void OnDestroy() {
+        Explode();
+    }
+
     public void setDamage(float d)
     {
         damage = d;

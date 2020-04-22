@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4588452637633552}
-  - component: {fileID: 114038740988513150}
   - component: {fileID: 114650764872316770}
   - component: {fileID: 54714598999914970}
   - component: {fileID: 135196213308706652}
@@ -104,25 +103,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 120
   m_CollisionDetection: 1
---- !u!114 &114038740988513150
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453142070821372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86597420d9b21ac4893f3449ec335668, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosion: {fileID: 1526053759308188, guid: d17fd3602f9ec6a409308220723d5a31, type: 2}
-  explosion2: {fileID: 1447774909938400, guid: 031dcadefaa4c6f47a5f3389a5fc9953, type: 2}
-  explosion3: {fileID: 1526053759308188, guid: 97481008085f94d419d51c4416024e1c, type: 2}
-  hitbox: {fileID: 1453142070821372, guid: 8cd54cffb3797884196922441a6c77c0, type: 2}
-  hitbox2: {fileID: 1453142070821372, guid: f2a7dd176efdd4f4a8571469740b3861, type: 2}
-  tether: {fileID: 1426852688876348, guid: 9fea16f37d215924685611c69d08c605, type: 2}
-  extraGravityForce: 0
-  launchForce: 15000
 --- !u!114 &114650764872316770
 MonoBehaviour:
   m_ObjectHideFlags: 1

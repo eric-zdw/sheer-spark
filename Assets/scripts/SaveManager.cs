@@ -11,6 +11,12 @@ public class SaveManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        SaveManager.LoadSaveData(saveData);
+
+        print("SaveManager: levelsClearedOnNormal: ");
+        foreach (string level in saveData.levelsClearedOnNormal) {
+            print(level);
+        }
 	}
 	
 	// Update is called once per frame

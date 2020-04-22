@@ -54,6 +54,7 @@ public class GreenWeapon : Weapon {
             proj.GetComponent<GreenProjectile>().setDamage(realDamage);
             proj.GetComponent<GreenProjectile>().setRadius(realRadius);
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            player.GetComponent<Rigidbody>().AddForce(Vector3.Normalize((Vector3)mousePosition - transform.position) * -10f);
         }
     }
 

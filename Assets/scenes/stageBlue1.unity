@@ -3236,6 +3236,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &879698506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114995932820365426, guid: cbeabda06ab33c54f86b666525af6d98,
+    type: 2}
+  m_PrefabInternal: {fileID: 1938332182}
+  m_Script: {fileID: 11500000, guid: b8a36114ebe1bba4cb67fa10d7e72281, type: 3}
 --- !u!1 &886519880
 GameObject:
   m_ObjectHideFlags: 0
@@ -7246,6 +7252,11 @@ Prefab:
       propertyPath: m_BackGroundColor.b
       value: 0.1254902
       objectReference: {fileID: 0}
+    - target: {fileID: 114921439660345688, guid: cbeabda06ab33c54f86b666525af6d98,
+        type: 2}
+      propertyPath: saveManager
+      value: 
+      objectReference: {fileID: 879698506}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbeabda06ab33c54f86b666525af6d98, type: 2}
   m_IsPrefabAsset: 0

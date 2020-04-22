@@ -15,6 +15,9 @@ public class StageSelectMenu : MonoBehaviour {
 
 	private SaveData saveData;
 
+	public float modelDistance = 100f;
+	public float rotateSpeed = 50f;
+
 	public List<int> levelIndices = new List<int>();
 	public List<GameObject> levelModels = new List<GameObject>();
 	public List<Vector3> levelPositions = new List<Vector3>();
@@ -28,20 +31,22 @@ public class StageSelectMenu : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		currentLevelModel.transform.RotateAround(currentLevelModel.transform.position, transform.up, rotateSpeed * Time.deltaTime);
 	}
 
 	public void StartUp() {
 		currentLevelName.text = levels[currentLevel];
-		currentLevelModel = Instantiate(levelModels[currentLevel], levelPositions[currentLevel], Quaternion.identity);
+		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
+		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
 	}
 
 	void IncrementLevel() {
 		currentLevel++;
 		currentLevelName.text = levels[currentLevel];
+		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
 		
 		Destroy(currentLevelModel);
-		currentLevelModel = Instantiate(levelModels[currentLevel], levelPositions[currentLevel], Quaternion.identity);
+		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
 
 		
 		leftButton.SetActive(true);
@@ -57,9 +62,10 @@ public class StageSelectMenu : MonoBehaviour {
 	void DecrementLevel() {
 		currentLevel--;
 		currentLevelName.text = levels[currentLevel];
+		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
 		
 		Destroy(currentLevelModel);
-		currentLevelModel = Instantiate(levelModels[currentLevel], levelPositions[currentLevel], Quaternion.identity);
+		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
 
 		rightButton.SetActive(true);
 		//check if at the end of the level list
@@ -69,6 +75,10 @@ public class StageSelectMenu : MonoBehaviour {
 		else {
 			leftButton.SetActive(false);
 		}
+	}
+
+	public void StartGame() {
+		UnityEngine.SceneManagement.SceneManager.LoadScene(levelIndices[currentLevel]);
 	}
 
 	void CheckIfCompleted() {

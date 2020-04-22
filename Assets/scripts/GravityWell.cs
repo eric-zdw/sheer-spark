@@ -22,7 +22,7 @@ public class GravityWell : MonoBehaviour {
 			//other.GetComponent<Enemy>().getDamage(damage * (1 - (distance / radius)));
 			//print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - (distance / radius)));
 
-            other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 0.95f;
+            other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 0.5f;
             other.GetComponent<Rigidbody>().AddExplosionForce(explosionForce * Time.deltaTime, transform.position, radius, 0f);
         }
 	}

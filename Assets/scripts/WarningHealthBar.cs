@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealthBar : MonoBehaviour {
+public class WarningHealthBar : MonoBehaviour {
 
 	private UnityEngine.UI.Image[] pieces;
 	private RectTransform[] pieceTransforms;
@@ -41,31 +41,13 @@ public class PlayerHealthBar : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			pieceTransforms[i].SetPositionAndRotation(uiPosition, pieceTransforms[i].rotation);
 		}
-
-		HPValue = Mathf.Lerp(HPValue, player.HP, 0.05f);
-
-		pieces[0].fillAmount = Mathf.Clamp(HPValue - 3f, 0f, 1f) * 0.25f;
-		pieces[1].fillAmount = Mathf.Clamp(HPValue - 2f, 0f, 1f) * 0.25f;
-		pieces[2].fillAmount = Mathf.Clamp(HPValue - 1f, 0f, 1f) * 0.25f;
-		pieces[3].fillAmount = Mathf.Clamp(HPValue, 0f, 1f) * 0.25f;
 	}
 
-	public IEnumerator Flash() {
-		float timer = 2.5f;
+	public IEnumerator FlashRed() {
 
-		float alpha = 1f;
-		while (timer >= 0f) {
-			alpha = timer / 2.5f;
-			for (int i = 0; i < 4; i++) {
-				if (piecesEnabled[i] == true) {
-					pieces[i].color = new Color(1f, 1f, 1f, alpha);
-				}
-				else
-					pieces[i].color = new Color(1f, 1f, 1f, 0f);
-			}
-
-			timer -= Time.deltaTime;
-			yield return new WaitForFixedUpdate();
+		while (player.HP <= 0f) {
+			//flash red
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }
