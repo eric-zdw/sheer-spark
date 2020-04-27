@@ -1482,7 +1482,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0.1254902}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1500,8 +1500,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090787821}
-        m_MethodName: SendMessage
-        m_Mode: 5
+        m_MethodName: PreviousStage
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3394,61 +3394,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75ef39f596e2274aa131c8b4bd7e0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - SCAFFOLD
-  - ATRIUM
-  - SCAFFOLD
-  - VESTIGE
-  - OVERGROWTH
-  - ORANGE1
-  - ORANGE2
-  - SIERRA
-  - MESA
-  - CORE
-  - DEPTH
-  - PILLARS
-  - MONUMENT
-  - ASCENSION
-  - FINAL
-  currentLevelName: {fileID: 1741532357}
-  leftButton: {fileID: 488008699}
-  rightButton: {fileID: 1873452953}
-  modelDistance: 100
-  rotateSpeed: 20
-  levelIndices: 0b0000000c0000000b000000070000000800000003000000040000000500000006000000090000000a00000001000000020000000d00000000000000
-  levelModels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelPositions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  bgColours: []
+  stageEntries:
+  - {fileID: 11400000, guid: c0a13f446170a63498b2af7498476f87, type: 2}
+  - {fileID: 11400000, guid: 25067cb1d1bfa234187b7f92a97d3052, type: 2}
+  - {fileID: 11400000, guid: 3cb09a94c436a2d4aa6b00ed66175e3a, type: 2}
+  - {fileID: 11400000, guid: 56b48c30aa58c104383c5ec9b73f63b4, type: 2}
+  - {fileID: 11400000, guid: 6aa11ecc2748d264db8591183030f94e, type: 2}
+  - {fileID: 11400000, guid: d2947b00e138ea8479e72f97b906f017, type: 2}
+  - {fileID: 11400000, guid: b08b70dd9eaee1545b4830222b1e17b3, type: 2}
+  - {fileID: 11400000, guid: 3c4857f006367b047a80d24604b1c041, type: 2}
+  - {fileID: 11400000, guid: 5bb6fe83d9085d34091e1de4ddd7a010, type: 2}
+  - {fileID: 11400000, guid: d3e28dc14c35e634a898690d6ec28cda, type: 2}
+  - {fileID: 11400000, guid: 898b0c490085cb04da45052f92055a3c, type: 2}
+  - {fileID: 11400000, guid: 9c22cd63221568e4eb1a641eda5974a8, type: 2}
+  - {fileID: 11400000, guid: 2b6d7a3956c87b2489de8b2253389e56, type: 2}
+  - {fileID: 11400000, guid: 21e6299f7a0db5c4f9f0711e3e8af568, type: 2}
 --- !u!1 &1095674018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7441,7 +7401,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0.1254902}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7459,8 +7419,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090787821}
-        m_MethodName: SendMessage
-        m_Mode: 5
+        m_MethodName: NextStage
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7582,7 +7542,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090787821}
-        m_MethodName: StartGame
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

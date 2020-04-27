@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveManager : MonoBehaviour {
 
-    public SaveData saveData = new SaveData();
+    public static SaveData saveData = new SaveData();
     string savePath;
 
 	// Use this for initialization

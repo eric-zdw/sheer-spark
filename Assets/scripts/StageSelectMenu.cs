@@ -4,92 +4,73 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StageSelectMenu : MonoBehaviour {
+	public StageEntry[] stageEntries;
+	private List<StageEntry> availableStages;
+	private int stageSelected;
 
-	public List<string> levels = new List<string>();
-	public UnityEngine.UI.Text currentLevelName;
-	private GameObject currentLevelModel;
-	private int currentLevel = 0;
-	public GameObject leftButton;
-	public GameObject rightButton;
-	private Camera cam;
+	private UnityEngine.UI.Text nameText;
+	private UnityEngine.UI.Button leftButton;
+	private UnityEngine.UI.Button rightButton;
 
-	private SaveData saveData;
+	void Start() {
+		availableStages = new List<StageEntry>();
+		foreach (StageEntry se in stageEntries) {
+			print("Stage Entry: " + se.StageName);
+			bool add = true;
+			foreach (string stages in se.Prerequisites) {
+				//do not add the stage to the menu if prerequisite stages are not completed.
+				if (!SaveManager.saveData.levelsClearedOnNormal.Contains(stages)) {
+					add = false;
+				}
+			}
+			if (add) {
+				print("Added.");
+				availableStages.Add(se);
+			}
+		}
 
-	public float modelDistance = 100f;
-	public float rotateSpeed = 50f;
+		nameText = GameObject.Find("StageName").GetComponent<UnityEngine.UI.Text>();
+		leftButton = GameObject.Find("LeftButton").GetComponent<UnityEngine.UI.Button>();
+		rightButton = GameObject.Find("RightButton").GetComponent<UnityEngine.UI.Button>();
 
-	public List<int> levelIndices = new List<int>();
-	public List<GameObject> levelModels = new List<GameObject>();
-	public List<Vector3> levelPositions = new List<Vector3>();
-	public List<Color> bgColours = new List<Color>();
-
-	// Use this for initialization
-	void Start () {
-		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-		saveData = GameObject.Find("SaveManager").GetComponent<SaveManager>().saveData;
+		stageSelected = 0;
+		UpdateMenu();
 	}
 
-	// Update is called once per frame
-	void Update () {
-		currentLevelModel.transform.RotateAround(currentLevelModel.transform.position, transform.up, rotateSpeed * Time.deltaTime);
+	public void NextStage() {
+		stageSelected++;
+		UpdateMenu();
 	}
 
-	public void StartUp() {
-		currentLevelName.text = levels[currentLevel];
-		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
-		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
+	public void PreviousStage() {
+		stageSelected--;
+		UpdateMenu();
 	}
 
-	void IncrementLevel() {
-		currentLevel++;
-		currentLevelName.text = levels[currentLevel];
-		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
-		
-		Destroy(currentLevelModel);
-		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
+	public void BackToMenu() {
 
-		
-		leftButton.SetActive(true);
-		//check if at the end of the list and level is complete
-		if (saveData.levelsClearedOnNormal.Contains(levels[currentLevel]) && currentLevel != (levels.Count - 1)) {
-			rightButton.SetActive(true);
+	}
+
+	private void UpdateMenu() {
+		nameText.text = availableStages[stageSelected].StageName;
+		PlayerPrefs.SetInt("stageSelected", stageSelected);
+
+		if (stageSelected == availableStages.Count - 1) {
+			rightButton.enabled = false;
 		}
 		else {
-			rightButton.SetActive(false);
+			rightButton.enabled = true;
 		}
-	}
 
-	void DecrementLevel() {
-		currentLevel--;
-		currentLevelName.text = levels[currentLevel];
-		Vector3 modelPosition = (Camera.main.transform.position + Camera.main.transform.forward * modelDistance);
-		
-		Destroy(currentLevelModel);
-		currentLevelModel = Instantiate(levelModels[currentLevel], modelPosition, Camera.main.transform.rotation);
-
-		rightButton.SetActive(true);
-		//check if at the end of the level list
-		if (currentLevel != 0) {
-			leftButton.SetActive(true);
+		if (stageSelected == 0) {
+			leftButton.enabled = false;
 		}
 		else {
-			leftButton.SetActive(false);
+			leftButton.enabled = true;
 		}
 	}
 
-	public void StartGame() {
-		UnityEngine.SceneManagement.SceneManager.LoadScene(levelIndices[currentLevel]);
-	}
-
-	void CheckIfCompleted() {
-
-	}
-
-	void OpenOptions() {
-
-	}
-
-	public void Cleanup() {
-		Destroy(currentLevelModel);
+	public void Play() {
+		SceneManager.LoadScene(availableStages[stageSelected].SceneIndex);
 	}
 }

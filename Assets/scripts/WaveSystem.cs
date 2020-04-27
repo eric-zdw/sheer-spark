@@ -66,6 +66,7 @@ public class WaveSystem : MonoBehaviour {
     private float savedTimeScale = 1.5f;
 
     public GameObject pauseMenu;
+    public GameObject gameUI;
 
     public bool isBossStage = false;
     public GameObject BossEnemy;
@@ -267,8 +268,8 @@ public class WaveSystem : MonoBehaviour {
     }
 
     IEnumerator YouWin() {
-        saveManager.saveData.levelsClearedOnNormal.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        SaveManager.WriteToFile(saveManager.saveData);
+        SaveManager.saveData.levelsClearedOnNormal.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        SaveManager.WriteToFile(SaveManager.saveData);
         wc.LevelCompleteRoutine();
         yield return new WaitForSecondsRealtime(10f);
         StartCoroutine(ReturnToMenu());
@@ -328,11 +329,13 @@ public class WaveSystem : MonoBehaviour {
         savedTimeScale = Time.timeScale;
         Time.timeScale = 0f;
         pauseMenu.SetActive(true);
+        gameUI.SetActive(false);
     }
 
     public void UnpauseGame() {
         WaveSystem.isPaused = false;
         Time.timeScale = savedTimeScale;
         pauseMenu.SetActive(false);
+        gameUI.SetActive(true);
     }
 }
