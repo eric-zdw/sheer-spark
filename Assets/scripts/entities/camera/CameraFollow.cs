@@ -17,6 +17,7 @@ public class CameraFollow : MonoBehaviour {
     private bool hasRestarted = false;
 
     public WaveSystem ws;
+    public Vector2 playerScreenPosition;
 
 	// Use this for initialization
 	void Start ()
@@ -27,7 +28,7 @@ public class CameraFollow : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update ()
     {
         Vector3 newPosition;
         //inital camera position
@@ -65,6 +66,8 @@ public class CameraFollow : MonoBehaviour {
                 hasRestarted = true;
             }
         }
+
+        playerScreenPosition = cam.WorldToScreenPoint(followTarget.transform.position);
     }
 
     public void AddNoise(float a) {

@@ -67,7 +67,7 @@ public class WaveComplete : MonoBehaviour {
     }
 
     public IEnumerator WaveCompleteRoutine() {
-        txt.enabled = true;
+        
 
         rt.anchorMin = new Vector2(0.1f, 0.1f);
         rt.anchorMax = new Vector2(0.9f, 0.9f);
@@ -75,10 +75,11 @@ public class WaveComplete : MonoBehaviour {
         rt.offsetMin = Vector2.zero;
 
         if (ws.waveNumber > ws.maxWaves) {
-            txt.text = "FINAL WAVE COMPLETE";
+            txt.enabled = true;
+            txt.text = "LEVEL COMPLETE";
         }
         else {
-            txt.text = "WAVE " + (ws.waveNumber - 1) + " COMPLETE";
+            //txt.text = "WAVE " + (ws.waveNumber - 1) + " COMPLETE";
         }
 
         yield return new WaitForSeconds(3f);
@@ -87,7 +88,7 @@ public class WaveComplete : MonoBehaviour {
 
         yield return new WaitForSeconds(1f);
 
-        txt.enabled = true;
+        //txt.enabled = true;
         rt.anchorMin = new Vector2(0.3f, 0.6f);
         rt.anchorMax = new Vector2(0.7f, 0.8f);
         rt.offsetMax = Vector2.zero;
@@ -101,7 +102,7 @@ public class WaveComplete : MonoBehaviour {
         }
         
 
-        yield return new WaitForSeconds(11f);
+        yield return new WaitForSeconds(1f);
 
         txt.enabled = false;
     }

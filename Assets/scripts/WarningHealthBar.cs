@@ -8,6 +8,7 @@ public class WarningHealthBar : MonoBehaviour {
 	private RectTransform[] pieceTransforms;
 	private GameObject followTarget;
 	public Camera cam;
+	public CameraFollow camScript;
 	public PlayerBehaviour player;
 
 	private float HPValue;
@@ -24,19 +25,20 @@ public class WarningHealthBar : MonoBehaviour {
 
 		for (int i = 0; i < 4; i++) {
 			piecesEnabled[i] = true;
-			pieces[i] = GameObject.Find("Piece" + (i+1)).GetComponent<UnityEngine.UI.Image>();
+			pieces[i] = transform.GetChild(i).GetComponent<UnityEngine.UI.Image>();
 			pieceTransforms[i] = pieces[i].GetComponent<RectTransform>();
 		}
 
 		followTarget = GameObject.FindGameObjectWithTag("Player");
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		camScript = cam.GetComponent<CameraFollow>();
 
+		StartCoroutine(FlashRed());
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-		cam.ResetWorldToCameraMatrix();
-		uiPosition = cam.WorldToScreenPoint(followTarget.transform.position);
+	void LateUpdate () {
+		uiPosition = camScript.playerScreenPosition;
 
 		for (int i = 0; i < 4; i++) {
 			pieceTransforms[i].SetPositionAndRotation(uiPosition, pieceTransforms[i].rotation);
@@ -44,10 +46,35 @@ public class WarningHealthBar : MonoBehaviour {
 	}
 
 	public IEnumerator FlashRed() {
+		float alpha = 0f;
+		bool increasing = true;
+		while (true) {
+			while (player.HP == 0f) {
+				if (increasing) {
+					alpha += 2f * Time.deltaTime;
+					if (alpha > 0.5f) {
+						increasing = false;
+					}
+				}
+				else {
+					alpha -= 2f * Time.deltaTime;
+					if (alpha < 0f) {
+						increasing = true;
+					}
+				}
 
-		while (player.HP <= 0f) {
-			//flash red
-			yield return new WaitForSeconds(0.1f);
+				for (int i = 0; i < 4; i++) {
+						pieces[i].color = new Color(1f, 0.2f, 0.2f, alpha);
+				}			
+
+				yield return new WaitForEndOfFrame();
+			}
+			alpha = 0f;
+			for (int i = 0; i < 4; i++) {
+				pieces[i].color = new Color(1f, 0.2f, 0.2f, alpha);
+			}	
+			yield return new WaitForEndOfFrame();
 		}
+
 	}
 }

@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour {
 
     protected float health;
     protected float maxHealth;
+    public int score;
     
     public Enemy()
     {

@@ -94,14 +94,23 @@ public class DriftEnemy : Enemy {
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            Explode();
+            ExplodeWithoutPowerup();
         }
     }
 
     void Explode()
 	{
+		ScoreManager.IncreaseScore(score);
 		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
+		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
+		Destroy(bar);
+		Destroy(gameObject);
+	}
+
+	void ExplodeWithoutPowerup()
+	{
+		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
 		Destroy(bar);
 		Destroy(gameObject);

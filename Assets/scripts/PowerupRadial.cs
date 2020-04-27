@@ -31,9 +31,8 @@ public class PowerupRadial : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
-		cam.ResetWorldToCameraMatrix();
-		uiPosition = cam.WorldToScreenPoint(followTarget.transform.position);
+	void Update () {
+		uiPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 		rect.SetPositionAndRotation(uiPosition, Quaternion.identity);
 
 		image.fillAmount = (playerBehaviour.powerupTimer / playerBehaviour.powerupDuration);

@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\leveldata\EnemyEntry.cs" />
      <Compile Include="Assets\MenuPowerup.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
@@ -110,6 +111,8 @@
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
+     <Compile Include="Assets\ScoreManager.cs" />
+     <Compile Include="Assets\ScoreText.cs" />
      <Compile Include="Assets\scripts\AimManager.cs" />
      <Compile Include="Assets\scripts\AntiTutorial.cs" />
      <Compile Include="Assets\scripts\BlueCrystalGlow.cs" />
@@ -218,6 +221,7 @@
      <Compile Include="Assets\scripts\UIManager.cs" />
      <Compile Include="Assets\scripts\UpdateParticleRotation.cs" />
      <Compile Include="Assets\scripts\utility\DashBoost.cs" />
+     <Compile Include="Assets\scripts\utility\TeleBoost.cs" />
      <Compile Include="Assets\scripts\utility\Utility.cs" />
      <Compile Include="Assets\scripts\WarningHealthBar.cs" />
      <Compile Include="Assets\scripts\WaterFluctuation.cs" />

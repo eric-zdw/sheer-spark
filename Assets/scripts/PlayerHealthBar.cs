@@ -8,6 +8,7 @@ public class PlayerHealthBar : MonoBehaviour {
 	private RectTransform[] pieceTransforms;
 	private GameObject followTarget;
 	public Camera cam;
+	public CameraFollow camScript;
 	public PlayerBehaviour player;
 
 	private float HPValue;
@@ -24,19 +25,19 @@ public class PlayerHealthBar : MonoBehaviour {
 
 		for (int i = 0; i < 4; i++) {
 			piecesEnabled[i] = true;
-			pieces[i] = GameObject.Find("Piece" + (i+1)).GetComponent<UnityEngine.UI.Image>();
+			pieces[i] = transform.GetChild(i).GetComponent<UnityEngine.UI.Image>();
 			pieceTransforms[i] = pieces[i].GetComponent<RectTransform>();
 		}
 
 		followTarget = GameObject.FindGameObjectWithTag("Player");
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		camScript = cam.GetComponent<CameraFollow>();
 
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-		cam.ResetWorldToCameraMatrix();
-		uiPosition = cam.WorldToScreenPoint(followTarget.transform.position);
+	void LateUpdate () {
+		uiPosition = camScript.playerScreenPosition;
 
 		for (int i = 0; i < 4; i++) {
 			pieceTransforms[i].SetPositionAndRotation(uiPosition, pieceTransforms[i].rotation);
@@ -67,5 +68,6 @@ public class PlayerHealthBar : MonoBehaviour {
 			timer -= Time.deltaTime;
 			yield return new WaitForFixedUpdate();
 		}
+		alpha = 0f;
 	}
 }

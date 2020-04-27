@@ -62,6 +62,7 @@ public class PlayerBehaviour : MonoBehaviour {
     private GameObject inside3;
 
     public float invincible = 0f;
+    public bool isDashing = false;
 
     // Use this for initialization
     void Start()
@@ -140,13 +141,6 @@ public class PlayerBehaviour : MonoBehaviour {
             decayTimer += 0.1f;
         }
 
-        if (HP <= 0f)
-        {
-			Camera.main.GetComponent<CameraFollow>().AddNoise(50f);
-            Instantiate(deathExplosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-
         if (powerupLevel >= 7.5f && !heatOn)
         {
             heatOn = true;
@@ -174,8 +168,11 @@ public class PlayerBehaviour : MonoBehaviour {
         Movement();
         Fire();
 
-        rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
-        rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
+        if (!isDashing) {
+            rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
+            rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
+        }
+        
     }
 
     void Movement()
@@ -190,17 +187,6 @@ public class PlayerBehaviour : MonoBehaviour {
             rb.AddForce(movement * playerSpeed * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);
     }
-
-/* 
-    void Jump()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            rb.AddForce(0f, jumpStrength, 0f);
-        }
-    }
-*/
 
     void Fire()
     {
@@ -220,6 +206,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void getPowerup(GameObject newWeapon, Material newColour, int index, Material newMaterial, string powerName)
     {
+        ScoreManager.IncreaseScore(500);
+        ScoreManager.IncreaseMultiplier(0.1f);
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
         inside.GetComponent<MeshRenderer>().material = newColour;
@@ -241,7 +229,6 @@ public class PlayerBehaviour : MonoBehaviour {
         }
 
         HP = Mathf.Clamp(HP + powerupHealth, 0f, maxHP);
-        
     }
 
     public void addRecoil(Vector3 direction)
@@ -256,19 +243,16 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void takeDamage(int damage)
     {
-        HP -= damage;
-		Camera.main.GetComponent<CameraFollow>().AddNoise(25f);
-
-        /*
-        for (int i = 0; i < 4; i++) {
-            if (HP - 1 >= i) {
-                healthBar.piecesEnabled[i] = true;
-            }
-            else {
-                healthBar.piecesEnabled[i] = false;
-            }
+        //death condition: player has no health and takes more damage.
+        if (damage > 0f && HP == 0f) {
+            Camera.main.GetComponent<CameraFollow>().AddNoise(80f);
+            Instantiate(deathExplosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
-        */
+        else {
+            HP = Mathf.Max(0f, HP - damage);
+		    Camera.main.GetComponent<CameraFollow>().AddNoise(25f);
+        }
 
         invincible = 2f;
 

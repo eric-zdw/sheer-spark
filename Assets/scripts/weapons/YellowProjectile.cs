@@ -11,17 +11,20 @@ public class YellowProjectile : Projectile {
     private Vector3 mousePosition;
     private float radius;
 
-    private float projectileSpeedIncrease = 0f;
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+    private float projectileSpeedIncrease = 20f;
+    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
+
+    private GameObject player;
 
     //private float angle1;
     //private float angle2;
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 0f;
+        projectileSpeed = 1f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -77,9 +80,15 @@ public class YellowProjectile : Projectile {
             Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
-        print(360 - (Mathf.Abs(leftAngle - rightAngle)));
+        //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        projectileSpeed += 10f * Time.deltaTime;
+        if (projectileSpeed < 40f) {
+            projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
+            projectileSpeedIncrease *= 1.01f;
+        }
+        else {
+            projectileSpeed = 40f;
+        }
     }
     
 
@@ -121,22 +130,16 @@ public class YellowProjectile : Projectile {
 
     void Explode()
     {
-		Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(20f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
+        exp.transform.localScale = new Vector3(radius * 0.12f, radius * 0.12f, radius * 0.12f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
         hb.setDamage(damage);
-        hb.setRadius(radius / 0.25f);                //minimum damage is 1-x%
+        hb.setRadius(radius);               
         hb.printRadius();
-
-        ParticleSystem.EmissionModule emission = transform.GetChild(0).GetComponent<ParticleSystem>().emission;
-        emission.rateOverTime = 0f;
-        Destroy(transform.GetChild(0).gameObject, 2f);
         transform.GetChild(0).parent = null;
-        
-        
 
         Destroy(gameObject);
     }

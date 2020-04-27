@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashBoost : Utility {
+public class TeleBoost : Utility {
 
     private GameObject player;
     private PlayerBehaviour playerBehaviour;
@@ -18,6 +18,7 @@ public class DashBoost : Utility {
 
     public float dashVelocity = 20f;
     public float dashHeatVelocity = 20f;
+    public float teleDistance = 4f;
     bool isPrimed = false;
 
     public float charges;
@@ -43,6 +44,7 @@ public class DashBoost : Utility {
 	// Update is called once per frame
 	void Update () {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camFollow.CameraDistance));
+        print(camFollow.CameraDistance);
 
         if (dashTimer > 0f)
         {
@@ -52,10 +54,10 @@ public class DashBoost : Utility {
         if (charges < 4f)
         {
             if (Physics.Raycast(transform.position, Vector3.down, 1f, layermask)) {
-                charges += 2f * Time.deltaTime;
+                charges += 10f * Time.deltaTime;
             }
             else {
-                charges += 0.5f * Time.deltaTime;
+                charges += 0.25f * Time.deltaTime;
             }
         }
         else if (charges > 4f)
@@ -66,38 +68,55 @@ public class DashBoost : Utility {
 
     public override void Activate()
     {
+        StopCoroutine(SlowDown());
+
         if (charges >= 1f && dashTimer <= 0f)
         {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
 			//angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
 
             float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
-            rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle), dashRealVelocity * Mathf.Sin(angle), 0f);
-            print("velocity: " + rb.velocity);
+            //player.transform.position += new Vector3(teleDistance * Mathf.Cos(angle), teleDistance * Mathf.Sin(angle), 0f);
+            rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle) * 2f, dashRealVelocity * Mathf.Sin(angle), 0f) * 2f;
             if (rb.velocity.x > 0f)
-                rb.angularVelocity = new Vector3(0f, 0f, -10f);
+                rb.angularVelocity = new Vector3(0f, 0f, -4f);
             else
-                rb.angularVelocity = new Vector3(0f, 0f, 10f);
+                rb.angularVelocity = new Vector3(0f, 0f, 4f);
 
             Instantiate(dashImpact, transform.position, transform.rotation);
-            charges -= 1f;
+            charges -= 2f;
             sounds[0].Play();
             dashTimer = dashDelay;
+            StartCoroutine(SlowDown());
         }
         else if (charges < 1f && dashTimer <= 0f)
         {
             sounds[1].Play();
         }
+        
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "Enemy" && playerBehaviour.isDashing)
         {
             Instantiate(dashImpact, transform.position, transform.rotation);
             targetEnemy = other.GetComponent<Enemy>();
             targetEnemy.getDamage(impactDamage);
         }
+    }
+
+    public IEnumerator SlowDown() {
+        playerBehaviour.isDashing = true;
+        Physics.IgnoreLayerCollision(8, 16, true);
+        rb.useGravity = false;
+        for (int i = 0; i < 20; i++) {
+            rb.velocity *= 0.88f;
+            yield return new WaitForFixedUpdate();
+        }
+        playerBehaviour.isDashing = false;
+        Physics.IgnoreLayerCollision(8, 16, false);
+        rb.useGravity = true;
     }
 }

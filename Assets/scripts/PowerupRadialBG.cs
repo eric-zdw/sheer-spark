@@ -23,9 +23,8 @@ public class PowerupRadialBG : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
-		cam.ResetWorldToCameraMatrix();
-		uiPosition = cam.WorldToScreenPoint(followTarget.transform.position);
+	void Update () {
+		uiPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 		rect.SetPositionAndRotation(uiPosition, Quaternion.identity);
 	}
 

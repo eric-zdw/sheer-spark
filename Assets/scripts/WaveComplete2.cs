@@ -18,6 +18,7 @@ public class WaveComplete2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        /*
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -33,6 +34,7 @@ public class WaveComplete2 : MonoBehaviour {
             txt.color = new Color(1f, 1f, 1f, 0.3f);
             txt.text = Mathf.Ceil(timer).ToString();
         }
+        */
 	}
 
     public void StartRoutine()
