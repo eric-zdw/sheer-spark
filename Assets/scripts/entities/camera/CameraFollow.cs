@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour {
     private float resetTimer = 5f;
     private bool hasRestarted = false;
 
-    public WaveSystem ws;
+    public CameraBounds bounds;
     public Vector2 playerScreenPosition;
 
 	// Use this for initialization
@@ -24,7 +24,7 @@ public class CameraFollow : MonoBehaviour {
     {
         followTarget = GameObject.Find("Player");
         cam = GetComponent<Camera>();
-        ws = GameObject.FindGameObjectWithTag("WaveSystem").GetComponent<WaveSystem>();
+        bounds = GameObject.Find("CameraBounds").GetComponent<CameraBounds>();
 	}
 	
 	// Update is called once per frame
@@ -46,8 +46,8 @@ public class CameraFollow : MonoBehaviour {
         transform.position = newPosition;
 
         //clamp
-        float x = Mathf.Clamp(transform.position.x, ws.cameraBoundaries[0], ws.cameraBoundaries[1]);
-        float y = Mathf.Clamp(transform.position.y, ws.cameraBoundaries[2], ws.cameraBoundaries[3]);
+        float x = Mathf.Clamp(transform.position.x, bounds.bottomLeft.x, bounds.topRight.x);
+        float y = Mathf.Clamp(transform.position.y, bounds.bottomLeft.y, bounds.topRight.y);
         transform.position = new Vector3(x, y, transform.position.z);
         
         if (shakeFactor >= 0.0001f)

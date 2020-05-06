@@ -43,7 +43,7 @@ public class PlayerHealthBar : MonoBehaviour {
 			pieceTransforms[i].SetPositionAndRotation(uiPosition, pieceTransforms[i].rotation);
 		}
 
-		HPValue = Mathf.Lerp(HPValue, player.HP, 0.05f);
+		HPValue = Mathf.Lerp(HPValue, player.HP, 0.1f);
 
 		pieces[0].fillAmount = Mathf.Clamp(HPValue - 3f, 0f, 1f) * 0.25f;
 		pieces[1].fillAmount = Mathf.Clamp(HPValue - 2f, 0f, 1f) * 0.25f;
@@ -68,6 +68,9 @@ public class PlayerHealthBar : MonoBehaviour {
 			timer -= Time.deltaTime;
 			yield return new WaitForFixedUpdate();
 		}
-		alpha = 0f;
+		
+		for (int i = 0; i < 4; i++) {
+			pieces[i].color = new Color(1f, 1f, 1f, 0f);
+		}
 	}
 }

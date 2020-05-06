@@ -17,10 +17,14 @@ public class deathBoundary : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            other.GetComponent<PlayerBehaviour>().takeDamage(10);
+            for (int i = 0; i < 3; i++) {
+                other.GetComponent<PlayerBehaviour>().takeDamage(10);
+            }
         }
         else if (other.tag == "Enemy") {
-            other.GetComponent<Enemy>().getDamage(9999);
+            if (other.name != "OrangeBossHead" && other.name != "OrangeBossPiece") {
+                other.GetComponent<Enemy>().getDamage(1000);
+            }
         }
     }
 }

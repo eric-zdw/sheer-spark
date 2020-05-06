@@ -61,10 +61,10 @@ public class EnemyProjectile1 : Projectile {
         while (true) {
             mpb.SetColor("_TintColor", new Color(1f, 0.5f, 0.5f, 1f));
             renderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.2f);
-            mpb.SetColor("_TintColor", new Color(1f, 1f, 1f, 1f));
+            yield return new WaitForSeconds(0.08f);
+            mpb.SetColor("_TintColor", new Color(1f, 1f, 1f, 0.05f));
             renderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.08f);
         }
     }
 }

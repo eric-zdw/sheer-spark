@@ -20,7 +20,6 @@ public class DashBoost : Utility {
     public float dashHeatVelocity = 20f;
     bool isPrimed = false;
 
-    public float charges;
     private AudioSource[] sounds;
 
     private float dashDelay = 0.05f;
@@ -31,6 +30,7 @@ public class DashBoost : Utility {
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
+        charges = 4f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camFollow = cam.GetComponent<CameraFollow>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -55,7 +55,7 @@ public class DashBoost : Utility {
                 charges += 2f * Time.deltaTime;
             }
             else {
-                charges += 0.5f * Time.deltaTime;
+                charges += 0.4f * Time.deltaTime;
             }
         }
         else if (charges > 4f)

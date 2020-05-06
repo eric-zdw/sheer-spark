@@ -69,6 +69,7 @@ public class RedProjectile1 : Projectile {
             //transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                damage *= 0.8f;
                 Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
             }
             if (!info.collider.gameObject.CompareTag("Enemy")) {

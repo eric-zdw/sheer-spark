@@ -17,48 +17,43 @@ public class Spawner : MonoBehaviour {
     private GameObject player;
 
     public bool safeSpawn;
+    public bool isGrounded;
+    public bool isBusy;
 
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (Physics.Raycast(transform.position, Vector3.down, 4f)) {
+            isGrounded = true;
+        }
 	}
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         if (player != null)
         {
-            if (player.transform.position.x < transform.position.x + limitX && player.transform.position.x > transform.position.x - limitX
-                && player.transform.position.y < transform.position.y + limitY && player.transform.position.y > transform.position.y - limitY)
-            {
+            if (Vector3.Distance(transform.position, player.transform.position) < 20f) {
                 safeSpawn = false;
             }
-            else
-            {
+            else {
                 safeSpawn = true;
             }
         }
-
-
-        if (animationTimer <= 0f)
-        {
-            Instantiate(particles2, transform.position, Quaternion.identity);
-            if (spawnTarget != null)
-                Instantiate(spawnTarget, transform.position, Quaternion.identity);
-            isSpawning = false;
-            animationTimer = animTime;
-        }
-
-        if (isSpawning)
-        {
-            animationTimer -= Time.deltaTime;
-        }
-
 	}
 
-    public void Spawn(GameObject obj)
-    {
+    private IEnumerator Spawn(GameObject obj) {
+        isBusy = true;
         spawnTarget = obj;
         isSpawning = true;
+        float timer = 2f;
         Instantiate(particles, transform.position, Quaternion.identity);
+        while (timer > 0f) {    
+            timer -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        Instantiate(particles2, transform.position, Quaternion.identity);
+        Instantiate(spawnTarget, transform.position, Quaternion.identity);
+        isBusy = false;
     }
 }

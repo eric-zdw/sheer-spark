@@ -53,9 +53,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CameraBounds.cs" />
      <Compile Include="Assets\leveldata\EnemyEntry.cs" />
+     <Compile Include="Assets\leveldata\WaveEntry.cs" />
      <Compile Include="Assets\menudata\StageEntry.cs" />
      <Compile Include="Assets\MenuPowerup.cs" />
+     <Compile Include="Assets\MusicManager.cs" />
+     <Compile Include="Assets\OrangeBossHead.cs" />
+     <Compile Include="Assets\OrangeBossPiece.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -124,7 +129,6 @@
      <Compile Include="Assets\scripts\BoundaryHitbox.cs" />
      <Compile Include="Assets\scripts\CamManager.cs" />
      <Compile Include="Assets\scripts\CannonEnemy.cs" />
-     <Compile Include="Assets\scripts\Charges.cs" />
      <Compile Include="Assets\scripts\ChaseEnemy.cs" />
      <Compile Include="Assets\scripts\ChaseEnemyBoss.cs" />
      <Compile Include="Assets\scripts\CircleCannon.cs" />
@@ -143,7 +147,6 @@
      <Compile Include="Assets\scripts\effects\explosionlight.cs" />
      <Compile Include="Assets\scripts\effects\TestDebris.cs" />
      <Compile Include="Assets\scripts\EnemiesLeft.cs" />
-     <Compile Include="Assets\scripts\EnemiesValues.cs" />
      <Compile Include="Assets\scripts\EnemyBeam.cs" />
      <Compile Include="Assets\scripts\entities\camera\CameraFollow.cs" />
      <Compile Include="Assets\scripts\entities\enemies\Enemy.cs" />
@@ -184,6 +187,7 @@
      <Compile Include="Assets\scripts\MovingPlatform.cs" />
      <Compile Include="Assets\scripts\NavMeshGenerator.cs" />
      <Compile Include="Assets\scripts\Node.cs" />
+     <Compile Include="Assets\scripts\OrangeBoss.cs" />
      <Compile Include="Assets\scripts\OrangePowerup.cs" />
      <Compile Include="Assets\scripts\OrbGlow.cs" />
      <Compile Include="Assets\scripts\ParticleRotate.cs" />

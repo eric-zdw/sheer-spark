@@ -1,16 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class EnemySettings : MonoBehaviour {
+[CreateAssetMenu(fileName = "New EnemyEntry", menuName = "EnemyEntry", order = 53)]
+public class EnemyEntry : ScriptableObject {
 
-	// Use this for initialization
-	void Start () {
-		
+	[SerializeField]
+	private GameObject obj;
+
+	[SerializeField]
+	private int score;
+
+	[SerializeField]
+	private bool isGroundEnemy;
+
+	[SerializeField]
+	private bool isBossEnemy;
+
+	public GameObject Object
+	{
+		get { return obj; }
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public int Score
+	{
+		get { return score; }
 	}
+
+	public bool IsGroundEnemy
+	{
+		get { return isGroundEnemy; }
+	}
+
+	public bool IsBossEnemy
+	{
+		get { return isBossEnemy; }
+	}
+
 }

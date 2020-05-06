@@ -20,6 +20,11 @@ public class ScoreManager : MonoBehaviour {
 		
 	}
 
+	public static void ResetScore() {
+		score = 0;
+		multiplier = 1f;
+	}
+
 	public static void IncreaseScore(int value) {
 		//round multiplier to one digit
 		float roundedMultiplier = Mathf.Round(multiplier * 10f) / 10f;

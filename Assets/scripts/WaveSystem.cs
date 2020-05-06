@@ -4,13 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WaveSystem : MonoBehaviour {
-    
-    public int remainingEnemies;
-    private int activeEnemies;
-    public int reserveEnemies;
-    public int beginningEnemies = 3;
+
+    public WaveEntry[] waveEntries;
 	public int waveNumber;
-    public float jumpLimitY;
     public static float enemyPower = 1f;
     public float enemyPowerIncreasePerWave = 0.08f;
     public float easyPowerMultiplier = 0.5f;
@@ -19,15 +15,7 @@ public class WaveSystem : MonoBehaviour {
     bool ppChange = false;
     public int currentStage;
 
-    public int[] cameraBoundaries;
-
-    private int spawningEnemies = 0;
-
-
-    float delay = 10f;
-
-    private float spawnInterval;
-    float spawnDelay;
+    private Queue<EnemyEntry> enemiesInQueue;
 
     bool activeLevel = false;
     bool started = false;
@@ -35,14 +23,10 @@ public class WaveSystem : MonoBehaviour {
     public GameObject[] enemies;
 
     private List<GameObject> spawners;
+    private List<GameObject> airSpawners;
+    private List<GameObject> groundSpawners;
     private List<Spawner> spawnerScripts;
 
-    AudioSource lastMusic;
-    AudioSource newMusic;
-
-    public AudioSource[] musics;
-    private bool[] activeMusics;
-    private bool musicChosen = false;
     private PlayerBehaviour player;
     private bool highIntensity = false;
 
@@ -58,6 +42,8 @@ public class WaveSystem : MonoBehaviour {
     public int maxWaves = 10;
 
     public PPManager ppManager;
+    public SaveManager saveManager;
+    public MusicManager musicManager;
 
     private bool gameFinished;
 
@@ -71,42 +57,44 @@ public class WaveSystem : MonoBehaviour {
     public bool isBossStage = false;
     public GameObject BossEnemy;
 
-    public SaveManager saveManager;
-
     // Use this for initialization
     void Start () {
 
         WaveSystem.isPaused = false;
-        InitializeWaveParameters();
+        
+        waveNumber = 0;
+        enemyPower = 1f;
+
         InitializeSpawners();
 
-        currentStage = PlayerPrefs.GetInt("ActiveStage");
+        enemiesInQueue = new Queue<EnemyEntry>();
+        InitializeEnemyQueue();
 
-        musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
-        lastMusic = musics[0];
-        newMusic = musics[0];
-        activeMusics = new bool[5];
-        for (int i = 0; i < 5; i++)
-        {
-            activeMusics[i] = false;
-        }
+        currentStage = PlayerPrefs.GetInt("ActiveStage");
         
         actualProbabilities = new float[probabilities.Length];
         InitializeEnemyList();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-
-        
-        
-
     }
 
-    void InitializeWaveParameters()
-    {
-        waveNumber = 1;
-        reserveEnemies = 6;
-        enemyPower = 1f;
-        spawnInterval = 3f;
-        spawnDelay = spawnInterval;
+    private void InitializeEnemyQueue() {
+        if (waveEntries[waveNumber].SpawnInOrder) {
+            foreach (EnemyData ed in waveEntries[waveNumber].Enemies) {
+                //skip if infinite spawn
+                if (ed.EnemyCount > 0) {
+                    for (int i = 0; i < ed.EnemyCount; i++) {
+                        enemiesInQueue.Enqueue(ed.Entry);
+                    }
+                }        
+            }
+        }
+    }
+
+    private IEnumerator SpawnRoutine() {
+        while (enemiesInQueue.Count > 0) {
+            Spawn();
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     void InitializeSpawners()
@@ -117,6 +105,41 @@ public class WaveSystem : MonoBehaviour {
         for (int i = 0; i < spawners.Count; i++)
         {
             spawnerScripts.Add(spawners[i].GetComponent<Spawner>());
+        }
+
+        foreach (Spawner s in spawnerScripts) {
+            if (s.isGrounded) {
+                groundSpawners.Add(s);
+            }
+            else {
+                airSpawners.Add(s);
+            }
+        }
+    }
+
+    void Spawn()
+    {
+        List<Spawner> availableSpawners = new List<Spawner>();
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            if (spawnerScripts[i].safeSpawn == true)
+            {
+                availableSpawners.Add(spawnerScripts[i]);
+            }
+        }
+
+        int rngSpawner = Random.Range(0, availableSpawners.Count);
+        float rngEnemy = Random.Range(1f, totalProbability);
+        int counter = 0;
+        bool hasSpawned = false;
+        while(!hasSpawned)
+        {
+            if (rngEnemy < actualProbabilities[counter])
+            {
+                availableSpawners[rngSpawner].Spawn(enemies[counter]);
+                hasSpawned = true;
+            }
+            counter++;
         }
     }
 	
@@ -132,18 +155,6 @@ public class WaveSystem : MonoBehaviour {
             remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
             activeEnemies = remainingEnemies + spawningEnemies - reserveEnemies;
 
-            for (int i = 0; i < 5; i++)
-            {
-                if (activeMusics[i] == false && musics[i].volume > 0f)
-                {
-                    musics[i].volume -= 0.15f * Time.deltaTime;
-                }
-                else if (activeMusics[i] == true && musics[i].volume < 0.5f)
-                {
-                    musics[i].volume += 0.15f * Time.deltaTime;
-                }
-            }
-
             delay -= Time.deltaTime;
             if (delay < 0f && started == false)
             {
@@ -154,49 +165,6 @@ public class WaveSystem : MonoBehaviour {
             {
                 activeLevel = true;
             }
-
-            if (delay < 0f && activeLevel == true && musicChosen == false)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    activeMusics[i] = false;
-                }
-
-                if (waveNumber < 2)
-                    activeMusics[0] = true;
-                else if (waveNumber < 4)
-                    activeMusics[1] = true;
-                else if (waveNumber < 6)
-                    activeMusics[2] = true;
-                else if (waveNumber < 8)
-                    activeMusics[3] = true;
-                else
-                    activeMusics[4] = true;
-
-                musicChosen = true;
-                print("choosing music");
-            }
-
-			//activate high-intensity music if player is damaged or many enemies remain
-            /*
-            if (((player.HP == 2) || (activeEnemies > 8f)) && highIntensity == false)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    activeMusics[i] = false;
-                }
-
-                if (waveNumber < 3)
-                    activeMusics[1] = true;
-                else if (waveNumber < 5)
-                    activeMusics[2] = true;
-                else
-                    activeMusics[2] = true;
-
-                highIntensity = true;
-                print("high intensity");
-            }
-            */
 
             if (activeLevel == true && reserveEnemies != 0)
             {
@@ -272,56 +240,12 @@ public class WaveSystem : MonoBehaviour {
         SaveManager.WriteToFile(SaveManager.saveData);
         wc.LevelCompleteRoutine();
         yield return new WaitForSecondsRealtime(10f);
-        StartCoroutine(ReturnToMenu());
+        ReturnToMenu();
     }
 
-    IEnumerator ReturnToMenu()
+    public void ReturnToMenu()
     {
-        AsyncOperation load = SceneManager.LoadSceneAsync(0);
-        while(!load.isDone)
-        {
-            yield return null;
-        }
-    }
-
-    void InitializeEnemyList()
-    {
-        totalProbability = 0f;
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            if (allowedWaves[i] <= waveNumber)
-            {
-                actualProbabilities[i] = probabilities[i] + totalProbability;
-                totalProbability += probabilities[i];
-            }
-        }
-    }
-
-    void Spawn()
-    {
-        List<Spawner> availableSpawners = new List<Spawner>();
-        for (int i = 0; i < spawners.Count; i++)
-        {
-            if (spawnerScripts[i].safeSpawn == true)
-            {
-                availableSpawners.Add(spawnerScripts[i]);
-            }
-        }
-
-        int rngSpawner = Random.Range(0, availableSpawners.Count);
-        float rngEnemy = Random.Range(1f, totalProbability);
-        int counter = 0;
-        bool hasSpawned = false;
-        while(!hasSpawned)
-        {
-            if (rngEnemy < actualProbabilities[counter])
-            {
-                availableSpawners[rngSpawner].Spawn(enemies[counter]);
-                hasSpawned = true;
-                spawningEnemies--;
-            }
-            counter++;
-        }
+        SceneManager.LoadScene(0);
     }
 
     public void PauseGame() {

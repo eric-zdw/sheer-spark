@@ -13,9 +13,9 @@ public class SaveManager : MonoBehaviour {
 	void Start () {
         SaveManager.LoadSaveData(saveData);
 
-        print("SaveManager: levelsClearedOnNormal: ");
+        //print("SaveManager: levelsClearedOnNormal: ");
         foreach (string level in saveData.levelsClearedOnNormal) {
-            print(level);
+            //print(level);
         }
 	}
 	

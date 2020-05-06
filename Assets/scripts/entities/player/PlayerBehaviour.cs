@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour {
     public float playerBaseSpeed = 25f;
     public float playerHeatSpeed = 25f;
+    public float verticalSpeed;
     private float playerSpeed;
 
     public float dragForceX = 0.025f;
@@ -63,6 +64,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public float invincible = 0f;
     public bool isDashing = false;
+
+    public AudioSource damageClip;
 
     // Use this for initialization
     void Start()
@@ -186,6 +189,11 @@ public class PlayerBehaviour : MonoBehaviour {
         else
             rb.AddForce(movement * playerSpeed * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);
+
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 verticalMovement = new Vector3(0f, vertical, 0f);
+        if (vertical < 0f)
+            rb.AddForce(verticalMovement * verticalSpeed * Time.deltaTime);
     }
 
     void Fire()
@@ -244,6 +252,8 @@ public class PlayerBehaviour : MonoBehaviour {
     public void takeDamage(int damage)
     {
         //death condition: player has no health and takes more damage.
+        damageClip.Play();
+
         if (damage > 0f && HP == 0f) {
             Camera.main.GetComponent<CameraFollow>().AddNoise(80f);
             Instantiate(deathExplosion, transform.position, Quaternion.identity);

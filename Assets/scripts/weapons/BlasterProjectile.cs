@@ -13,7 +13,7 @@ public class BlasterProjectile : Projectile {
     void Start() {
         projectileSpeed = 70f;
         lifeTime = 10f;
-        damage = 7f;
+        damage = 6f;
     }
 
     // Update is called once per frame
