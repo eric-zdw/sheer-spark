@@ -16,7 +16,6 @@ public class Spawner : MonoBehaviour {
     private bool isSpawning;
     private GameObject player;
 
-    public bool safeSpawn;
     public bool isGrounded;
     public bool isBusy;
 
@@ -29,20 +28,20 @@ public class Spawner : MonoBehaviour {
         }
 	}
 
-    // Update is called once per frame
-    void FixedUpdate() {
+    public bool SafeToSpawn() {
         if (player != null)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < 20f) {
-                safeSpawn = false;
+            if (Vector3.Distance(transform.position, player.transform.position) < 30f) {
+                return false;
             }
             else {
-                safeSpawn = true;
+                return true;
             }
         }
-	}
+        else return false;
+    }
 
-    private IEnumerator Spawn(GameObject obj) {
+    public IEnumerator Spawn(GameObject obj) {
         isBusy = true;
         spawnTarget = obj;
         isSpawning = true;

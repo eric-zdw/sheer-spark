@@ -66,6 +66,7 @@ public class WaveComplete : MonoBehaviour {
         timer = 15f;
     }
 
+    /*
     public IEnumerator WaveCompleteRoutine() {
         
 
@@ -117,4 +118,5 @@ public class WaveComplete : MonoBehaviour {
 
         txt.text = "FINAL WAVE COMPLETE";
     }
+    */
 }

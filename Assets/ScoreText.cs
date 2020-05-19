@@ -24,7 +24,7 @@ public class ScoreText : MonoBehaviour {
 		while (true) {
 			scoreDisplay = Mathf.Lerp(scoreDisplay, ScoreManager.score, 0.1f);
 			scoreText.text = Mathf.RoundToInt(scoreDisplay).ToString("D8");
-			multiplierText.text = "x" + ((Mathf.Round(ScoreManager.multiplier * 10f)) / 10f).ToString();
+			multiplierText.text = "x" + ((Mathf.Round(ScoreManager.multiplier * 10f)) / 10f).ToString("F1");
 
 			yield return new WaitForEndOfFrame();
 		}

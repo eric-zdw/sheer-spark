@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public static class IListExtensions {
+    /// <summary>
+    /// Shuffles the element order of the specified list.
+    /// </summary>
+    public static void Shuffle<T>(this IList<T> ts) {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i) {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = ts[i];
+            ts[i] = ts[r];
+            ts[r] = tmp;
+        }
+    }
+}
+
 public class WaveSystem : MonoBehaviour {
 
     public WaveEntry[] waveEntries;
@@ -15,31 +31,24 @@ public class WaveSystem : MonoBehaviour {
     bool ppChange = false;
     public int currentStage;
 
-    private Queue<EnemyEntry> enemiesInQueue;
+    private List<EnemyEntry> enemyList;
+    private List<EnemyEntry> infiniteEnemyList;
+    public int enemiesInLimbo = 0;
 
     bool activeLevel = false;
     bool started = false;
 
-    public GameObject[] enemies;
-
     private List<GameObject> spawners;
-    private List<GameObject> airSpawners;
-    private List<GameObject> groundSpawners;
+    private List<Spawner> groundSpawners;
+    private List<Spawner> airSpawners;
     private List<Spawner> spawnerScripts;
 
     private PlayerBehaviour player;
     private bool highIntensity = false;
 
-    public float[] probabilities;
-    private float[] actualProbabilities;
-    private float totalProbability;
-    public int[] allowedWaves;
-
     public bool gameStarted = false;
     public WaveComplete wc;
     public WaveComplete2 wc2;
-
-    public int maxWaves = 10;
 
     public PPManager ppManager;
     public SaveManager saveManager;
@@ -54,47 +63,101 @@ public class WaveSystem : MonoBehaviour {
     public GameObject pauseMenu;
     public GameObject gameUI;
 
-    public bool isBossStage = false;
-    public GameObject BossEnemy;
+    private int activeEnemies = 0;
 
     // Use this for initialization
     void Start () {
-
         WaveSystem.isPaused = false;
         
         waveNumber = 0;
         enemyPower = 1f;
 
-        InitializeSpawners();
-
-        enemiesInQueue = new Queue<EnemyEntry>();
+        enemyList = new List<EnemyEntry>();
+        infiniteEnemyList = new List<EnemyEntry>();
         InitializeEnemyQueue();
 
+        InitializeSpawners();
+
         currentStage = PlayerPrefs.GetInt("ActiveStage");
-        
-        actualProbabilities = new float[probabilities.Length];
-        InitializeEnemyList();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+        StartCoroutine(SpawnRoutine());
     }
 
     private void InitializeEnemyQueue() {
-        if (waveEntries[waveNumber].SpawnInOrder) {
-            foreach (EnemyData ed in waveEntries[waveNumber].Enemies) {
-                //skip if infinite spawn
-                if (ed.EnemyCount > 0) {
-                    for (int i = 0; i < ed.EnemyCount; i++) {
-                        enemiesInQueue.Enqueue(ed.Entry);
-                    }
-                }        
+        foreach (EnemyData ed in waveEntries[waveNumber].Enemies) {
+            if (ed.EnemyCount >= 0) {
+                for (int i = 0; i < ed.EnemyCount; i++) {
+                    enemyList.Add(ed.Entry);
+                }
             }
+            //if EnemyCount < 0, add enemy to infinite spawn queue
+            else {
+                infiniteEnemyList.Add(ed.Entry);
+            }        
+        }
+        //randomize enemies if needed
+        //Fisher-Yates shuffle
+        if (!waveEntries[waveNumber].SpawnInOrder) {
+            enemyList.Shuffle();
         }
     }
 
     private IEnumerator SpawnRoutine() {
-        while (enemiesInQueue.Count > 0) {
-            Spawn();
-            yield return new WaitForSeconds(0.1f);
+        //wait for game start
+        while (!gameStarted) {
+            yield return new WaitForEndOfFrame();
         }
+
+        while (true) {
+            //spawn initial enemies
+            for (int i = 0; i < waveEntries[waveNumber].InitialSpawns; i++) {
+                Spawn();
+            }
+            yield return new WaitForSeconds(waveEntries[waveNumber].SpawnRate);
+
+            //main spawn routine
+            while (enemyList.Count > 0) {
+                //if at maximum allowed active enemies, wait until enemy is destroyed
+                while (activeEnemies > waveEntries[waveNumber].MaxActiveEnemies) {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                Spawn();
+
+                yield return new WaitForSeconds(waveEntries[waveNumber].SpawnRate);
+            }
+
+            //stay until enemyList is reinitialized
+            while (enemyList.Count == 0) {
+                yield return new WaitForEndOfFrame();
+            }
+
+            // brief wait before next wave
+            yield return new WaitForSeconds(1.5f);
+        }
+    }
+
+    void Spawn()
+    {
+        List<Spawner> availableSpawners = new List<Spawner>();
+        for (int i = 0; i < spawners.Count; i++)
+        {
+            if (spawnerScripts[i].SafeToSpawn())
+            {
+                availableSpawners.Add(spawnerScripts[i]);
+            }
+        }
+
+        int rngSpawner = Random.Range(0, availableSpawners.Count);
+        StartCoroutine(availableSpawners[rngSpawner].Spawn(enemyList[0].Object));
+        StartCoroutine(EnemyInLimbo());
+        enemyList.RemoveAt(0);
+    }
+
+    private IEnumerator EnemyInLimbo() {
+        enemiesInLimbo++;
+        yield return new WaitForSeconds(2.5f);
+        enemiesInLimbo--;
     }
 
     void InitializeSpawners()
@@ -102,6 +165,8 @@ public class WaveSystem : MonoBehaviour {
         spawners = new List<GameObject>();
         spawners.AddRange(GameObject.FindGameObjectsWithTag("Spawner"));
         spawnerScripts = new List<Spawner>();
+        groundSpawners = new List<Spawner>();
+        airSpawners = new List<Spawner>();
         for (int i = 0; i < spawners.Count; i++)
         {
             spawnerScripts.Add(spawners[i].GetComponent<Spawner>());
@@ -116,32 +181,6 @@ public class WaveSystem : MonoBehaviour {
             }
         }
     }
-
-    void Spawn()
-    {
-        List<Spawner> availableSpawners = new List<Spawner>();
-        for (int i = 0; i < spawners.Count; i++)
-        {
-            if (spawnerScripts[i].safeSpawn == true)
-            {
-                availableSpawners.Add(spawnerScripts[i]);
-            }
-        }
-
-        int rngSpawner = Random.Range(0, availableSpawners.Count);
-        float rngEnemy = Random.Range(1f, totalProbability);
-        int counter = 0;
-        bool hasSpawned = false;
-        while(!hasSpawned)
-        {
-            if (rngEnemy < actualProbabilities[counter])
-            {
-                availableSpawners[rngSpawner].Spawn(enemies[counter]);
-                hasSpawned = true;
-            }
-            counter++;
-        }
-    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -150,86 +189,37 @@ public class WaveSystem : MonoBehaviour {
             else UnpauseGame();
         }
 
+        activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        int remainingEnemies = activeEnemies + enemiesInLimbo + enemyList.Count;
+
         if (gameStarted)
         {
-            remainingEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length + reserveEnemies;
-            activeEnemies = remainingEnemies + spawningEnemies - reserveEnemies;
-
-            delay -= Time.deltaTime;
-            if (delay < 0f && started == false)
-            {
-                started = true;
-                activeLevel = true;
-            }
-            else if (delay < 0f && started == true && activeLevel == false)
-            {
-                activeLevel = true;
-            }
-
-            if (activeLevel == true && reserveEnemies != 0)
-            {
-                spawnDelay -= Time.deltaTime;
-                if (spawnDelay < 0f)
-                {
-                    Spawn();
-                    reserveEnemies--;
-                    spawningEnemies++;
-                    spawnDelay = spawnInterval;
-                }
-            }
-
             if (remainingEnemies == 0 && gameFinished == false)
                 IncrementWave();
         }
 
     }
 
-    IEnumerator UpdateEnemyCount()
-    {
-        while (true)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
     void IncrementWave()
     {
-        /*
-        for (int i = 0; i < 5; i++)
-        {
-            activeMusics[i] = false;
-            print("disabling music");
-        }
-        */
-        //activeMusics[0] = true;
-
-        //Stop high-intensity music.
-        musicChosen = false;
-        highIntensity = false;
-
         waveNumber++;
-        if (waveNumber > maxWaves)
+        if (waveNumber == waveEntries.Length)
         {
+            //Game is done. Increment stats and end game.
             gameFinished = true;
             StartCoroutine(ppManager.GameEndEffects());
             StartCoroutine(YouWin());
         }
+
         else {
             //Start slow down and post-processing effects.
             StartCoroutine(ppManager.SlowDown());
             StartCoroutine(ppManager.ChangePP());
             //TODO: add music sting, or cut music entirely after completion.            
 
-            
-            StartCoroutine(wc.WaveCompleteRoutine());
+            InitializeEnemyQueue();
+            //StartCoroutine(wc.WaveCompleteRoutine());
             wc2.StartRoutine();
-        
-            reserveEnemies = beginningEnemies + (int)(Mathf.Pow(waveNumber, 1.5f));
-            delay = 5f;
-            enemyPower = 1 + (waveNumber * enemyPowerIncreasePerWave);
-            spawnInterval = Mathf.Sqrt(10 / Mathf.Sqrt(reserveEnemies));
-            activeLevel = false;
-            InitializeEnemyList();
         }
 
         
@@ -238,7 +228,7 @@ public class WaveSystem : MonoBehaviour {
     IEnumerator YouWin() {
         SaveManager.saveData.levelsClearedOnNormal.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         SaveManager.WriteToFile(SaveManager.saveData);
-        wc.LevelCompleteRoutine();
+        //wc.LevelCompleteRoutine();
         yield return new WaitForSecondsRealtime(10f);
         ReturnToMenu();
     }

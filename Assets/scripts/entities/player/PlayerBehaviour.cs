@@ -32,6 +32,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float powerupHealth;
 
     public float powerupLevel;
+    public bool hasPowerup;
     private float heatTimer = 0f;
     private bool heatOn;
     public float heatFactor;
@@ -117,6 +118,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
             if (powerupTimer <= 0f)
             {
+                hasPowerup = false;
                 Destroy(weapon.gameObject);
                 weapon = Instantiate(defaultWeapon, transform.position, Quaternion.identity, weaponSlot.transform).GetComponent<Weapon>();
                 mesh.material = defaultColour;
@@ -214,8 +216,9 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void getPowerup(GameObject newWeapon, Material newColour, int index, Material newMaterial, string powerName)
     {
+        hasPowerup = true;
         ScoreManager.IncreaseScore(500);
-        ScoreManager.IncreaseMultiplier(0.1f);
+        ScoreManager.IncreaseMultiplier(1f);
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
         inside.GetComponent<MeshRenderer>().material = newColour;

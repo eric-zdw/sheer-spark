@@ -7,12 +7,27 @@ public class ScoreManager : MonoBehaviour {
 	public static int score = 0;
 	public static float multiplier = 1;
 	
-	private static float multiplierDecayRate = 0.2f;
+	private static float multiplierDecayRate = 2f;
 	private PlayerBehaviour player;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+
+		StartCoroutine(MultiplierDecay());
+	}
+
+	private IEnumerator MultiplierDecay() {
+		while (true) {
+			if (multiplier > 1f && !player.hasPowerup) {
+				multiplier = ((multiplier - 1f) * 0.98f) + 1f;
+			}
+			if (multiplier < 1f) {
+				multiplier = 1f;
+			}
+
+			yield return new WaitForSeconds(0.02f);
+		}
 	}
 	
 	// Update is called once per frame
