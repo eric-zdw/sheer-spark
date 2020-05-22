@@ -34,7 +34,11 @@ public class DashEnemy : Enemy {
 
 	public float moveSpeed;
 
+	private bool isDashing = false;
+
 	private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
+
+	private float dashDistance = 30f;
 
     void Start()
 	{
@@ -65,6 +69,8 @@ public class DashEnemy : Enemy {
 		}
 
 		damageMatBlock = new MaterialPropertyBlock();
+
+		GetComponent<Rigidbody>().maxAngularVelocity = 40f;
     }
 
 	void FixedUpdate()
@@ -78,21 +84,34 @@ public class DashEnemy : Enemy {
         {
             playerLocation = player.transform.position;
 
-            if (transform.position.x < playerLocation.x)
-            {
-                rb.AddForce(new Vector3(moveSpeed, 0f, 0f) * Time.deltaTime);
-                rb.AddTorque(0, 0, -moveSpeed * 0.2f * Time.deltaTime);
-            }
-            else if (transform.position.x > playerLocation.x)
-            {
-                rb.AddForce(new Vector3(-moveSpeed, 0f, 0f) * Time.deltaTime);
-                rb.AddTorque(0, 0, moveSpeed * 0.2f * Time.deltaTime);
-            }
+			float rand = Random.Range(0f, 1f);
+
+			if (!isDashing) {
+            	if (transform.position.x < playerLocation.x)
+            	{
+            	    rb.AddForce(new Vector3(moveSpeed, 0f, 0f) * Time.deltaTime);
+            	    rb.AddTorque(0, 0, -moveSpeed * 0.2f * Time.deltaTime);
+					
+					if (rand <= 0.005f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
+						StartCoroutine(DashRoutine(1));
+					}
+            	}
+            	else if (transform.position.x > playerLocation.x)
+            	{
+            	    rb.AddForce(new Vector3(-moveSpeed, 0f, 0f) * Time.deltaTime);
+            	    rb.AddTorque(0, 0, moveSpeed * 0.2f * Time.deltaTime);
+
+					if (rand <= 0.005f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
+						StartCoroutine(DashRoutine(-1));
+					}
+            	}
+			}
         }
 
+		
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
 		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 80f * Time.deltaTime);
-	    
+		
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -101,7 +120,7 @@ public class DashEnemy : Enemy {
         {
 			if (collision.gameObject.GetComponent<PlayerBehaviour>().invincible <= 0f) {
 				collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            	Explode();
+            	getDamage(100);
 			}
         }
     }
@@ -131,6 +150,28 @@ public class DashEnemy : Enemy {
 			damageMatBlock.SetColor("_EmissionColor", newColor);
 			damageFlash.SetPropertyBlock(damageMatBlock);
 			yield return new WaitForFixedUpdate();
+		}
+	}
+
+	private IEnumerator DashRoutine(int direction) {
+		if (!isDashing) {
+			isDashing = true;
+			GetComponent<Rigidbody>().useGravity = false;
+			GetComponent<Rigidbody>().drag = 5f;
+			GetComponent<Rigidbody>().AddForce(Vector3.up * 500f);
+			int timer = 100;
+			while (timer > 0) {
+				GetComponent<Rigidbody>().AddTorque(Vector3.forward * Time.deltaTime * -800f * direction);
+				timer--;
+				yield return new WaitForFixedUpdate();
+			}
+			GetComponent<Rigidbody>().drag = 0.5f;
+			GetComponent<Rigidbody>().AddForce(Vector3.right * 4200f * direction);
+			GetComponent<Rigidbody>().useGravity = true;
+
+			//wait a few seconds before it's possible to dash again
+			yield return new WaitForSeconds(2f);
+			isDashing = false;
 		}
 	}
 }

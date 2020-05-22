@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour {
 	private IEnumerator MultiplierDecay() {
 		while (true) {
 			if (multiplier > 1f && !player.hasPowerup) {
-				multiplier = ((multiplier - 1f) * 0.98f) + 1f;
+				multiplier = ((multiplier - 1f) * 0.998f) + 1f;
 			}
 			if (multiplier < 1f) {
 				multiplier = 1f;
