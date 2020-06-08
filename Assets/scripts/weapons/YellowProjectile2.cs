@@ -21,7 +21,7 @@ public class YellowProjectile2 : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 5f;
+        projectileSpeed = 8f;
         lifeTime = 5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -84,7 +84,7 @@ public class YellowProjectile2 : Projectile {
         
         if (projectileSpeed < 50f) {
             projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
-            projectileSpeedIncrease *= 1.05f;
+            projectileSpeedIncrease *= 1.055f;
         }
         else {
             projectileSpeed = 50f;
@@ -109,8 +109,8 @@ public class YellowProjectile2 : Projectile {
         if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
-                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
+                //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                Camera.main.GetComponent<CameraFollow>().AddNoise(1.5f);
             }
             Explode();
         }

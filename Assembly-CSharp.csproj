@@ -53,7 +53,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BossExplosion2.cs" />
      <Compile Include="Assets\CameraBounds.cs" />
+     <Compile Include="Assets\CameraFollowSeethrough.cs" />
      <Compile Include="Assets\leveldata\EnemyEntry.cs" />
      <Compile Include="Assets\leveldata\WaveEntry.cs" />
      <Compile Include="Assets\menudata\StageEntry.cs" />
@@ -107,6 +109,7 @@
      <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
      <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
      <Compile Include="Assets\PowerupManager.cs" />
+     <Compile Include="Assets\PurpleBossLasert.cs" />
      <Compile Include="Assets\RedWeapon2Explosion.cs" />
      <Compile Include="Assets\RotatePlatform.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
@@ -198,6 +201,7 @@
      <Compile Include="Assets\scripts\PowerupRadialBG.cs" />
      <Compile Include="Assets\scripts\PPManager.cs" />
      <Compile Include="Assets\scripts\PurpleBeam.cs" />
+     <Compile Include="Assets\scripts\PurpleBoss.cs" />
      <Compile Include="Assets\scripts\PurpleExplosion.cs" />
      <Compile Include="Assets\scripts\PurplePowerup.cs" />
      <Compile Include="Assets\scripts\Ready.cs" />
@@ -216,7 +220,6 @@
      <Compile Include="Assets\scripts\Tether.cs" />
      <Compile Include="Assets\scripts\TipText.cs" />
      <Compile Include="Assets\scripts\TitleFade.cs" />
-     <Compile Include="Assets\scripts\TranslatePlatform.cs" />
      <Compile Include="Assets\scripts\TutorialImg.cs" />
      <Compile Include="Assets\scripts\TutorialTrigger.cs" />
      <Compile Include="Assets\scripts\TutorialTxt.cs" />

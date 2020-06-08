@@ -17,7 +17,6 @@ public class DriftEnemy : Enemy {
 	public Material[] seeThroughs;
 	public GameObject[] explosions;
 	public Material damagedMaterial;
-    public float YLimit;
 	private MeshRenderer damageFlash;
     private MeshRenderer outline;
 	private MeshRenderer seeThrough;

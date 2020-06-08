@@ -92,7 +92,7 @@ public class DashEnemy : Enemy {
             	    rb.AddForce(new Vector3(moveSpeed, 0f, 0f) * Time.deltaTime);
             	    rb.AddTorque(0, 0, -moveSpeed * 0.2f * Time.deltaTime);
 					
-					if (rand <= 0.005f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
+					if (rand <= 0.012f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
 						StartCoroutine(DashRoutine(1));
 					}
             	}
@@ -101,7 +101,7 @@ public class DashEnemy : Enemy {
             	    rb.AddForce(new Vector3(-moveSpeed, 0f, 0f) * Time.deltaTime);
             	    rb.AddTorque(0, 0, moveSpeed * 0.2f * Time.deltaTime);
 
-					if (rand <= 0.005f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
+					if (rand <= 0.012f && !isDashing && Vector3.Distance(transform.position, player.transform.position) < dashDistance) {
 						StartCoroutine(DashRoutine(-1));
 					}
             	}
@@ -170,7 +170,7 @@ public class DashEnemy : Enemy {
 			GetComponent<Rigidbody>().useGravity = true;
 
 			//wait a few seconds before it's possible to dash again
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(2.8f);
 			isDashing = false;
 		}
 	}

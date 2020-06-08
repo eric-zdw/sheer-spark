@@ -66,7 +66,7 @@ public class RedProjectile2 : Projectile {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
+                Camera.main.GetComponent<CameraFollow>().AddNoise(.75f);
             }
             Explode();
         }

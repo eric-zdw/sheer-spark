@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
 
-    public float[] boundsX;
-    public float[] boundsY;
-    public bool velocity;
+    public Vector2 start;
+	public Vector2 end;
+
+	public float cyclesPerSecond;
+
+	private float time = 0f;
+	private Rigidbody rb;
 
 	// Use this for initialization
 	void Start () {
-		
+		rb = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	    
+	void FixedUpdate () {
+	    time += Time.deltaTime;
+		Vector2 newV = start + (Mathf.Cos(time * (Mathf.PI * 0.2f) * cyclesPerSecond) + 1f) * 0.5f * (end - start);
+		rb.MovePosition(newV);
 	}
 }

@@ -105,7 +105,7 @@ public class GreenProjectile : Projectile {
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
         hb.setDamage(damage * 0.2f);
-        hb.setRadius(radius);
+        hb.setRadius(radius * 1.5f);
     }
 
     public void setDamage(float d)

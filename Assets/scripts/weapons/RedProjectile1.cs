@@ -19,8 +19,8 @@ public class RedProjectile1 : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 250f;
-        lifeTime = 1.00f;
+        projectileSpeed = 150f;
+        lifeTime = 0.1f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
@@ -58,7 +58,7 @@ public class RedProjectile1 : Projectile {
 
     IEnumerator DecreaseSpeed() {
         while(true) {
-            projectileSpeed *= .70f;
+            //projectileSpeed *= .70f;
             yield return new WaitForFixedUpdate();
         }
     }

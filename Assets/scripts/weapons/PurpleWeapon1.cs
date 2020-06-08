@@ -70,7 +70,7 @@ public class PurpleWeapon1 : Weapon {
             print("chargeValue: " + chargeValue + ", damage charged: " + (chargeValue*chargeValue*chargeValue*damage));
 
 
-            float trueRecoil = recoilForce * chargeValue * chargeValue;
+            float trueRecoil = recoilForce * Mathf.Pow(chargeValue, 5);
             playerRB.velocity = new Vector3(0, 0, 0);
             playerRB.AddForce(new Vector3(-trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), -trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
 

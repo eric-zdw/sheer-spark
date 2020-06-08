@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63130193968a0224b93949788c32cd8e, type: 3}
+  m_Name: P1W5
+  m_EditorClassIdentifier: 
+  enemies:
+  - enemyEntry: {fileID: 11400000, guid: 9045df4e8d47ac94b8dfb15724fcf2eb, type: 2}
+    enemyCount: 18
+  - enemyEntry: {fileID: 11400000, guid: ddfeece98f05e9f409c54d984e394b0e, type: 2}
+    enemyCount: 18
+  initialSpawns: 8
+  spawnRate: 2.2
+  maxActiveEnemies: 8
+  spawnInOrder: 0
+  isBossWave: 0

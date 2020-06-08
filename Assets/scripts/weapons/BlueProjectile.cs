@@ -44,7 +44,7 @@ public class BlueProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        lifeTime = 6.5f;
+        lifeTime = 8f;
         rb = GetComponent<Rigidbody>();
         projectileSpeed = launchSpeed;
         rb.AddForce(Random.insideUnitCircle * 2000f);
@@ -75,6 +75,7 @@ public class BlueProjectile : Projectile {
                 //isShot = true;
                 //chargeTimer = chargeMax;
                 //rb.velocity = new Vector3(0, 0, 0);
+                GetComponent<SphereCollider>().isTrigger = true;
                 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20f));
                 launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;
                 Destroy(rb);
@@ -112,18 +113,13 @@ public class BlueProjectile : Projectile {
         */
     }
 
-    /*
     private void OnTriggerEnter(Collider other)
     {
-		if (other.CompareTag("Enemy"))
+		if (other.gameObject.CompareTag("Enemy") && projectileMode == false)
         {
-			Instantiate(explosion, transform.position, transform.rotation);
-			//other.GetComponent<Rigidbody>().AddExplosionForce(500f, transform.position, radius * 2);
-			other.gameObject.GetComponent<Enemy>().getDamage(damage);
-			Destroy(gameObject);
+			Explode();
         }
     }
-    */
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -144,8 +140,9 @@ public class BlueProjectile : Projectile {
         RaycastHit info;
         if (Physics.Linecast(transform.position, transform.position + launchVector * Time.deltaTime, out info, layermask)) {
             transform.position = info.point;
+            transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
-                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
                 Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
             }
             Explode();
@@ -166,7 +163,7 @@ public class BlueProjectile : Projectile {
 
     void Explode()
     {
-        Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);

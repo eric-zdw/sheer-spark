@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1158055384966270
 GameObject:
   m_ObjectHideFlags: 1
@@ -897,7 +897,7 @@ GameObject:
   - component: {fileID: 4163115455238324}
   - component: {fileID: 20594888247370192}
   - component: {fileID: 124928193962708384}
-  - component: {fileID: 114089799589162982}
+  - component: {fileID: 114597599354816888}
   m_Layer: 0
   m_Name: SeeThroughCamera
   m_TagString: Untagged
@@ -3809,7 +3809,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1212600798792470}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -3857,24 +3857,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114089799589162982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1650421509743600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 098654fa3842b1b409224dc98c6a3a84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followTarget: {fileID: 1651668818389564}
-  CameraDistance: 20
-  shakeFactor: 0
-  shakeMultiplier: 1
-  shakeDecayFactor: 0.85
-  bounds: {fileID: 0}
-  playerScreenPosition: {x: 0, y: 0}
 --- !u!114 &114094632721993054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4439,10 +4421,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3287958020ee8e40937c4d3c8c707ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {x: -55, y: 10}
-  ceiling: {x: 55, y: 60}
-  density: 3
-  padding: 2
+  floor: {x: -55, y: 0}
+  ceiling: {x: 55, y: 40}
+  density: 2
+  padding: 1
   node: {fileID: 1163349827675426, guid: b03716835800bd847ab335868a03fdbd, type: 2}
 --- !u!114 &114246131874877594
 MonoBehaviour:
@@ -4528,7 +4510,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1149797836184806}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -4796,6 +4778,7 @@ MonoBehaviour:
   - Powerups only last a short amount of time, so quickly collecting powerups is a
     must.
   - Enemies can fall off the stage... but you won't be able to reach their powerups.
+  - Colliding with enemies damages both you and the enemy.
   tipText: {fileID: 114155869840750624}
 --- !u!114 &114387652076419702
 MonoBehaviour:
@@ -5300,6 +5283,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u27A4"
+--- !u!114 &114597599354816888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650421509743600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cd7fef127d6dc42b8691a2b05674a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114611970175799850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5564,7 +5558,7 @@ MonoBehaviour:
   torqueStrength: 1
   maxHP: 4
   defaultColour: {fileID: 2100000, guid: 2ad49c2a9b982a646a90ac3b3842f722, type: 2}
-  defaultWeapon: {fileID: 1014158004818090, guid: a6f5b35373fbcbb40922287fe5fab9a1,
+  defaultWeapon: {fileID: 1313234464062574, guid: cb231a7943d5e5d4c977792d65b45d2a,
     type: 2}
   powerupDuration: 8
   powerupTimer: 0
@@ -5715,7 +5709,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1399958176953742}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
