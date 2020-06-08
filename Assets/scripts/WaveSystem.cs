@@ -50,7 +50,7 @@ public class WaveSystem : MonoBehaviour {
     public WaveComplete wc;
     public WaveComplete2 wc2;
 
-    public PPManager ppManager;
+    //public PPManager ppManager;
     public SaveManager saveManager;
     public MusicManager musicManager;
 
@@ -207,14 +207,14 @@ public class WaveSystem : MonoBehaviour {
         {
             //Game is done. Increment stats and end game.
             gameFinished = true;
-            StartCoroutine(ppManager.GameEndEffects());
+            //StartCoroutine(ppManager.GameEndEffects());
             StartCoroutine(YouWin());
         }
 
         else {
             //Start slow down and post-processing effects.
-            StartCoroutine(ppManager.SlowDown());
-            StartCoroutine(ppManager.ChangePP());
+            //StartCoroutine(ppManager.SlowDown());
+            //StartCoroutine(ppManager.ChangePP());
             //TODO: add music sting, or cut music entirely after completion.            
 
             InitializeEnemyQueue();

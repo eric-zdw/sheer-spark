@@ -28,7 +28,7 @@ public class DashEnemy : Enemy {
     private float tetheredCheck = 0.05f;
     private float tetheredTimer;
 
-	private PPManager ppManager;
+	//private PPManager ppManager;
 
 	private MaterialPropertyBlock damageMatBlock;
 
