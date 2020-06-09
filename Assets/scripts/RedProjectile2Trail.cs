@@ -16,10 +16,10 @@ public class RedProjectile2Trail : MonoBehaviour {
 	IEnumerator Fade() {
 		while (true) {
 			Color newColor = new Color(trail.startColor.r, trail.startColor.g, trail.startColor.b, trail.startColor.a * 0.75f);
-			trail.widthMultiplier *= 0.75f;
+			trail.widthMultiplier *= 0.8f;
 			trail.startColor = newColor;
 			trail.endColor = newColor;
-			yield return new WaitForSeconds(0.02f);
+			yield return new WaitForSeconds(0.01f);
 		}
 	}
 }
