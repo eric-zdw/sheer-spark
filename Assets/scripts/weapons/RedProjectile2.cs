@@ -1,4 +1,4 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -110,6 +110,7 @@ public class RedProjectile2 : Projectile {
         Instantiate(explosion, transform.position, transform.rotation);
         Instantiate(explosion2, transform.position, transform.rotation);
         Instantiate(explosion3, transform.position, transform.rotation);
+        transform.GetChild(0).parent = null;
         transform.GetChild(0).parent = null;
         Destroy(gameObject);
     }

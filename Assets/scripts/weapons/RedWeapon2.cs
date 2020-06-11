@@ -14,8 +14,8 @@ public class RedWeapon2 : Weapon {
     public float heatDamageRate = 0.005f;
     public float heatFireRate = 0.004f;
     public float damage = 6f;
-    public float shotSeparation = 1.5f;
     public float shotSpread = .1f;
+    public int numberOfShots = 10;
 
     void Start () {
         SetFireRate(bFireRate);
@@ -57,7 +57,7 @@ public class RedWeapon2 : Weapon {
             }
             */
             
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < numberOfShots; i++) {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                 projectile,
