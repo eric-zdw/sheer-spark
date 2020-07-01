@@ -11,9 +11,19 @@ public class Node : MonoBehaviour {
 
 	public enum NodeDirection {UL, U, UR, L, R, DL, D, DR};
 
+	// node attributes
+	public bool isGroundNode = false;
+	public bool isEdgeNode = false;
+	public bool leftEdgeNode = false;
+	public bool rightEdgeNode = false;
+
+	public List<Node> jumpConnections;
+	public List<Node> dropConnections;
+	
+
 	// Use this for initialization
 	void Start () {
-		
+		jumpConnections = new List<Node>();
 	}
 	
 	// Update is called once per frame
@@ -29,5 +39,13 @@ public class Node : MonoBehaviour {
 
 		navX = x;
 		navY = y;
+	}
+
+	public void MakeJumpConnection(Node dest) {
+		jumpConnections.Add(dest);
+	}
+
+	public void MakeDropConnection(Node dest) {
+		dropConnections.Add(dest);
 	}
 }

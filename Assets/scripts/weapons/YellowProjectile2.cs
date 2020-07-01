@@ -38,7 +38,7 @@ public class YellowProjectile2 : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20f));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
 
 
         /*

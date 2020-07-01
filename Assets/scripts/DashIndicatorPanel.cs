@@ -8,17 +8,24 @@ public class DashIndicatorPanel : MonoBehaviour {
 	public UnityEngine.UI.Image topR;
 	public UnityEngine.UI.Image bottomL;
 	public UnityEngine.UI.Image bottomR;
+	public UnityEngine.UI.Image topL2;
+	public UnityEngine.UI.Image topR2;
+	public UnityEngine.UI.Image bottomL2;
+	public UnityEngine.UI.Image bottomR2;
 	public UnityEngine.UI.Image topBG;
 	public UnityEngine.UI.Image bottomBG;
 
 	private DashBoost dashBoost;
 	private TeleBoost teleBoost;
 
-	private float value;
+	private float valueWidth, valueHeight;
+	private float percent;
 
 	private float red = 0f;
 	private float alpha = 0.5f;
 	private float fadeDelay = 0.4f; 
+
+	private float totalPixels;
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +36,7 @@ public class DashIndicatorPanel : MonoBehaviour {
 			teleBoost = GameObject.Find("TeleBoost").GetComponent<TeleBoost>();
 		}
 
-		value = dashBoost.charges / 4f;
+		percent = dashBoost.uses / 4f;
 
 		topBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
 		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
@@ -37,22 +44,35 @@ public class DashIndicatorPanel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float fill = 0f;
-		if (dashBoost) fill = dashBoost.charges / 4f;
-		if (teleBoost) fill = teleBoost.charges / 4f;
-		value = Mathf.Lerp(value, fill, 0.2f);
-		topL.fillAmount = value;
-		topR.fillAmount = value;
-		bottomL.fillAmount = value;
-		bottomR.fillAmount = value;
+		totalPixels = Screen.width + Screen.height;
+		float heightRatio = Screen.height / totalPixels;
+		float widthRatio = Screen.width / totalPixels;
+		
+		percent = dashBoost.uses / 4f;
+		float fillHeight = (1f - widthRatio - (1f - percent)) / heightRatio;
+		float fillWidth = (1f - (1f - percent)) / widthRatio;
+		
+		//if (dashBoost) fill = dashBoost.uses / 4f;
+		//if (teleBoost) fill = teleBoost.uses / 4f;
+		valueHeight = Mathf.Clamp(Mathf.Lerp(valueHeight, fillHeight, 0.2f), 0f, 1f);
+		valueWidth = Mathf.Clamp(Mathf.Lerp(valueWidth, fillWidth, 0.2f), 0f, 1f);
+
+		topL.fillAmount = valueWidth;
+		topR.fillAmount = valueWidth;
+		bottomL.fillAmount = valueWidth;
+		bottomR.fillAmount = valueWidth;
+		topL2.fillAmount = valueHeight;
+		topR2.fillAmount = valueHeight;
+		bottomL2.fillAmount = valueHeight;
+		bottomR2.fillAmount = valueHeight;
 
 		Color color;
 		// non-full dash
-		if (fill < 1f) {
+		if (percent < 1f) {
 			alpha = 0.5f;
 			fadeDelay = 0.4f;
 
-			if (fill < 0.25f) {
+			if (percent < 0.25f) {
 				if (dashBoost) red = 0.2f;
 				if (teleBoost) red = 0.2f;
 				color = new Color (1f, red, red, alpha);
@@ -76,6 +96,10 @@ public class DashIndicatorPanel : MonoBehaviour {
 		topR.color = color;
 		bottomL.color = color;
 		bottomR.color = color;
+		topL2.color = color;
+		topR2.color = color;
+		bottomL2.color = color;
+		bottomR2.color = color;
 
 		topBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
 		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);

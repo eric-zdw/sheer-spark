@@ -59,10 +59,12 @@ public class EnemyProjectile1 : Projectile {
 
     public IEnumerator FlashRed() {
         while (true) {
-            mpb.SetColor("_TintColor", new Color(1f, 0.5f, 0.5f, 1f));
+            mpb.SetColor("_Color", new Color(1f, 0f, 0f, 1f));
+            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 1f));
             renderer.SetPropertyBlock(mpb);
             yield return new WaitForSeconds(0.08f);
-            mpb.SetColor("_TintColor", new Color(1f, 1f, 1f, 0.05f));
+            mpb.SetColor("_Color", new Color(1f, 0f, 0f, 0.04f));
+            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 0.04f));
             renderer.SetPropertyBlock(mpb);
             yield return new WaitForSeconds(0.08f);
         }

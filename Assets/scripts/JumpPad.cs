@@ -21,10 +21,12 @@ public class JumpPad : MonoBehaviour {
         renderer = GetComponent<ParticleSystemRenderer>();
         mesh = GetComponent<MeshRenderer>();
 
-        particleMpb.SetColor("_TintColor", particleColor);
+        particleMpb.SetColor("_Color", particleColor);
+        particleMpb.SetColor("_EmissionColor", particleColor);
         renderer.SetPropertyBlock(particleMpb);
 
-        meshMpb.SetColor("_TintColor", meshColor);
+        meshMpb.SetColor("_Color", meshColor);
+        meshMpb.SetColor("_EmissionColor", meshColor);
         mesh.SetPropertyBlock(meshMpb);
 	}
 	

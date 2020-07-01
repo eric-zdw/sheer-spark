@@ -38,7 +38,7 @@ public class DashEnemy : Enemy {
 
 	private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14);
 
-	private float dashDistance = 30f;
+	private float dashDistance = 75f;
 
     void Start()
 	{
@@ -144,7 +144,7 @@ public class DashEnemy : Enemy {
 		float colorValue = 2f;
 		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
 		while (colorValue > 0f) {
-			print("colorValue: " + colorValue);
+			//print("colorValue: " + colorValue);
 			colorValue -= 5f * Time.deltaTime;
 			newColor = new Color(colorValue, colorValue, colorValue, 1);
 			damageMatBlock.SetColor("_EmissionColor", newColor);
@@ -161,12 +161,12 @@ public class DashEnemy : Enemy {
 			GetComponent<Rigidbody>().AddForce(Vector3.up * 500f);
 			int timer = 100;
 			while (timer > 0) {
-				GetComponent<Rigidbody>().AddTorque(Vector3.forward * Time.deltaTime * -800f * direction);
+				GetComponent<Rigidbody>().AddTorque(Vector3.forward * Time.deltaTime * -1600f * direction);
 				timer--;
 				yield return new WaitForFixedUpdate();
 			}
 			GetComponent<Rigidbody>().drag = 0.5f;
-			GetComponent<Rigidbody>().AddForce(Vector3.right * 4200f * direction);
+			GetComponent<Rigidbody>().AddForce(Vector3.right * 9000f * direction);
 			GetComponent<Rigidbody>().useGravity = true;
 
 			//wait a few seconds before it's possible to dash again

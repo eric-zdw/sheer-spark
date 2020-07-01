@@ -45,7 +45,7 @@ public class PurpleWeapon1 : Weapon {
         if (GetCooldown() > 0)
             DecrementCooldown();
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
         if (Input.GetButtonUp("Fire1") && chargeValue > 0.2f)

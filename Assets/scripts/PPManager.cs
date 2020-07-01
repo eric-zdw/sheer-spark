@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PPManager : MonoBehaviour {
 
+	/*
     UnityEngine.PostProcessing.PostProcessingProfile ppProfile;
     UnityEngine.PostProcessing.ColorGradingModel.Settings ppSettings;
 	public float ppDefaultContrast = 1f;
@@ -12,6 +13,7 @@ public class PPManager : MonoBehaviour {
     public float ppSlowSaturation = -0.25f;
     public float ppDefaultExposure = 0f;
     public float ppSlowExposure = 0.5f;
+	*/
     public float ppTransitionTime = 2.5f;
     public float ppDefaultTimeScale = 1.5f;
     public float ppSlowTimeScale = 0.015f;
@@ -20,12 +22,14 @@ public class PPManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		/*
 		ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
         ppSettings = ppProfile.colorGrading.settings;
         ppSettings.basic.contrast = ppDefaultContrast;
         ppSettings.basic.saturation = ppDefaultSaturation;
         ppSettings.basic.postExposure = ppDefaultExposure;
         ppProfile.colorGrading.settings = ppSettings;
+		*/
 
         Time.timeScale = ppDefaultTimeScale;
         Time.fixedDeltaTime = ppDefaultTimeScale / ppFixedScale;
@@ -45,18 +49,22 @@ public class PPManager : MonoBehaviour {
 				ppTimer -= 0.01f;
 				ppMagnitude = ppTimer / ppTransitionTime;
 
+				/*
 				ppSettings.basic.contrast = ppDefaultContrast + (ppSlowContrast * ppMagnitude);
 				ppSettings.basic.saturation = ppDefaultSaturation + (ppSlowSaturation * ppMagnitude);
 				ppSettings.basic.postExposure = ppDefaultExposure + (ppSlowExposure * ppMagnitude);
 				ppProfile.colorGrading.settings = ppSettings;
+				*/
 			}
 			yield return new WaitForSecondsRealtime(0.01f);
 		}
 
+		/*
 		ppSettings.basic.contrast = ppDefaultContrast;
         ppSettings.basic.saturation = ppDefaultSaturation;
         ppSettings.basic.postExposure = ppDefaultExposure;
         ppProfile.colorGrading.settings = ppSettings;
+		*/
     }
 
 	public IEnumerator ChangePP() {
@@ -93,17 +101,21 @@ public class PPManager : MonoBehaviour {
 	}
 
 	public IEnumerator GameEndEffects() {
+		/*
 		ppSettings.basic.contrast = ppDefaultContrast + ppSlowContrast;
 		ppSettings.basic.saturation = ppDefaultSaturation + ppSlowSaturation;
 		ppSettings.basic.postExposure = ppDefaultExposure + 10f;
 		ppProfile.colorGrading.settings = ppSettings;
+		*/
 
 		Time.timeScale = 0.022f;
 		Time.fixedDeltaTime = Time.timeScale / 60f;
 
 		while (true) {
+			/*
 			ppSettings.basic.postExposure -= 2f * Time.unscaledDeltaTime;
 			ppProfile.colorGrading.settings = ppSettings;
+			*/
 
 			yield return new WaitForEndOfFrame();
 		}

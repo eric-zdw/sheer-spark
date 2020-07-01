@@ -6,7 +6,7 @@ public abstract class Utility : MonoBehaviour
 {
     protected float useRate;
     protected float cooldown;
-    public float charges;
+    public float uses;
 
     public Utility()
     {

@@ -76,7 +76,7 @@ public class BlueProjectile : Projectile {
                 //chargeTimer = chargeMax;
                 //rb.velocity = new Vector3(0, 0, 0);
                 GetComponent<SphereCollider>().isTrigger = true;
-                mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 20f));
+                mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
                 launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;
                 Destroy(rb);
                 projectileMode = true;
@@ -138,8 +138,8 @@ public class BlueProjectile : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.Linecast(transform.position, transform.position + launchVector * Time.deltaTime, out info, layermask)) {
-            transform.position = info.point;
+        //if (Physics.Linecast(transform.position, transform.position + launchVector * Time.deltaTime, out info, layermask)) {
+        if (Physics.SphereCast(transform.position, radius * 0.5f, launchVector, out info, Vector3.Magnitude(launchVector * Time.deltaTime), layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);

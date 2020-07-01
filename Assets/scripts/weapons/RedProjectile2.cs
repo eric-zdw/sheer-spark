@@ -62,7 +62,7 @@ public class RedProjectile2 : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+        if (Physics.SphereCast(transform.position, 0.1f, transform.right, out info, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);

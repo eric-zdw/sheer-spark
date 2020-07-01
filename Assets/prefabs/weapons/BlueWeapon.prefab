@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1313234464062574}
-  m_IsPrefabAsset: 1
 --- !u!1 &1313234464062574
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4034443471760690}
@@ -30,9 +20,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4034443471760690
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313234464062574}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -41,11 +32,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114335480228986534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313234464062574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49850af6aa0f0f04fb9a85121750b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 1526053759308188, guid: e07bc80e3d733a34ab773214f09f9f02, type: 3}
+  explosionHitbox: {fileID: 1453142070821372, guid: 5f38c2ace539b3a4fbb2ef4b67ae2427,
+    type: 3}
+  chargeHitbox: {fileID: 1453142070821372, guid: 60cbf13abb65d8147b2b08ab7b2ba050,
+    type: 3}
+  bFireRate: 0.22
+  heatDamageRate: 0
+  heatFireRate: 0
+  damage: 28
+  chargeDamage: 20
+  rangeRadius: 0
+  maxRange: 1.5
+  rangeSphere: {fileID: 1894879615220836, guid: cd2657ef1fc796448aa516d6e6715880,
+    type: 3}
+  rangeMaterial: {fileID: 2100000, guid: a8d6eff7ad21bfa4a824eb697ae057ac, type: 2}
+  projectile: {fileID: 1453142070821372, guid: 50413ae6f9a347d4fa6b47cc56f3d4ea, type: 3}
+  radius: 1
+  heatRadiusRate: 0.002
 --- !u!82 &82077835687239080
 AudioSource:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313234464062574}
   m_Enabled: 1
   serializedVersion: 4
@@ -136,32 +158,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114335480228986534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1313234464062574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49850af6aa0f0f04fb9a85121750b399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosion: {fileID: 1526053759308188, guid: e07bc80e3d733a34ab773214f09f9f02, type: 2}
-  explosionHitbox: {fileID: 1453142070821372, guid: 5f38c2ace539b3a4fbb2ef4b67ae2427,
-    type: 2}
-  chargeHitbox: {fileID: 1453142070821372, guid: 60cbf13abb65d8147b2b08ab7b2ba050,
-    type: 2}
-  bFireRate: 0.14
-  heatDamageRate: 0
-  heatFireRate: 0
-  damage: 18
-  chargeDamage: 20
-  rangeRadius: 0
-  maxRange: 1.5
-  rangeSphere: {fileID: 1894879615220836, guid: cd2657ef1fc796448aa516d6e6715880,
-    type: 2}
-  rangeMaterial: {fileID: 2100000, guid: a8d6eff7ad21bfa4a824eb697ae057ac, type: 2}
-  projectile: {fileID: 1453142070821372, guid: 50413ae6f9a347d4fa6b47cc56f3d4ea, type: 2}
-  radius: 1
-  heatRadiusRate: 0.002

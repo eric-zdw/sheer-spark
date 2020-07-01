@@ -43,8 +43,7 @@ public class TeleBoost : Utility {
 	
 	// Update is called once per frame
 	void Update () {
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camFollow.CameraDistance));
-        print(camFollow.CameraDistance);
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
 
         if (dashTimer > 0f)
         {

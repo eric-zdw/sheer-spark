@@ -30,7 +30,7 @@ public class DashBoost : Utility {
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
-        charges = 4f;
+        uses = 4f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camFollow = cam.GetComponent<CameraFollow>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -42,31 +42,31 @@ public class DashBoost : Utility {
 	
 	// Update is called once per frame
 	void Update () {
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camFollow.CameraDistance));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
 
         if (dashTimer > 0f)
         {
             dashTimer -= Time.deltaTime;
         }
 
-        if (charges < 4f)
+        if (uses < 4f)
         {
             if (Physics.Raycast(transform.position, Vector3.down, 1f, layermask)) {
-                charges += 2f * Time.deltaTime;
+                uses += 2.5f * Time.deltaTime;
             }
             else {
-                charges += 0.4f * Time.deltaTime;
+                uses += 0.5f * Time.deltaTime;
             }
         }
-        else if (charges > 4f)
-            charges = 4f;
+        else if (uses > 4f)
+            uses = 4f;
 
 		//print ("horizontal: " + Input.GetAxis ("Horizontal") + ", vertical: " + Input.GetAxis ("Vertical"));
     }
 
     public override void Activate()
     {
-        if (charges >= 1f && dashTimer <= 0f)
+        if (uses >= 1f && dashTimer <= 0f)
         {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
 			//angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
@@ -80,11 +80,11 @@ public class DashBoost : Utility {
                 rb.angularVelocity = new Vector3(0f, 0f, 10f);
 
             Instantiate(dashImpact, transform.position, transform.rotation);
-            charges -= 1f;
+            uses -= 1f;
             sounds[0].Play();
             dashTimer = dashDelay;
         }
-        else if (charges < 1f && dashTimer <= 0f)
+        else if (uses < 1f && dashTimer <= 0f)
         {
             sounds[1].Play();
         }

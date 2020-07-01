@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CameraFollow : MonoBehaviour {
     public GameObject followTarget;
-    public int CameraDistance;
+    public static float CameraDistance = 24f;
     Camera cam;
 
 	public float shakeFactor = 0f;
