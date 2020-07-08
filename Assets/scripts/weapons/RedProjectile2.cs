@@ -18,7 +18,7 @@ public class RedProjectile2 : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 200f;
+        projectileSpeed = 240f;
         lifeTime = 2f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
@@ -34,6 +34,7 @@ public class RedProjectile2 : Projectile {
         else
         {
             CheckLinecastCollision();
+            damage *= 0.95f;
             //Propogate();
             lifeTime -= Time.deltaTime;
         }
@@ -65,10 +66,22 @@ public class RedProjectile2 : Projectile {
         if (Physics.SphereCast(transform.position, 0.1f, transform.right, out info, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
+                float leftoverDamage = Mathf.Clamp(-(info.collider.gameObject.GetComponent<Enemy>().getHealth() - damage), 0f, damage);
+                print("enemy health: " + info.collider.gameObject.GetComponent<Enemy>().getHealth() + ", damage: " + damage + ", leftoverDamage: " + leftoverDamage);
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
                 Camera.main.GetComponent<CameraFollow>().AddNoise(.75f);
+                // Pierce through enemies if full damage wasn't dealt
+                if (leftoverDamage > 0f) {
+                    damage = leftoverDamage;
+                }
+                else {
+                    Explode();
+                }
             }
-            Explode();
+            else {
+                Explode();
+            }
+            
         }
         else
             transform.position += transform.right * projectileSpeed * Time.deltaTime;

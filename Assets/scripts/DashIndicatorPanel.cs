@@ -40,6 +40,21 @@ public class DashIndicatorPanel : MonoBehaviour {
 
 		topBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
 		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
+
+		int barWidth = Screen.height / 100;
+		topL.rectTransform.sizeDelta = new Vector2(topL.rectTransform.sizeDelta.x, barWidth);
+		topR.rectTransform.sizeDelta = new Vector2(topR.rectTransform.sizeDelta.x, barWidth);
+		bottomL.rectTransform.sizeDelta = new Vector2(bottomL.rectTransform.sizeDelta.x, barWidth);
+		bottomR.rectTransform.sizeDelta = new Vector2(bottomR.rectTransform.sizeDelta.x, barWidth);
+		topBG.rectTransform.sizeDelta = new Vector2(topBG.rectTransform.sizeDelta.x, barWidth);
+		bottomBG.rectTransform.sizeDelta = new Vector2(bottomBG.rectTransform.sizeDelta.x, barWidth);
+
+		bottomL2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
+		bottomR2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
+		topL2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
+		topR2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
+
+
 	}
 	
 	// Update is called once per frame
@@ -54,8 +69,8 @@ public class DashIndicatorPanel : MonoBehaviour {
 		
 		//if (dashBoost) fill = dashBoost.uses / 4f;
 		//if (teleBoost) fill = teleBoost.uses / 4f;
-		valueHeight = Mathf.Clamp(Mathf.Lerp(valueHeight, fillHeight, 0.2f), 0f, 1f);
-		valueWidth = Mathf.Clamp(Mathf.Lerp(valueWidth, fillWidth, 0.2f), 0f, 1f);
+		valueHeight = Mathf.Clamp(Mathf.Lerp(valueHeight, fillHeight, 0.25f), 0f, 1f);
+		valueWidth = Mathf.Clamp(Mathf.Lerp(valueWidth, fillWidth, 0.25f), 0f, 2f);
 
 		topL.fillAmount = valueWidth;
 		topR.fillAmount = valueWidth;

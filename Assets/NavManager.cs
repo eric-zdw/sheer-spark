@@ -48,7 +48,7 @@ public class NavManager : MonoBehaviour
             if (currentNode.node == targetNode) {
                 targetFound = true;
                 print("targethit");
-                CalculatePath(currentNode);
+                CalculatePath(currentNode, nodePath);
             }
             else {
                 //print("neighbournodes: " + currentNode.node.neighbourNodes.Count);
@@ -94,10 +94,9 @@ public class NavManager : MonoBehaviour
                         stepsCalculated++;
 
                         if (stepsCalculated >= 50) {
-                            nodePath.Clear();
-                            nodePath.AddRange(CalculatePath(lowestHCostNode));
+                            CalculatePath(lowestHCostNode, nodePath);
                             print("NavManager nodepath size: " + nodePath.Count);
-                            yield return new WaitForSeconds(0.5f);
+                            yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
                             stepsCalculated = 0;
                         }
         	    	}
@@ -106,31 +105,33 @@ public class NavManager : MonoBehaviour
         }
     }
 
-    // When called by an enemy, a path is calculated
-    public static IEnumerator NavigateToObject() {
-
-        while (true) {
-            yield return new WaitForSeconds(0.4f);
-            //print(NavMeshGenerator.nodes[0][0].transform.position);
-        }
-
-    }
-
-    private static List<Node> CalculatePath(NodeData nd) {
+    // Calculate additions to currentPath given destination.
+    // If CalculatePath generates a duplicate node from currentPath, the new path is
+    // appended to the path and any existing parents of that node are cleared.
+    // If no matching nodes are found, a new path was likely found.
+    private static void CalculatePath(NodeData dest, List<Node> currentPath) {
         List<Node> path = new List<Node>();
-        List<string> pathS = new List<string>();
-        NodeData currentND = nd;
-
+        NodeData currentND = dest;
+         
         path.Insert(0, currentND.node);
-        pathS.Insert(0, currentND.node.transform.position.ToString());
-        while (currentND.parent != null) {
-            currentND = currentND.parent;
-            path.Insert(0, currentND.node);
-            pathS.Insert(0, currentND.node.transform.position.ToString());
+        bool existingNodeFound = false;
+        while (currentND.parent != null && !existingNodeFound) {
+            // check if current node is already in the navigation path
+            if (currentPath.Contains(currentND.node)) {
+                int index = currentPath.FindIndex(n => n == currentND.node);
+                if (index != currentPath.Count - 1) {
+                    //print("removing " + (currentPath.Count - index) + " elements at index " + index);
+                    currentPath.RemoveRange(index, currentPath.Count - index);
+                }
+                existingNodeFound = true;
+            }
+            else {
+                currentND = currentND.parent;
+                path.Insert(0, currentND.node);
+            }
         }
-        
-        print(string.Join("; ", pathS));
-        return path;
+
+        currentPath.AddRange(path);
     }
 
 

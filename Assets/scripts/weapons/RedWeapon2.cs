@@ -35,10 +35,12 @@ public class RedWeapon2 : Weapon {
 
     public override void Fire1()
     {
+        /*
         print(
             "Current heat factor: " + player.getHeatFactor()
             + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
             + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+        */
         if (GetCooldown() <= 0)
         {
             

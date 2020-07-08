@@ -62,7 +62,22 @@ public class DriftEnemy : Enemy {
 
 	private IEnumerator NavigateWrapper() {
 		yield return new WaitForSeconds(0.5f);
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, new Vector3(20, 20, 0), false, navPath));
+		Vector3 playerPosition = player.transform.position;
+		Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 8f;
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+		yield return new WaitForSeconds(1f);
+		while (true) {
+			// Reset navigation if too far away from navPath, or if player moves to new location
+			if ((navPath.Count > 0 && Vector3.Distance(navPath[0].transform.position, transform.position) >= 5f) || Vector3.Distance(player.transform.position, playerPosition) >= 4f) {
+				print("enemy too far away from path, recalculating...");
+				StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+				navPath.Clear();
+				playerPosition = player.transform.position;
+				randomOffset = UnityEngine.Random.insideUnitCircle * 4f;
+				StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+			}
+			yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
+		}
 	}
 
 	void FixedUpdate()
@@ -73,7 +88,7 @@ public class DriftEnemy : Enemy {
 		}
 
 		if (navPath.Count > 0) {
-			GetComponent<Rigidbody>().AddForce(Vector3.Normalize(navPath[0].transform.position - transform.position) * 200f * Time.deltaTime);
+			GetComponent<Rigidbody>().AddForce(Vector3.Normalize(navPath[0].transform.position - transform.position) * 300f * Time.deltaTime);
 			// For a node to be considered visited, no obstacles must be between the object and the node
 			if (Vector3.Distance(navPath[0].transform.position, transform.position) < 1f 
 				&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {
