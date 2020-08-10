@@ -16,6 +16,7 @@ public class Node : MonoBehaviour {
 	public bool isEdgeNode = false;
 	public bool leftEdgeNode = false;
 	public bool rightEdgeNode = false;
+	public bool isJumpDestination = false;
 
 	public List<Node> jumpConnections;
 	public List<Node> dropConnections;
@@ -23,7 +24,6 @@ public class Node : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		jumpConnections = new List<Node>();
 	}
 	
 	// Update is called once per frame

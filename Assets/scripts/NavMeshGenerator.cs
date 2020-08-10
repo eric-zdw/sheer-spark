@@ -17,15 +17,20 @@ public class NavMeshGenerator : MonoBehaviour {
 	public static List<List<GameObject>> nodes;
 	private LayerMask mask;
 
+	private Node testN;
+	private Node testN2;
+
 	void Start () {
 		CreateNodeGrid();
 		CheckGroundNode();
 		CheckEdgeNode();
+		CheckDropConnections();
+		StartCoroutine(CheckJumpConnections());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//testN.jumpConnections.Add(testN2);
 	}
 
 	void CreateNodeGrid() {
@@ -138,20 +143,51 @@ public class NavMeshGenerator : MonoBehaviour {
 		}
 	}
 
+	// Check which nodes that can be dropped to from a node
+	// Only applies to edge nodes.
 	void CheckDropConnections() {
-		//Check if it is safe to drop from this node, and to which node it drops to
-		//Only applies to edge nodes
-
 		for (int i = 0; i < 200; i++) {
 			for (int j = 0; j < 200; j++) {
 				if (nodes[i][j] && nodes[i][j].GetComponent<Node>().isEdgeNode) {
 					//left side
 					if (nodes[i][j].GetComponent<Node>().leftEdgeNode) {
 						bool groundNodeReached = false;
-						Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>();
+						Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>();
+						List<Node> potentialDropNodes = new List<Node>();
 						while (!groundNodeReached) {
-							//todo
-							//currentNode
+							if (currentNode.neighbourNodes[6]) {
+								potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
+								currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
+
+								if (currentNode.isGroundNode) {
+									//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
+									nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+									groundNodeReached = true;
+								}
+							}
+							else {
+								groundNodeReached = true;
+							}
+						}
+					}
+					// Note that nodes could be both left AND right edges.
+					if (nodes[i][j].GetComponent<Node>().rightEdgeNode) {
+						bool groundNodeReached = false;
+						Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>();
+						List<Node> potentialDropNodes = new List<Node>();
+						while (!groundNodeReached) {
+							if (currentNode.neighbourNodes[6]) {
+								potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
+								currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
+
+								if (currentNode.isGroundNode) {
+									//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
+									nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+								}
+							}
+							else {
+								groundNodeReached = true;
+							}
 						}
 					}
 				}
@@ -159,8 +195,21 @@ public class NavMeshGenerator : MonoBehaviour {
 		}
 	}
 
-	void CheckJumpConnections() {
-		
+	// Check which nodes that can be reached by jumping.
+	// Jumps are indicated manually by adding JumpNodes.
+	// Only applies to ground nodes.
+	IEnumerator CheckJumpConnections() {
+		yield return new WaitForSeconds(0.5f);
+		GameObject jumpNodes = GameObject.FindGameObjectWithTag("JumpNodes");
+		foreach (Transform jumpSet in jumpNodes.transform) {
+			// index 0 is start, index 1 is end
+			testN = FindClosestNode(jumpSet.GetChild(0).position);
+			testN2 = FindClosestNode(jumpSet.GetChild(1).position);
+			testN.jumpConnections.Add(testN2);
+			testN2.isJumpDestination = true;
+			//print(testN.transform.position);
+			//print(testN.jumpConnections.Count);
+		}
 	}
 
 	void OnDrawGizmos() {
@@ -176,10 +225,20 @@ public class NavMeshGenerator : MonoBehaviour {
 						if (nodes[i][j].GetComponent<Node>().isGroundNode) {
 							Gizmos.color = Color.green;
 							Gizmos.DrawSphere(nodes[i][j].transform.position, 0.4f);
+
+							foreach (Node n in nodes[i][j].GetComponent<Node>().jumpConnections) {
+								Gizmos.color = Color.green;
+								Gizmos.DrawLine(nodes[i][j].transform.position, n.transform.position);
+							}
 						}
 						if (nodes[i][j].GetComponent<Node>().isEdgeNode) {
 							Gizmos.color = Color.magenta;
 							Gizmos.DrawSphere(nodes[i][j].transform.position, 0.6f);
+
+							foreach (Node n in nodes[i][j].GetComponent<Node>().dropConnections) {
+								Gizmos.color = Color.magenta;
+								Gizmos.DrawLine(nodes[i][j].transform.position, n.transform.position);
+							}
 						}
 						Gizmos.color = Color.white;
 					}
@@ -188,4 +247,24 @@ public class NavMeshGenerator : MonoBehaviour {
 		}
 		
 	}
+
+    private static Node FindClosestNode(Vector3 pos) {
+
+        float smallestDistance = Mathf.Infinity;
+        Node n = null;
+
+        foreach (List<GameObject> row in nodes) {
+            foreach (GameObject node in row) {
+                if (node) {
+                    float dist = Vector3.Distance(node.transform.position, pos);
+                    if (dist < smallestDistance) {
+                        smallestDistance = dist;
+                        n = node.GetComponent<Node>();
+                    }
+                }
+            }
+        }
+        
+        return n;
+    }
 }

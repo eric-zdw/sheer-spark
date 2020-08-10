@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4172042108556128}
   - component: {fileID: 33142370969530258}
-  - component: {fileID: 65376006702389342}
+  - component: {fileID: 6541717812860915121}
   - component: {fileID: 23199503771885826}
   - component: {fileID: 54913893957176348}
   - component: {fileID: 114679432962609600}
@@ -217,8 +217,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949764095654824}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65376006702389342
-BoxCollider:
+--- !u!135 &6541717812860915121
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -228,7 +228,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &23199503771885826
 MeshRenderer:

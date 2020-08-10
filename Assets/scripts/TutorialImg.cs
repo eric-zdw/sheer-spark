@@ -14,11 +14,17 @@ public class TutorialImg : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tt.isHelping == false && im.enabled == true)
-            im.enabled = false;
-        else if (tt.isHelping == true && im.enabled == false)
-            im.enabled = true;
-        else if (tt == null)
+        if (tt) {
+            if (tt.isHelping == false && im.enabled == true)
+                im.enabled = false;
+            else if (tt.isHelping == true && im.enabled == false)
+                im.enabled = true;
+            else if (tt == null)
+                Destroy(gameObject);
+        }
+        else {
             Destroy(gameObject);
+        }
+
     }
 }

@@ -14,11 +14,17 @@ public class TutorialTxt : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tt.isHelping == false && txt.enabled == true)
-            txt.enabled = false;
-        else if (tt.isHelping == true && txt.enabled == false)
-            txt.enabled = true;
-        else if (tt == null)
+        if (tt) {
+            if (tt.isHelping == false && txt.enabled == true)
+                txt.enabled = false;
+            else if (tt.isHelping == true && txt.enabled == false)
+                txt.enabled = true;
+            else if (tt == null)
+                Destroy(gameObject);
+        }
+        else {
             Destroy(gameObject);
+        }
+        
 	}
 }

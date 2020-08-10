@@ -14,11 +14,17 @@ public class AntiTutorial : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tt.isHelping == false && text.enabled == false)
-            text.enabled = true;
-        else if (tt.isHelping == true && text.enabled == true)
-            text.enabled = false;
-        else if (tt == null)
+        if (tt) {
+            if (tt.isHelping == false && text.enabled == false)
+                text.enabled = true;
+            else if (tt.isHelping == true && text.enabled == true)
+                text.enabled = false;
+            else if (tt == null)
+                Destroy(gameObject);
+        }
+        else {
             Destroy(gameObject);
+        }
+        
     }
 }

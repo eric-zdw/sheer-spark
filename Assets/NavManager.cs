@@ -20,17 +20,18 @@ public class NavManager : MonoBehaviour
     // When called by an enemy, a path is calculated given every interval until path reaches destination
     public static IEnumerator NavigateToLocation(Vector3 start, Vector3 target, bool isGrounded, List<Node> nodePath) {
         //print("start");
+        print("Navigation restarted");
         List<NodeData> openNodes = new List<NodeData>();
         HashSet<NodeData> closedNodes = new HashSet<NodeData>();
 
-        NodeData startNode = new NodeData(FindClosestNode(start));
+        NodeData startNode = new NodeData(FindClosestNode(start, isGrounded));
         print("start: " + startNode.node.transform.position);
         startNode.gCost = 0f;
         startNode.hCost = Vector3.Distance(startNode.node.transform.position, target);
         startNode.fCost = startNode.hCost;
         openNodes.Add(startNode);
 
-        Node targetNode = FindClosestNode(target);
+        Node targetNode = FindClosestNode(target, isGrounded);
         print("target: " + targetNode.transform.position);
 
         int stepsCalculated = 0;
@@ -52,55 +53,109 @@ public class NavManager : MonoBehaviour
             }
             else {
                 //print("neighbournodes: " + currentNode.node.neighbourNodes.Count);
-        	    foreach (GameObject neighbour in currentNode.node.neighbourNodes) {
-        	    	if (neighbour) {
-                        // Node is in closed set -- ignore
-        	    		if (FindNodeData(neighbour.GetComponent<Node>(), closedNodes) != null) {
-                            //print("neighbour found in closed");
-        	    			//do nothing
-        	    		}
-                        // Node is not in open set -- create new NodeData and calculate score
-        	    		else if (FindNodeData(neighbour.GetComponent<Node>(), openNodes) == null) {
-                            //print("neighbour not in open");
-        	    			NodeData newData = new NodeData(neighbour.GetComponent<Node>());
-        	    			newData.parent = currentNode;
-        	    			newData.gCost = currentNode.gCost + Vector3.Distance(neighbour.transform.position, currentNode.node.transform.position);
-        	    			newData.hCost = Vector3.Distance(neighbour.transform.position, target);
-        	    			newData.fCost = newData.gCost + newData.hCost;
-                            openNodes.Add(newData);
+                if (!isGrounded) {
+        	        foreach (GameObject neighbour in currentNode.node.neighbourNodes) {
+        	        	if (neighbour) {
+                            // Node is in closed set -- ignore
+        	        		if (FindNodeData(neighbour.GetComponent<Node>(), closedNodes) != null) {
+                                //print("neighbour found in closed");
+        	        			//do nothing
+        	        		}
+                            // Node is not in open set -- create new NodeData and calculate score
+        	        		else if (FindNodeData(neighbour.GetComponent<Node>(), openNodes) == null) {
+                                //print("neighbour not in open");
+        	        			NodeData newData = new NodeData(neighbour.GetComponent<Node>());
+        	        			newData.parent = currentNode;
+        	        			newData.gCost = currentNode.gCost + Vector3.Distance(neighbour.transform.position, currentNode.node.transform.position);
+        	        			newData.hCost = Vector3.Distance(neighbour.transform.position, target);
+        	        			newData.fCost = newData.gCost + newData.hCost;
+                                openNodes.Add(newData);
 
+                                if (newData.hCost < lowestHCostNode.hCost) {
+                                    lowestHCostNode = newData;
+                                }
+        	        		}
+                            // Node is in open set -- update existing NodeData
+                            else if (FindNodeData(neighbour.GetComponent<Node>(), openNodes) != null) {
+                                //print("neighbour in open");
+                                NodeData neighbourND = FindNodeData(neighbour.GetComponent<Node>(), openNodes);
+                                float newGCost = currentNode.gCost + Vector3.Distance(neighbour.transform.position, currentNode.node.transform.position);
+                                if (newGCost < neighbourND.gCost) {
+                                    neighbourND.parent = currentNode;
+                                    neighbourND.gCost = newGCost;
+                                    neighbourND.fCost = neighbourND.gCost + neighbourND.hCost;
+
+                                    if (neighbourND.hCost < lowestHCostNode.hCost) {
+                                        lowestHCostNode = neighbourND;
+                                    }
+                                }
+                            }
+                            // Sort open nodes based on fCost, best node last
+                            openNodes = openNodes.OrderByDescending(n=>n.fCost).ToList();
+
+                            stepsCalculated++;
+        	        	}
+        	        }
+                }
+                else if (isGrounded) {
+                    // Populate candidates for cost calculation.
+                    List<Node> candidates = new List<Node>();
+                    foreach (GameObject neighbour in currentNode.node.neighbourNodes) {
+                        if (neighbour && neighbour.GetComponent<Node>().isGroundNode) {
+                            candidates.Add(neighbour.GetComponent<Node>());
+                        }
+                    }
+                    candidates.AddRange(currentNode.node.dropConnections);
+                    candidates.AddRange(currentNode.node.jumpConnections);
+
+        	        foreach (Node candidate in candidates) {
+        	        	if (FindNodeData(candidate, closedNodes) != null) {
+                            //print("neighbour found in closed");
+        	        		//do nothing
+        	        	}
+
+                        // Node is not in open set -- create new NodeData and calculate score
+        	        	else if (FindNodeData(candidate, openNodes) == null) {
+                            //print("neighbour not in open");
+        	        		NodeData newData = new NodeData(candidate);
+        	        		newData.parent = currentNode;
+        	        		newData.gCost = currentNode.gCost + Vector3.Distance(candidate.transform.position, currentNode.node.transform.position);
+        	        		newData.hCost = Vector3.Distance(candidate.transform.position, target);
+        	        		newData.fCost = newData.gCost + newData.hCost;
+                            openNodes.Add(newData);
                             if (newData.hCost < lowestHCostNode.hCost) {
                                 lowestHCostNode = newData;
                             }
-        	    		}
+        	        	}
+
                         // Node is in open set -- update existing NodeData
-                        else if (FindNodeData(neighbour.GetComponent<Node>(), openNodes) != null) {
+                        else if (FindNodeData(candidate, openNodes) != null) {
                             //print("neighbour in open");
-                            NodeData neighbourND = FindNodeData(neighbour.GetComponent<Node>(), openNodes);
-                            float newGCost = currentNode.gCost + Vector3.Distance(neighbour.transform.position, currentNode.node.transform.position);
+                            NodeData neighbourND = FindNodeData(candidate, openNodes);
+                            float newGCost = currentNode.gCost + Vector3.Distance(candidate.transform.position, currentNode.node.transform.position);
                             if (newGCost < neighbourND.gCost) {
                                 neighbourND.parent = currentNode;
                                 neighbourND.gCost = newGCost;
                                 neighbourND.fCost = neighbourND.gCost + neighbourND.hCost;
-
                                 if (neighbourND.hCost < lowestHCostNode.hCost) {
                                     lowestHCostNode = neighbourND;
                                 }
                             }
                         }
+
                         // Sort open nodes based on fCost, best node last
                         openNodes = openNodes.OrderByDescending(n=>n.fCost).ToList();
-
+                        
                         stepsCalculated++;
+        	        }
+                }
 
-                        if (stepsCalculated >= 50) {
-                            CalculatePath(lowestHCostNode, nodePath);
-                            print("NavManager nodepath size: " + nodePath.Count);
-                            yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
-                            stepsCalculated = 0;
-                        }
-        	    	}
-        	    }
+                if (stepsCalculated >= 50) {
+                    CalculatePath(lowestHCostNode, nodePath);
+                    print("NavManager nodepath size: " + nodePath.Count);
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
+                    stepsCalculated = 0;
+                }
             }
         }
     }
@@ -136,14 +191,14 @@ public class NavManager : MonoBehaviour
 
 
     // Find the node closest to the given position.
-    private static Node FindClosestNode(Vector3 pos) {
+    private static Node FindClosestNode(Vector3 pos, bool isGrounded) {
 
         float smallestDistance = Mathf.Infinity;
         Node n = null;
 
         foreach (List<GameObject> row in NavMeshGenerator.nodes) {
             foreach (GameObject node in row) {
-                if (node) {
+                if (node && (!isGrounded || (isGrounded && node.GetComponent<Node>().isGroundNode))) {
                     float dist = Vector3.Distance(node.transform.position, pos);
                     if (dist < smallestDistance) {
                         smallestDistance = dist;

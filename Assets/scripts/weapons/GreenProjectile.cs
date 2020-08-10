@@ -26,19 +26,19 @@ public class GreenProjectile : Projectile {
     private float tetherCheck = 0.2f;
     private float tetherTimer;
     private float damageTimer;
-    private float damageInterval = 1f;
+    private float damageInterval = 1.2f;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 3f;
+        lifeTime = 3.6f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         pulseTimer = pulseInterval;
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
         //gravity well radius
-        transform.GetChild(0).GetComponent<SphereCollider>().radius = radius;
+        transform.GetChild(0).GetComponent<SphereCollider>().radius = radius * 1.5f;
         damageTimer = damageInterval;
 
         StartCoroutine(PulseTimer());

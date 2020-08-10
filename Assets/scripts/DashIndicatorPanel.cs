@@ -14,6 +14,8 @@ public class DashIndicatorPanel : MonoBehaviour {
 	public UnityEngine.UI.Image bottomR2;
 	public UnityEngine.UI.Image topBG;
 	public UnityEngine.UI.Image bottomBG;
+	public UnityEngine.UI.Image leftBG;
+	public UnityEngine.UI.Image rightBG;
 
 	private DashBoost dashBoost;
 	private TeleBoost teleBoost;
@@ -40,14 +42,18 @@ public class DashIndicatorPanel : MonoBehaviour {
 
 		topBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
 		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
+		leftBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
+		rightBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
 
-		int barWidth = Screen.height / 100;
+		int barWidth = (int)((Screen.height * Screen.width * 0.025f) / (2 * Screen.height + 2 * Screen.width));
 		topL.rectTransform.sizeDelta = new Vector2(topL.rectTransform.sizeDelta.x, barWidth);
 		topR.rectTransform.sizeDelta = new Vector2(topR.rectTransform.sizeDelta.x, barWidth);
 		bottomL.rectTransform.sizeDelta = new Vector2(bottomL.rectTransform.sizeDelta.x, barWidth);
 		bottomR.rectTransform.sizeDelta = new Vector2(bottomR.rectTransform.sizeDelta.x, barWidth);
 		topBG.rectTransform.sizeDelta = new Vector2(topBG.rectTransform.sizeDelta.x, barWidth);
 		bottomBG.rectTransform.sizeDelta = new Vector2(bottomBG.rectTransform.sizeDelta.x, barWidth);
+		leftBG.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height - (barWidth * 2));
+		rightBG.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height - (barWidth * 2));
 
 		bottomL2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
 		bottomR2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
@@ -118,5 +124,7 @@ public class DashIndicatorPanel : MonoBehaviour {
 
 		topBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
 		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
+		leftBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
+		rightBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
 	}
 }
