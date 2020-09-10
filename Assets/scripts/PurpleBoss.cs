@@ -88,7 +88,7 @@ public class PurpleBoss : Enemy {
 
     void Explode()
 	{
-		ScoreManager.IncreaseScore(score);
+		ScoreManager.IncreaseScore(scoreValue);
 		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(explosion1, transform.position, transform.rotation);
 		Destroy(gameObject);

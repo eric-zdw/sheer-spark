@@ -2,31 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonEnemy : Enemy {
-	public GameObject healthBar;
-	public GameObject[] explosions;
-	public float newHealth;
-	private GameObject bar;
-
+public class CannonEnemy : SmallEnemy {
 	private GameObject player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
-
-
-	private int jumpCounter;
-	private bool isJumping = false;
-	private float jumpTimer;
-	public int jumpChance = 5;
-	public float jumpStrength = 750f;
-
-	public GameObject JumpParticleCharge;
-	public GameObject JumpParticle;
-	public GameObject[] powerups;
-    public Material[] colours;
-    public Material[] seeThroughs;
-    private MeshRenderer outline;
-    private MeshRenderer seeThrough;
-    private int powerupRoll;
 
 	private bool isCharging;
 	private GameObject charge;
@@ -41,7 +20,6 @@ public class CannonEnemy : Enemy {
     private float easing;
 
     private float radius;
-    private int layerMask;
 
     private float attackTime;
     private bool hasAttacked = false;
@@ -61,19 +39,9 @@ public class CannonEnemy : Enemy {
 
     void Start()
 	{
-		bar = Instantiate(healthBar);
-		maxHealth = newHealth * WaveSystem.enemyPower;
-		health = maxHealth;
-		bar.GetComponent<HealthBar>().setTarget(gameObject);
-
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
 
-        powerupRoll = Random.Range(0, 6);
-        outline = transform.GetChild(0).GetComponent<MeshRenderer>();
-        outline.material = colours[powerupRoll];
-        seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
-        seeThrough.material = seeThroughs[powerupRoll];
         moveTimer = 1.5f;
         destination = transform.position;
         radius = transform.localScale.y * 1.1f;
@@ -89,11 +57,6 @@ public class CannonEnemy : Enemy {
 
 	void FixedUpdate()
 	{
-		if (health <= 0)
-		{
-			Explode();
-		}
-
         if (easing < 1f)
             easing += Time.deltaTime;
         else if (easing > 1f)
@@ -169,18 +132,9 @@ public class CannonEnemy : Enemy {
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            Explode();
+            getDamage(50f);
         }
     }
-
-    void Explode()
-	{
-		Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(bar);
-		Destroy(gameObject);
-	}
 
     private void RelocateRoutine()
     {
@@ -212,9 +166,5 @@ public class CannonEnemy : Enemy {
             }
         }
         hasAttacked = false;
-    }
-
-    private void AttackRoutine()
-    {
     }
 }

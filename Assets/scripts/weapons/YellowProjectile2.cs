@@ -21,7 +21,7 @@ public class YellowProjectile2 : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 8f;
+        projectileSpeed = 18f;
         lifeTime = 5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -72,22 +72,22 @@ public class YellowProjectile2 : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1.5f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1.5f);
             transform.rotation = Quaternion.Euler(newR);
         }
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        if (projectileSpeed < 50f) {
+        if (projectileSpeed < 80f) {
             projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
-            projectileSpeedIncrease *= 1.055f;
+            projectileSpeedIncrease *= 1.1f;
         }
         else {
-            projectileSpeed = 50f;
+            projectileSpeed = 80f;
         }
     }
     

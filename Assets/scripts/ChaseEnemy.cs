@@ -2,34 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseEnemy : Enemy {
-	public GameObject healthBar;
-	public float newHealth;
-	private GameObject bar;
-
+public class ChaseEnemy : SmallEnemy {
 	private GameObject player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
-
 
 	private int jumpCounter;
 	private bool isJumping = false;
 	private float jumpTimer;
 	public int jumpChance = 5;
 	public float jumpStrength = 750f;
-
-	public GameObject JumpParticleCharge;
-	public GameObject JumpParticle;
-	public GameObject[] powerups;
-    public Material[] colours;
-	public Material[] seeThroughs;
-	public GameObject[] explosions;
+	
 	public Material damagedMaterial;
     public float YLimit;
-	private MeshRenderer damageFlash;
-    private MeshRenderer outline;
-	private MeshRenderer seeThrough;
-    private int powerupRoll;
 
 	private bool isCharging;
 	private GameObject charge;
@@ -56,20 +41,10 @@ public class ChaseEnemy : Enemy {
 
     void Start()
 	{
-		bar = Instantiate(healthBar);
-		maxHealth = newHealth * WaveSystem.enemyPower;
-		health = maxHealth;
-		bar.GetComponent<HealthBar>().setTarget(gameObject);
+		Initialize();
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-
-		powerupRoll = Random.Range(0, 6);
-		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
-        outline = transform.GetChild(0).GetComponent<MeshRenderer>();
-		seeThrough = transform.GetChild(1).GetComponent<MeshRenderer>();
-        outline.material = colours[powerupRoll];
-		seeThrough.material = seeThroughs[powerupRoll];
 
 		layermask = LayerMask.GetMask("Geometry");
 
@@ -110,11 +85,6 @@ public class ChaseEnemy : Enemy {
 
 	void FixedUpdate()
 	{
-		if (health <= 0)
-		{
-			Explode();
-		}
-
 		Debug.DrawRay(transform.position, Vector3.down * 10f, Color.red, 0.1f);
 		if (Physics.Linecast(transform.position, transform.position + Vector3.down * 2f, LayerMask.GetMask("Geometry"))) {
 			if (!isGrounded) {
@@ -206,43 +176,18 @@ public class ChaseEnemy : Enemy {
 	    
 	}
 
-	/*
-	void OnDrawGizmos() {
-		foreach (Node n in navPath) {
-			Gizmos.DrawCube(n.transform.position, new Vector3(1f, 1f, 1f));
-		}
-	}
-	*/
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
 			if (collision.gameObject.GetComponent<PlayerBehaviour>().invincible <= 0f) {
 				collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            	ExplodeWithoutPowerup();
+            	getDamage(100f);
 			}
         }
     }
 
-    void Explode()
-	{
-		ScoreManager.IncreaseScore(score);
-		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(bar);
-		Destroy(gameObject);
-	}
-
-	void ExplodeWithoutPowerup()
-	{
-		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(bar);
-		Destroy(gameObject);
-	}
-
+	/*
 	void JumpRoutine()
 	{
 		if (jumpTimer > 0)
@@ -272,23 +217,13 @@ public class ChaseEnemy : Enemy {
 			rb.AddForce(0f, jumpStrength, 0f);
 		}
 	}
+	*/
 
-	public override void getDamage(float damage)
-    {
-        health -= damage;
-		StartCoroutine(FlashWhite());
-    }
-
-	IEnumerator FlashWhite() {
-		float colorValue = 2f;
-		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
-		while (colorValue > 0f) {
-			print("colorValue: " + colorValue);
-			colorValue -= 5f * Time.deltaTime;
-			newColor = new Color(colorValue, colorValue, colorValue, 1);
-			damageMatBlock.SetColor("_EmissionColor", newColor);
-			damageFlash.SetPropertyBlock(damageMatBlock);
-			yield return new WaitForFixedUpdate();
+	/*
+	void OnDrawGizmos() {
+		foreach (Node n in navPath) {
+			Gizmos.DrawCube(n.transform.position, new Vector3(1f, 1f, 1f));
 		}
 	}
+	*/
 }

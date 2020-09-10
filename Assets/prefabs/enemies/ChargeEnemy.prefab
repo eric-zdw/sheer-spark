@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1033411302564110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4172042108556128}
   m_RootOrder: 1
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a10f8b35ac8ca8c45945127933099f00, type: 2}
+  - {fileID: 2100000, guid: 361f05e1d9424b84e89af5218c908d60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 1594133627352570}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4172042108556128}
   m_RootOrder: 2
@@ -199,7 +199,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949764095654824}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.339323, y: 7.37, z: 2.8490562}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
@@ -248,7 +248,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 81b0f5cf2b49d1a4188a23bba3615ee2, type: 2}
+  - {fileID: 2100000, guid: 4b3c42595e4bd3f408498b9b6e96a139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -297,43 +297,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ceceae0876157499b337dbee464afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 300
-  healthBar: {fileID: 1400260174968392, guid: 23a2a997a2b7d514399a54b225354627, type: 3}
-  newHealth: 50
-  jumpChance: 10
-  jumpStrength: 300
-  JumpParticleCharge: {fileID: 1132967370857014, guid: afdc9262f25aa0d478f0b7af49445372,
+  maxHealth: 50
+  scoreValue: 500
+  healthBarPrefab: {fileID: 1400260174968392, guid: 23a2a997a2b7d514399a54b225354627,
     type: 3}
-  JumpParticle: {fileID: 1132967370857014, guid: da09b21ebaf136c4d89c558e80f1f798,
-    type: 3}
-  powerups:
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
-  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
-  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
-  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
-  colours:
-  - {fileID: 2100000, guid: e8a50782ef8a0124bb2190e2883eba9b, type: 2}
-  - {fileID: 2100000, guid: 76a2c5afbf0d32b4b8f125d374778e5f, type: 2}
-  - {fileID: 2100000, guid: ed81c949506aebb4586b807bc89896e6, type: 2}
-  - {fileID: 2100000, guid: 7289c78480a757447959172c69515138, type: 2}
-  - {fileID: 2100000, guid: d9f0d67efcb9a674da5c611cbffc1801, type: 2}
-  - {fileID: 2100000, guid: 8a519e9eb3ff1a74ba80162195c7b123, type: 2}
-  seeThroughs:
-  - {fileID: 2100000, guid: d845392aa709f9e458149e8e03f3e83d, type: 2}
-  - {fileID: 2100000, guid: bb85f7dfb8fb774449e67323e9a09d09, type: 2}
-  - {fileID: 2100000, guid: 7f57abd2d14599a40b9cc6029ef94557, type: 2}
-  - {fileID: 2100000, guid: edc992d98b7cebb43a56d7693faa6066, type: 2}
-  - {fileID: 2100000, guid: bbcda083515deb04ebe1d0e0a59b78c8, type: 2}
-  - {fileID: 2100000, guid: a10f8b35ac8ca8c45945127933099f00, type: 2}
-  explosions:
+  powerupChance: 100
+  deathExplosions:
   - {fileID: 1056517570023220, guid: f4e7be3d6450e214ab7516bb01e86c87, type: 3}
   - {fileID: 1056517570023220, guid: 75a71f9455b0679408bd63fc39135f34, type: 3}
   - {fileID: 1056517570023220, guid: 6942576ea01b53c42b47380bd88b85dc, type: 3}
   - {fileID: 1056517570023220, guid: 9475927b474b208468a4e14d51879518, type: 3}
   - {fileID: 1056517570023220, guid: 07ef49889075ffe4a8b7a328f83eab02, type: 3}
   - {fileID: 1056517570023220, guid: d865ba5571cd9464eb4d8856f8283eb5, type: 3}
+  powerupColors:
+  - {r: 1, g: 0.2509804, b: 0.2509804, a: 1}
+  - {r: 1, g: 0.5019608, b: 0.2509804, a: 1}
+  - {r: 1, g: 0.83137256, b: 0.25098038, a: 1}
+  - {r: 0.2509804, g: 1, b: 0.25098038, a: 1}
+  - {r: 0.2509804, g: 0.5019608, b: 1, a: 1}
+  - {r: 0.7529412, g: 0.2509804, b: 1, a: 1}
+  powerupColorsHDR:
+  - {r: 4, g: 1.0039216, b: 1.0039216, a: 1}
+  - {r: 4, g: 2.0078433, b: 1.0039216, a: 1}
+  - {r: 4, g: 3.3254902, b: 1.0039216, a: 1}
+  - {r: 1.0039216, g: 4, b: 1.0039216, a: 1}
+  - {r: 1.0039216, g: 2.0078433, b: 4, a: 1}
+  - {r: 3.0117648, g: 1.0039216, b: 4, a: 1}
+  outlines:
+  - {fileID: 2655988077585873504, guid: 7cb7118c119c5c6428ae4c355b3f1667, type: 2}
+  - {fileID: 2655988077585873504, guid: 8b8e088310a1edc409ec9d3f42cf699e, type: 2}
+  - {fileID: 2655988077585873504, guid: fc1539fd2e788cb43a5120bff7b8fafa, type: 2}
+  - {fileID: 2655988077585873504, guid: 5c59b5cd19357574e939a1569323467c, type: 2}
+  - {fileID: 2655988077585873504, guid: d6cd77b2da282d145baadf682feb372a, type: 2}
+  - {fileID: 2655988077585873504, guid: cb835a5374f179b43b067004a5f320e0, type: 2}
+  outlineMesh: {fileID: 23864542047734006}
+  jumpChance: 10
+  jumpStrength: 300
   damagedMaterial: {fileID: 2100000, guid: fa314a085e2f51f42b00eb0c8820a911, type: 2}
   YLimit: 50
   isTethered: 0
@@ -364,7 +363,7 @@ Transform:
   m_GameObject: {fileID: 1961464417391554}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4172042108556128}
   m_RootOrder: 0
@@ -395,7 +394,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a519e9eb3ff1a74ba80162195c7b123, type: 2}
+  - {fileID: 2100000, guid: 973a5f404567437499ff54ad28ec5a4b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

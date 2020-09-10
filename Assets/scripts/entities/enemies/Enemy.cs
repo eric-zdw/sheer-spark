@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour {
+    public float maxHealth;
+
+    [SerializeField]
+    protected int scoreValue;
 
     protected float health;
-    protected float maxHealth;
-    public int score;
     
-    public Enemy()
+    protected virtual void Initialize()
     {
-        health = 100f;
     }
 
     public virtual void getDamage(float damage)
@@ -18,7 +19,7 @@ public abstract class Enemy : MonoBehaviour {
         health -= damage;
     }
     
-    public void setHealth(float h)
+    public virtual void setHealth(float h)
     {
         health = h;
     }

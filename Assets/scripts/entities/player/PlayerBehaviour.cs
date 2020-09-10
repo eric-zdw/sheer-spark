@@ -68,6 +68,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public AudioSource damageClip;
 
+    public bool localGravity = false;
+
     // Use this for initialization
     void Start()
     {
@@ -103,6 +105,10 @@ public class PlayerBehaviour : MonoBehaviour {
 
         //weapon selection
         transform.position = GameObject.Find("PlayerSpawn").transform.position;
+
+        if (localGravity) {
+            rb.useGravity = false;
+        }
     }
 
     void Update()
@@ -170,6 +176,7 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     void FixedUpdate () {
+
         Movement();
         Fire();
 
@@ -177,7 +184,6 @@ public class PlayerBehaviour : MonoBehaviour {
             rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);
             rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * dragForceY * Time.deltaTime);
         }
-        
     }
 
     void Movement()

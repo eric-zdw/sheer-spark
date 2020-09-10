@@ -109,7 +109,7 @@ public class DriftEnemy : Enemy {
 
     void Explode()
 	{
-		ScoreManager.IncreaseScore(score);
+		ScoreManager.IncreaseScore(scoreValue);
 		Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
 		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
