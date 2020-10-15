@@ -42,7 +42,7 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 
             //distance modifier reduces damage up to 50%.
 			other.GetComponent<Enemy>().getDamage(damage * (1 - ((distance / radius) * 0.5f)));
-			print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - ((distance / radius) * 0.5f)));
+			//print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - ((distance / radius) * 0.5f)));
 
             other.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, radius, 0f);
         }

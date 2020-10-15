@@ -104,7 +104,7 @@ public class GreenProjectile : Projectile {
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage * 0.2f);
+        hb.setDamage(damage * 0.125f);
         hb.setRadius(radius * 1.5f);
     }
 
@@ -127,7 +127,7 @@ public class GreenProjectile : Projectile {
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage * 0.6f);
+        hb.setDamage(damage * 0.75f);
         hb.setRadius(radius * 2f);
 
         Destroy(gameObject);

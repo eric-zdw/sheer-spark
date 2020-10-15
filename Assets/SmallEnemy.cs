@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class SmallEnemy : Enemy
 {
+    public SmallEnemyScriptableObject smallEnemyData;
+
     [SerializeField]
     protected float powerupChance = 0f;
 
@@ -26,13 +28,13 @@ public abstract class SmallEnemy : Enemy
     {
         base.Initialize();
         //create health bar
-        healthBar = Instantiate(healthBarPrefab);
+        healthBar = Instantiate(smallEnemyData.healthBarPrefab);
         healthBar.GetComponent<HealthBar>().setTarget(gameObject);
         health = maxHealth;
 
         powerupRoll = Random.Range(0, 6);
-        enemyColor = powerupColors[powerupRoll];
-        enemyColorHDR = powerupColorsHDR[powerupRoll];
+        enemyColor = smallEnemyData.powerupColors[powerupRoll];
+        enemyColorHDR = smallEnemyData.powerupColorsHDR[powerupRoll];
         //todo: change MatBlock to color
 
         mainMesh = GetComponent<MeshRenderer>();
@@ -40,25 +42,27 @@ public abstract class SmallEnemy : Enemy
         mainMPB.SetColor("Color_3238E920", enemyColorHDR);
         mainMesh.SetPropertyBlock(mainMPB);
         
-        outlines[powerupRoll].ApplyTo(outlineMesh.material);
+        outlineMesh = transform.GetChild(0).GetComponent<MeshRenderer>();
+        smallEnemyData.outlines[powerupRoll].ApplyTo(outlineMesh.material);
 
         seeThroughMesh = transform.GetChild(1).GetComponent<MeshRenderer>();
-        seeThroughMPB = new MaterialPropertyBlock();
-        Color seeThroughColor = new Color(enemyColor.r, enemyColor.g, enemyColor.b, 0.015625f);
-        seeThroughMPB.SetColor("_TintColor", seeThroughColor);
-        outlineMesh.SetPropertyBlock(seeThroughMPB);
+        seeThroughMesh.material = smallEnemyData.seeThroughMats[powerupRoll];
 
         damageFlashMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
         damageFlashMPB = new MaterialPropertyBlock();
     }
 
     public override void getDamage(float damage) {
-        health -= damage;
-        if (health <= 0) {
-            DefeatRoutine();
-        }
-        else {
-            StartCoroutine(FlashWhite());
+        //Check health previous to damage calculation to prevent duplicate deaths
+        float oldHealth = health;
+        if (oldHealth > 0f) {
+            health -= damage;
+            if (health <= 0f) {
+                DefeatRoutine();
+            }
+            else {
+                StartCoroutine(FlashWhite());
+            }
         }
     }
 
@@ -71,10 +75,11 @@ public abstract class SmallEnemy : Enemy
     }
 
     protected void DefeatRoutine() {
+        Destroy(healthBar);
         Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
-        Instantiate(PowerupManager.powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(deathExplosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(healthBar);
+        Instantiate(smallEnemyData.powerups[powerupRoll], transform.position, Quaternion.identity);
+		Instantiate(smallEnemyData.deathExplosions[powerupRoll], transform.position, transform.rotation);
+        ScoreManager.IncreaseScore(Mathf.RoundToInt(scoreValue * ScoreManager.multiplier));
 		Destroy(gameObject);
     }
 
@@ -82,7 +87,7 @@ public abstract class SmallEnemy : Enemy
 		float colorValue = 2f;
 		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
 		while (colorValue > 0f) {
-			print("colorValue: " + colorValue);
+			//print("colorValue: " + colorValue);
 			colorValue -= 5f * Time.deltaTime;
 			newColor = new Color(colorValue, colorValue, colorValue, 1);
 			damageFlashMPB.SetColor("_EmissionColor", newColor);

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour {
 
-	static public GameObject[] powerups;
+	public List<GameObject> powerups;
     public GameObject[] weaponList;
 
 	// Use this for initialization
-	void Start () {
-		powerups = new GameObject[6]; 
+	void Awake () {
         powerups[0] = weaponList[0];
         powerups[1] = weaponList[1];
         powerups[2] = weaponList[2];
@@ -17,4 +16,8 @@ public class PowerupManager : MonoBehaviour {
         powerups[4] = weaponList[4];
         powerups[5] = weaponList[5];
 	}
+
+    void Update() {
+        print(powerups[3].name);
+    }
 }

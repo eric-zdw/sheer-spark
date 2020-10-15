@@ -28,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public GameObject defaultWeapon;
     public float powerupDuration;
+    public float powerupIncrement;
     public float powerupTimer;
     public float powerupHealth;
 
@@ -69,6 +70,8 @@ public class PlayerBehaviour : MonoBehaviour {
     public AudioSource damageClip;
 
     public bool localGravity = false;
+
+    public static int projectileLayerMask = ~((1 << 9) | (1 << 13) | (1 << 8) | (1 << 14) | (1 << 18) | (1 << 21));
 
     // Use this for initialization
     void Start()
@@ -232,7 +235,7 @@ public class PlayerBehaviour : MonoBehaviour {
         inside3.GetComponent<MeshRenderer>().material = newColour;
 
 
-        powerupTimer = powerupDuration;
+        powerupTimer = Mathf.Clamp(powerupTimer + powerupIncrement, 0f, powerupDuration);
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
 
         radialBar.changePowerup(newColour);

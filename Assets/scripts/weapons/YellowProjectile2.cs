@@ -12,7 +12,7 @@ public class YellowProjectile2 : Projectile {
     private float radius;
 
     private float projectileSpeedIncrease = 20f;
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
+    private int layermask = ~((1 << 9) | (1 << 13) | (1 << 8) | (1 << 14) | (1 << 18) | (1 << 21));
 
     private GameObject player;
 
@@ -94,13 +94,15 @@ public class YellowProjectile2 : Projectile {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Explode();
-        }
-        else if (!(other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Powerup")))
-        {
-            Explode();
+        if (other.gameObject.layer == layermask) {
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                Explode();
+            }
+            else if (!(other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Powerup")))
+            {
+                Explode();
+            }
         }
     }
 

@@ -39,8 +39,6 @@ public class BlueProjectile : Projectile {
 
     private bool projectileMode = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
-
 
     // Use this for initialization
     void Start() {
@@ -139,7 +137,7 @@ public class BlueProjectile : Projectile {
     void CheckLinecastCollision() {
         RaycastHit info;
         //if (Physics.Linecast(transform.position, transform.position + launchVector * Time.deltaTime, out info, layermask)) {
-        if (Physics.SphereCast(transform.position, radius * 0.5f, launchVector, out info, Vector3.Magnitude(launchVector * Time.deltaTime), layermask)) {
+        if (Physics.SphereCast(transform.position, radius * 0.5f, launchVector, out info, Vector3.Magnitude(launchVector * Time.deltaTime), PlayerBehaviour.projectileLayerMask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);

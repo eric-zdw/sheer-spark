@@ -6,6 +6,8 @@ public class GravityWell : MonoBehaviour {
     private float radius = 8f;
     public float explosionForce;
 
+	private Vector3 velocity;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -22,7 +24,7 @@ public class GravityWell : MonoBehaviour {
 			//other.GetComponent<Enemy>().getDamage(damage * (1 - (distance / radius)));
 			//print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - (distance / radius)));
 
-            other.GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 0.5f;
+            other.GetComponent<Rigidbody>().velocity = Vector3.SmoothDamp(other.GetComponent<Rigidbody>().velocity, Vector3.zero, ref velocity, 0.2f);
             other.GetComponent<Rigidbody>().AddExplosionForce(explosionForce * Time.deltaTime, transform.position, radius, 0f);
         }
 	}

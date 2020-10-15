@@ -8,7 +8,6 @@ public class Health1 : MonoBehaviour
     PlayerBehaviour player;
     public UnityEngine.UI.Image damageAlert;
     private UnityEngine.UI.Image hp;
-    bool isActive = true;
 
     private float alertTimer = 0.2f;
 
@@ -26,7 +25,6 @@ public class Health1 : MonoBehaviour
         {
             damageAlert.color = new Color(255, 128, 128, 0.25f);
             hp.enabled = false;
-            isActive = false;
         }
         else if (player.HP < 2)
         {
@@ -41,12 +39,10 @@ public class Health1 : MonoBehaviour
             }
 
             hp.enabled = true;
-            isActive = true;
         }
         else
         {
             hp.enabled = true;
-            isActive = true;
         }
 
     }

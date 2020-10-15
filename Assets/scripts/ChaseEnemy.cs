@@ -7,26 +7,6 @@ public class ChaseEnemy : SmallEnemy {
 	private Vector3 playerLocation;
 	private Rigidbody rb;
 
-	private int jumpCounter;
-	private bool isJumping = false;
-	private float jumpTimer;
-	public int jumpChance = 5;
-	public float jumpStrength = 750f;
-	
-	public Material damagedMaterial;
-    public float YLimit;
-
-	private bool isCharging;
-	private GameObject charge;
-
-    public bool isTethered;
-    private float tetheredCheck = 0.05f;
-    private float tetheredTimer;
-
-	private PPManager ppManager;
-
-	private MaterialPropertyBlock damageMatBlock;
-
 	private int layermask;
 
 	private bool isGrounded;
@@ -50,8 +30,6 @@ public class ChaseEnemy : SmallEnemy {
 
 		navPath = new List<Node>();
 		StartCoroutine(NavigateWrapper());
-
-		damageMatBlock = new MaterialPropertyBlock();
 
 		rb.maxAngularVelocity = 10f;
     }
@@ -89,10 +67,10 @@ public class ChaseEnemy : SmallEnemy {
 		if (Physics.Linecast(transform.position, transform.position + Vector3.down * 2f, LayerMask.GetMask("Geometry"))) {
 			if (!isGrounded) {
 				isGrounded = true;
-				print("grounded?");
+				//print("grounded?");
 				// If I presumably landed after a jump and didn't seem to reach the node, recalculate route.
 				if (timeToJump && Vector3.Distance(transform.position, navPath[0].transform.position) > 3f) {
-					print("jump didn't land as intended, recalculating...");
+					//print("jump didn't land as intended, recalculating...");
 					ResetNavigation();
 				}
 			}

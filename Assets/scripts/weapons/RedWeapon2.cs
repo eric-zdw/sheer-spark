@@ -15,6 +15,7 @@ public class RedWeapon2 : Weapon {
     public float heatFireRate = 0.004f;
     public float damage = 6f;
     public float shotSpread = .1f;
+    public float shotSeparation = .1f;
     public int numberOfShots = 10;
 
     void Start () {
@@ -59,12 +60,13 @@ public class RedWeapon2 : Weapon {
             }
             */
             
-            for (int i = 0; i < numberOfShots; i++) {
+            float shot = ((numberOfShots - 1) / 2f);
+            for (float i = 0f - shot; i <= 0f + shot; i++) {
                 float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
                 GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
+                Quaternion.Euler(0, 0, angle + (i * shotSeparation) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
                 );
                 
                 proj.GetComponent<RedProjectile2>().setDamage(realDamage);

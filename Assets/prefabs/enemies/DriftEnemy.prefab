@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1263067882409612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4321981162651374}
   m_RootOrder: 2
@@ -218,40 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f103a2bb7b3a7845ada5345b17d6ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  scoreValue: 0
-  healthBar: {fileID: 1400260174968392, guid: 23a2a997a2b7d514399a54b225354627, type: 3}
-  newHealth: 50
-  powerups:
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
-  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
-  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
-  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
-  colours:
-  - {fileID: 2100000, guid: e8a50782ef8a0124bb2190e2883eba9b, type: 2}
-  - {fileID: 2100000, guid: 76a2c5afbf0d32b4b8f125d374778e5f, type: 2}
-  - {fileID: 2100000, guid: ed81c949506aebb4586b807bc89896e6, type: 2}
-  - {fileID: 2100000, guid: 7289c78480a757447959172c69515138, type: 2}
-  - {fileID: 2100000, guid: d9f0d67efcb9a674da5c611cbffc1801, type: 2}
-  - {fileID: 2100000, guid: 8a519e9eb3ff1a74ba80162195c7b123, type: 2}
-  seeThroughs:
-  - {fileID: 2100000, guid: d845392aa709f9e458149e8e03f3e83d, type: 2}
-  - {fileID: 2100000, guid: bb85f7dfb8fb774449e67323e9a09d09, type: 2}
-  - {fileID: 2100000, guid: 7f57abd2d14599a40b9cc6029ef94557, type: 2}
-  - {fileID: 2100000, guid: edc992d98b7cebb43a56d7693faa6066, type: 2}
-  - {fileID: 2100000, guid: bbcda083515deb04ebe1d0e0a59b78c8, type: 2}
-  - {fileID: 2100000, guid: a10f8b35ac8ca8c45945127933099f00, type: 2}
-  explosions:
-  - {fileID: 1056517570023220, guid: f4e7be3d6450e214ab7516bb01e86c87, type: 3}
-  - {fileID: 1056517570023220, guid: 75a71f9455b0679408bd63fc39135f34, type: 3}
-  - {fileID: 1056517570023220, guid: 6942576ea01b53c42b47380bd88b85dc, type: 3}
-  - {fileID: 1056517570023220, guid: 9475927b474b208468a4e14d51879518, type: 3}
-  - {fileID: 1056517570023220, guid: 07ef49889075ffe4a8b7a328f83eab02, type: 3}
-  - {fileID: 1056517570023220, guid: d865ba5571cd9464eb4d8856f8283eb5, type: 3}
-  damagedMaterial: {fileID: 2100000, guid: fa314a085e2f51f42b00eb0c8820a911, type: 2}
-  isTethered: 0
+  maxHealth: 50
+  scoreValue: 500
+  smallEnemyData: {fileID: 11400000, guid: 3ec8207914ccd924c9a0a175d679b509, type: 2}
+  powerupChance: 100
   pathfindingStrictness: 2
   iterationsPerFrame: 5
   neighbourAvoidanceWeight: 0
@@ -283,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 1665206188496246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4321981162651374}
   m_RootOrder: 0
@@ -362,7 +332,7 @@ Transform:
   m_GameObject: {fileID: 1863986000976410}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children: []
   m_Father: {fileID: 4321981162651374}
   m_RootOrder: 1

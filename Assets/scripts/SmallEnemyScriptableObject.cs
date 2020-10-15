@@ -8,10 +8,14 @@ public class SmallEnemyScriptableObject : ScriptableObject
     public GameObject[] deathExplosions;
     public Color[] powerupColors;
 
+    public GameObject[] powerups;
+
     [ColorUsage(true, true)]
     public Color[] powerupColorsHDR;
 
     public UnityEditor.Presets.Preset[] outlines;
+
+    public Material[] seeThroughMats;
 
     public GameObject healthBarPrefab;
 }

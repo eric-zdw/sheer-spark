@@ -17,7 +17,7 @@ public class NavManager : MonoBehaviour
         
     }
 
-    // When called by an enemy, a path is calculated given every interval until path reaches destination
+    /// <summary>When called by an enemy, a path is calculated given every interval until path reaches destination</summary>
     public static IEnumerator NavigateToLocation(Vector3 start, Vector3 target, bool isGrounded, List<Node> nodePath) {
         //print("start");
         print("Navigation restarted");
@@ -25,14 +25,14 @@ public class NavManager : MonoBehaviour
         HashSet<NodeData> closedNodes = new HashSet<NodeData>();
 
         NodeData startNode = new NodeData(FindClosestNode(start, isGrounded));
-        print("start: " + startNode.node.transform.position);
+        //print("start: " + startNode.node.transform.position);
         startNode.gCost = 0f;
         startNode.hCost = Vector3.Distance(startNode.node.transform.position, target);
         startNode.fCost = startNode.hCost;
         openNodes.Add(startNode);
 
         Node targetNode = FindClosestNode(target, isGrounded);
-        print("target: " + targetNode.transform.position);
+        //print("target: " + targetNode.transform.position);
 
         int stepsCalculated = 0;
 
@@ -48,7 +48,7 @@ public class NavManager : MonoBehaviour
 
             if (currentNode.node == targetNode) {
                 targetFound = true;
-                print("targethit");
+                //print("targethit");
                 CalculatePath(currentNode, nodePath);
             }
             else {

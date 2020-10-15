@@ -35,7 +35,7 @@ public class NavMeshGenerator : MonoBehaviour {
 
 	void CreateNodeGrid() {
 		//Geometry indicates obstacles
-		mask = LayerMask.GetMask("Geometry");
+		mask = LayerMask.GetMask("Geometry", "NoPathFinding");
 		
 		nodes = new List<List<GameObject>>(200);
 
@@ -89,6 +89,11 @@ public class NavMeshGenerator : MonoBehaviour {
 			}
 
 			iX++;
+		}
+
+		// If NoPathfinding objects were found, disable them before game starts
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("NoPathFinding")) {
+			Destroy(obj);
 		}
 	}
 
@@ -212,7 +217,7 @@ public class NavMeshGenerator : MonoBehaviour {
 		}
 	}
 
-	void OnDrawGizmos() {
+	void OnDrawGizmosSelected() {
 		if (nodes != null) {
 			for (int i = 0; i < 200; i++) {
 				for (int j = 0; j < 200; j++) {

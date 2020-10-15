@@ -14,7 +14,7 @@ public class RedProjectile2 : Projectile {
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
+    private float dampVelocity = 0f;
 
     // Use this for initialization
     void Start() {
@@ -34,7 +34,7 @@ public class RedProjectile2 : Projectile {
         else
         {
             CheckLinecastCollision();
-            damage *= 0.95f;
+            damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.1f);
             //Propogate();
             lifeTime -= Time.deltaTime;
         }
@@ -63,7 +63,7 @@ public class RedProjectile2 : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.SphereCast(transform.position, 0.1f, transform.right, out info, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), layermask)) {
+        if (Physics.SphereCast(transform.position, 0.1f, transform.right, out info, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), PlayerBehaviour.projectileLayerMask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 float leftoverDamage = Mathf.Clamp(-(info.collider.gameObject.GetComponent<Enemy>().getHealth() - damage), 0f, damage);
@@ -81,10 +81,10 @@ public class RedProjectile2 : Projectile {
             else {
                 Explode();
             }
-            
         }
-        else
-            transform.position += transform.right * projectileSpeed * Time.deltaTime;
+        transform.position += transform.right * projectileSpeed * Time.deltaTime;
+        //else
+        //    transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
     /*

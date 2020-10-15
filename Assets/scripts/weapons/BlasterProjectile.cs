@@ -7,13 +7,11 @@ public class BlasterProjectile : Projectile {
     public GameObject explosion;
     public GameObject explosion2;
 
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
-
     // Use this for initialization
     void Start() {
         projectileSpeed = 120f;
         lifeTime = 10f;
-        damage = 12f;
+        damage = 11f;
     }
 
     // Update is called once per frame
@@ -31,7 +29,7 @@ public class BlasterProjectile : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, PlayerBehaviour.projectileLayerMask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
@@ -40,19 +38,6 @@ public class BlasterProjectile : Projectile {
         }
         else
             transform.position += transform.right * projectileSpeed * Time.deltaTime;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Explode();
-            other.gameObject.GetComponent<Enemy>().getDamage(damage);
-        }
-        else if (!other.gameObject.CompareTag("Player"))
-        {
-            Explode();
-        }
     }
 
     void Explode()

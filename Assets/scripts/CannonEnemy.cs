@@ -7,124 +7,89 @@ public class CannonEnemy : SmallEnemy {
 	private Vector3 playerLocation;
 	private Rigidbody rb;
 
-	private bool isCharging;
-	private GameObject charge;
+    private List<Node> navPath;
 
-    private float moveInterval = 10f;
-    private float moveTimer;
-    private Vector3 destination;
-    public float boundsLowX;
-    public float boundsHighX;
-    public float boundsLowY;
-    public float boundsHighY;
-    private float easing;
+	public GameObject body;
+	public GameObject cannon;
 
-    private float radius;
+	public LineRenderer laserPointer;
 
-    private float attackTime;
-    private bool hasAttacked = false;
-    private bool isAttacking = false;
-    private float flashTimer;
-    private float attackDelay = 1.5f;
-    private float attackTimer;
-
-    private LineRenderer indicator;
-    public GameObject beam;
-    private GameObject newBeam;
-    private Vector3 attackLocation;
-
-    private float maxSpeed = 20f;
-
-    public GameObject cannonExplosion;
+	private float dampVelocity = 0f;
 
     void Start()
 	{
+        Initialize();
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
 
-        moveTimer = 1.5f;
-        destination = transform.position;
-        radius = transform.localScale.y * 1.1f;
+        navPath = new List<Node>();
+        StartCoroutine(NavigateWrapper());
 
-        attackTime = moveInterval * 0.4f;
-
-        indicator = GetComponent<LineRenderer>();
-
-        flashTimer = 0f;
-        attackTimer = attackDelay;
-        hasAttacked = true;
+		StartCoroutine(AttackRoutine());
     }
 
 	void FixedUpdate()
 	{
-        if (easing < 1f)
-            easing += Time.deltaTime;
-        else if (easing > 1f)
-            easing = 1f;
+        if (navPath.Count > 0) {
+			GetComponent<Rigidbody>().AddForce(Vector3.Normalize(navPath[0].transform.position - transform.position) * 600f * Time.deltaTime);
+			// For a node to be considered visited, no obstacles must be between the object and the node
+			if (Vector3.Distance(navPath[0].transform.position, transform.position) < 2f 
+				&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {
+					navPath.RemoveAt(0);
+			}
+		}
 
-        Vector3 newForce = Vector3.Normalize(destination - transform.position) * Time.deltaTime * 100f * Vector3.Magnitude(destination - transform.position) * easing;
-        rb.AddForce(Vector3.ClampMagnitude(newForce, maxSpeed));
+		/*
+		Vector2 currentDirection = cannon.transform.position - body.transform.position;
+		float currentAngle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
+		*/
 
-        if (!hasAttacked)
-        {
-            transform.LookAt(player.transform.position);
-            indicator.SetPosition(0, player.transform.position + Vector3.Normalize(player.transform.position - transform.position) * 50f);
-            indicator.SetPosition(1, transform.position);
-        }
-        else
-        {
-            transform.LookAt(attackLocation);
-            indicator.SetPosition(0, attackLocation + Vector3.Normalize(attackLocation - transform.position) * 50f);
-            indicator.SetPosition(1, transform.position);
-        }
-            
+		Vector2 targetDirection = player.transform.position - body.transform.position;
+		float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+		
+		float newAngle = Mathf.SmoothDampAngle(cannon.transform.eulerAngles.z - 90f, targetAngle, ref dampVelocity, 0.8f);
 
-        Vector3 rotation = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler(rotation.x + 90f, rotation.y, rotation.z);
+		cannon.transform.rotation = Quaternion.Euler(new Vector3(cannon.transform.rotation.eulerAngles.x, 0f, newAngle + 90f));
+		cannon.transform.position = body.transform.position - cannon.transform.up * 1.5f;
 
-        moveTimer -= Time.deltaTime;
-        if (moveTimer <= 0f)
-        {
-            RelocateRoutine();
-            moveTimer = (moveInterval + Random.Range((-moveInterval / 5f), (moveInterval / 5f)));
-        }
+		if (laserPointer.enabled) {
+			laserPointer.SetPosition(0, cannon.transform.position);
+			laserPointer.SetPosition(1, cannon.transform.position + Vector3.Normalize(cannon.transform.position - transform.position) * 100f);
+		}
+	}
 
-        if (moveTimer < attackTime && hasAttacked == false)
-        {
-            hasAttacked = true;
-            isAttacking = true;
-            attackLocation = player.transform.position;
-        }
-        if (attackTimer <= 0)
-        {
-            attackTimer = attackDelay;
-            isAttacking = false;
-            indicator.enabled = false;
-        }
+    private IEnumerator NavigateWrapper() {
+		yield return new WaitForSeconds(0.5f);
+		while (true) {
+			Vector3 playerPosition = player.transform.position;
+			Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 50f;
+			StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+			yield return new WaitForSeconds(16f);
+			StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+			navPath.Clear();
+		}
+	}
 
-        if(isAttacking)
-        {
-            attackTimer -= Time.deltaTime;
-            if (attackTimer % 0.15f > 0.075f)
-            {
-                indicator.enabled = true;
-            }
-            else
-                indicator.enabled = false;
+	private IEnumerator AttackRoutine() {
+		while (true) {
+			StartCoroutine(LaserFlash());
+			yield return new WaitForSeconds(10f);
+		}
+	}
 
-            if (attackTimer <= 0f)
-            {
-                GameObject newExplosion = Instantiate(cannonExplosion, transform.position, transform.rotation);
-                newBeam = Instantiate(beam, transform.position, transform.rotation);
-                Vector3 newRotation = newBeam.transform.rotation.eulerAngles;
-                newBeam.transform.rotation = Quaternion.Euler(newRotation.x, newRotation.y, newRotation.z + 90f);
-                Vector3 newForce2 = Vector3.Normalize(attackLocation - transform.position) * Time.deltaTime * 50000f;
-                rb.AddForce(-newForce2);
-            }
-                
-        }
-
-
+	private IEnumerator LaserFlash() {
+		float flashInterval = 0.2f;
+		while (flashInterval >= 0.04f) {
+			laserPointer.enabled = true;
+			laserPointer.SetPosition(0, cannon.transform.position);
+			laserPointer.SetPosition(1, cannon.transform.position + Vector3.Normalize(cannon.transform.position - transform.position) * 100f);
+			yield return new WaitForSeconds(flashInterval);
+			flashInterval *= 0.95f;
+			laserPointer.enabled = false;
+			yield return new WaitForSeconds(flashInterval * 0.5f);
+			flashInterval *= 0.95f;
+		}
+		//if Physics.SphereCast()
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -136,35 +101,10 @@ public class CannonEnemy : SmallEnemy {
         }
     }
 
-    private void RelocateRoutine()
-    {
-        easing = 0f;
-        int failedAttempts = 0;
-        bool success = false;
-        while (!success)
-        {
-            float newLocationX = Random.Range(boundsLowX, boundsHighX);
-            float newLocationY = Random.Range(boundsLowY, boundsHighY);
-            Vector3 newLocation = new Vector3(newLocationX, newLocationY);
-
-            Debug.DrawLine(transform.position, newLocation, Color.red, 5f);
-
-            if (Physics.OverlapSphere(newLocation, radius).Length != 0)
-            {
-                print("location attempt at failed! retrying...");
-                failedAttempts++;
-                if (failedAttempts == 10)
-                {
-                    print("critical failure! remaining in position");
-                    success = true;
-                }
-            }
-            else
-            {
-                success = true;
-                destination = newLocation;
-            }
-        }
-        hasAttacked = false;
-    }
+	void OnDrawGizmosSelected() {
+		foreach (Node n in navPath) {
+			Gizmos.DrawCube(n.transform.position, new Vector3(2f, 2f, 2f));
+		}
+		
+	}
 }

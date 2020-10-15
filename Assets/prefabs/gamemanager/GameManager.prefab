@@ -1687,19 +1687,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e9bc699ff03844939860b9ce88f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerups: []
   weaponList:
-  - {fileID: 1313234464062574, guid: 2e8618b32f19a254081ccdb951594528, type: 3}
-  - {fileID: 1313234464062574, guid: 35d29199f7e29c341af7737a170d14e3, type: 3}
-  - {fileID: 1313234464062574, guid: 975a416448d23744fb75cfaf0035f76c, type: 3}
-  - {fileID: 1313234464062574, guid: 75634d7a665d3cc4d80e32a75ec6a948, type: 3}
-  - {fileID: 1313234464062574, guid: 82b45bf295654ed4385ec6a45c516cd9, type: 3}
-  - {fileID: 1313234464062574, guid: cf56b7ee5210f434fa2202394ce458ed, type: 3}
-  - {fileID: 1313234464062574, guid: cb231a7943d5e5d4c977792d65b45d2a, type: 3}
-  - {fileID: 1313234464062574, guid: 3184f77d60856114d82310c09feebe48, type: 3}
-  - {fileID: 1313234464062574, guid: 491ce2bb283bd424c8ef07822c704d80, type: 3}
-  - {fileID: 1313234464062574, guid: dcd628da9a8cc664993942458194850d, type: 3}
-  - {fileID: 1313234464062574, guid: a27618c5b08873b4fb82366b53c108c6, type: 3}
-  - {fileID: 1313234464062574, guid: a27618c5b08873b4fb82366b53c108c6, type: 3}
+  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
+  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
+  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
+  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
+  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
+  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
 --- !u!1 &1182850684358130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,11 +1927,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0c3d4c1e654b44e9a831f4961b07a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ppTransitionTime: 1.5
-  ppDefaultTimeScale: 1.4
-  ppSlowTimeScale: 0.014
+  ppTransitionTime: 0.4
+  ppDefaultTimeScale: 1.5
+  ppSlowTimeScale: 0.0025
   ppFixedScale: 60
-  ppTimeIncreaseRate: 1.04
+  ppTimeIncreaseRate: 1.08
 --- !u!1 &1184724190881328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,7 +2347,7 @@ GameObject:
   - component: {fileID: 135879533737643444}
   - component: {fileID: 82403599035401368}
   - component: {fileID: 82277757146772162}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: DashBoost
   m_TagString: PlayerUtility
   m_Icon: {fileID: 0}
@@ -9229,7 +9224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4163115455238324
 Transform:
   m_ObjectHideFlags: 0
@@ -9467,9 +9462,10 @@ MonoBehaviour:
   torqueStrength: 1
   maxHP: 4
   defaultColour: {fileID: 2100000, guid: 314500b82439feb4da6576ee0fa4e19a, type: 2}
-  defaultWeapon: {fileID: 1313234464062574, guid: cb231a7943d5e5d4c977792d65b45d2a,
+  defaultWeapon: {fileID: 1014158004818090, guid: a6f5b35373fbcbb40922287fe5fab9a1,
     type: 3}
-  powerupDuration: 8
+  powerupDuration: 20
+  powerupIncrement: 4
   powerupTimer: 0
   powerupHealth: 0.125
   powerupLevel: 0
@@ -9841,7 +9837,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 20594888247370192}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -9851,7 +9848,7 @@ MonoBehaviour:
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
-  m_Dithering: 0
+  m_Dithering: 1
   m_ClearDepth: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
@@ -21990,6 +21987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e9bc699ff03844939860b9ce88f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerups: []
   weaponList:
   - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
   - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
