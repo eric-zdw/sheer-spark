@@ -21,6 +21,7 @@ public class FastEnemy : SmallEnemy {
 	private Color gizColor;
 
     private SphereCollider projectileSensor;
+	public GameObject dashExplosion;
 
     void Start()
 	{
@@ -36,6 +37,9 @@ public class FastEnemy : SmallEnemy {
 		StartCoroutine(NavigateWrapper());
 
 		rb.maxAngularVelocity = 10f;
+
+        MeshRenderer centerMesh = transform.GetChild(4).GetComponent<MeshRenderer>();
+        smallEnemyData.outlines[powerupRoll].ApplyTo(centerMesh.material);
     }
 
 	private IEnumerator NavigateWrapper() {
@@ -170,12 +174,10 @@ public class FastEnemy : SmallEnemy {
     }
 
 	public void Dodge(Vector3 angle) {
-		//down angle
 		Vector3 angle1 = Vector3.Normalize(Vector3.Cross(angle, Vector3.forward));
-		//up angle
 		Vector3 angle2 = Vector3.Normalize(Vector3.Cross(angle, -Vector3.forward));
 
-		Debug.DrawRay(transform.position, angle1 * 5f, Color.red, 3f);
+		//Debug.DrawRay(transform.position, angle1 * 5f, Color.red, 3f);
 		//Debug.DrawRay(transform.position, angle2 * 5f, Color.red, 3f);
 
 		bool angle1Available = true;
@@ -212,6 +214,7 @@ public class FastEnemy : SmallEnemy {
 		print("angle: " + finalAngle);
 		rb.velocity *= 0.4f;
 		rb.AddForce(finalAngle * 1000f + (-angle * 250f) + (Vector3)Random.insideUnitCircle * 250f);
+		Instantiate(dashExplosion, transform.position, Quaternion.identity);
 	}
 
 	/*

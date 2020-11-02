@@ -9710,7 +9710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ff80ca420b7ee84faf84081f9f77af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charges: 4
+  uses: 0
   dashImpact: {fileID: 1132967370857014, guid: 2b3b314a2e92d104b90c4b53ee4d7a62, type: 3}
   impactDamage: 55
   dashVelocity: 30
@@ -14802,9 +14802,10 @@ MonoBehaviour:
   torqueStrength: 1
   maxHP: 4
   defaultColour: {fileID: 2100000, guid: 314500b82439feb4da6576ee0fa4e19a, type: 2}
-  defaultWeapon: {fileID: 1313234464062574, guid: 975a416448d23744fb75cfaf0035f76c,
+  defaultWeapon: {fileID: 1313234464062574, guid: 35d29199f7e29c341af7737a170d14e3,
     type: 3}
   powerupDuration: 8
+  powerupIncrement: 0
   powerupTimer: 0
   powerupHealth: 0
   powerupLevel: 0
@@ -14842,6 +14843,7 @@ MonoBehaviour:
   invincible: 0
   isDashing: 0
   damageClip: {fileID: 0}
+  localGravity: 0
 --- !u!135 &135768229228990472
 SphereCollider:
   m_ObjectHideFlags: 0

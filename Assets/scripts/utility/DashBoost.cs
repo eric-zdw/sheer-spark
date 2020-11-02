@@ -81,7 +81,7 @@ public class DashBoost : Utility {
 
             Instantiate(dashImpact, transform.position, transform.rotation);
             uses -= 1f;
-            sounds[0].Play();
+            //sounds[0].Play();
             dashTimer = dashDelay;
         }
         else if (uses < 1f && dashTimer <= 0f)
