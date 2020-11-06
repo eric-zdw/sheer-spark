@@ -20,6 +20,7 @@ public class DriftEnemy : SmallEnemy {
 		Initialize();
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
+		
 
 		navPath = new List<Node>();
 		StartCoroutine(NavigateWrapper());

@@ -8,6 +8,10 @@ public class CircleCannon : MonoBehaviour {
 	public GameObject projectile;
 	private float fireTimer;
 
+	public GameObject charge;
+	private GameObject newCharge;
+	public GameObject release;
+
 	// Use this for initialization
 	void Start () {
 		fireTimer = fireRate;
@@ -17,9 +21,20 @@ public class CircleCannon : MonoBehaviour {
 	void FixedUpdate () {
 		fireTimer -= Time.deltaTime;
 		if (fireTimer <= 0f) {
-			Vector3 newRotation = transform.rotation.eulerAngles + new Vector3 (0f, 0f, 270f);
-			Instantiate (projectile, transform.position + -transform.up * 1f, Quaternion.Euler(newRotation));
-			fireTimer += fireRate;
+			StartCoroutine(ShootRoutine());
+			fireTimer = fireRate;
 		}
+
+		if (newCharge != null) {
+			newCharge.transform.position = transform.position;
+		}
+	}
+
+	IEnumerator ShootRoutine() {
+		newCharge = Instantiate(charge, transform.position, transform.rotation * Quaternion.Euler(0f, -90f, 0f));
+		yield return new WaitForSeconds(2f);
+		GameObject newRelease = Instantiate(release, transform.position, transform.rotation * Quaternion.Euler(90f, 0f, 0f));
+		Vector3 newRotation = transform.rotation.eulerAngles + new Vector3 (0f, 0f, 270f);
+		Instantiate (projectile, transform.position + -transform.up * 0.2f, Quaternion.Euler(newRotation));
 	}
 }

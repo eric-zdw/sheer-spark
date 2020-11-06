@@ -116,6 +116,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void Update()
     {
+        Fire();
 
         if (powerupTimer >= 0f)
         {
@@ -179,9 +180,7 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     void FixedUpdate () {
-
         Movement();
-        Fire();
 
         if (!isDashing) {
             rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * dragForceX * Time.deltaTime);

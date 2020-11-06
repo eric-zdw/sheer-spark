@@ -43,7 +43,7 @@ public abstract class SmallEnemy : Enemy
         mainMesh.SetPropertyBlock(mainMPB);
         
         outlineMesh = transform.GetChild(0).GetComponent<MeshRenderer>();
-        smallEnemyData.outlines[powerupRoll].ApplyTo(outlineMesh.material);
+        outlineMesh.material = smallEnemyData.outlines[powerupRoll];
 
         seeThroughMesh = transform.GetChild(1).GetComponent<MeshRenderer>();
         seeThroughMesh.material = smallEnemyData.seeThroughMats[powerupRoll];

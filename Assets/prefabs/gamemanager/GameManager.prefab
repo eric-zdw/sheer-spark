@@ -44,7 +44,6 @@ Transform:
   - {fileID: 224823689600814602}
   - {fileID: 6870144973825576511}
   - {fileID: 2238433250357538185}
-  - {fileID: 2870571452509900358}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1687,7 +1686,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e9bc699ff03844939860b9ce88f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerups: []
+  powerups:
+  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
+  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
+  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
+  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
+  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
+  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
   weaponList:
   - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
   - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
@@ -21944,57 +21949,6 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &6683320134498045042
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2870571452509900358}
-  - component: {fileID: 5964140080287268027}
-  m_Layer: 0
-  m_Name: PowerupManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2870571452509900358
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6683320134498045042}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4000220771516380}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5964140080287268027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6683320134498045042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8e9bc699ff03844939860b9ce88f17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerups: []
-  weaponList:
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
-  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
-  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
-  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
 --- !u!1 &6907866683914292114
 GameObject:
   m_ObjectHideFlags: 0

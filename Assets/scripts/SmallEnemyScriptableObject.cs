@@ -13,7 +13,7 @@ public class SmallEnemyScriptableObject : ScriptableObject
     [ColorUsage(true, true)]
     public Color[] powerupColorsHDR;
 
-    public UnityEditor.Presets.Preset[] outlines;
+    public Material[] outlines;
 
     public Material[] seeThroughMats;
 

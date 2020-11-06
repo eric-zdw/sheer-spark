@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyProjectile1 : Projectile {
 
     public GameObject explosion;
-    public GameObject explosion2;
 
     public float speed;
 
@@ -15,7 +14,7 @@ public class EnemyProjectile1 : Projectile {
     // Use this for initialization
     void Start() {
         projectileSpeed = speed;
-        lifeTime = 10f;
+        lifeTime = 8f;
         damage = 8f;
 
         mpb = new MaterialPropertyBlock();
@@ -53,7 +52,6 @@ public class EnemyProjectile1 : Projectile {
     void Explode()
     {
         Instantiate(explosion, transform.position, transform.rotation);
-        Instantiate(explosion2, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

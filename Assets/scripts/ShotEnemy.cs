@@ -2,65 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotEnemy : Enemy {
-	public GameObject healthBar;
-	public GameObject[] explosions;
-	public float newHealth;
-	private GameObject bar;
-
+public class ShotEnemy : SmallEnemy {
 	private GameObject player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
 
 	public float rotationRate;
-
-	public GameObject[] powerups;
-	public Material[] colours;
-	public Material[] seeThroughs;
-	private MeshRenderer outline;
-	private MeshRenderer seeThrough;
-	private int powerupRoll;
-
 	private bool isCharging;
 	private GameObject charge;
 
 	private float radius;
 	private int layerMask;
-
 	public float moveForce;
 
 	void Start()
 	{
-		bar = Instantiate(healthBar);
-		maxHealth = newHealth * WaveSystem.enemyPower;
-		health = maxHealth;
-		bar.GetComponent<HealthBar>().setTarget(gameObject);
+		Initialize();
+		MeshRenderer cannonMesh = transform.GetChild(3).GetComponent<MeshRenderer>();
+		cannonMesh.material = smallEnemyData.outlines[powerupRoll];
+		MeshRenderer cannonSeeThrough = transform.GetChild(4).GetComponent<MeshRenderer>();
+		cannonSeeThrough.material = smallEnemyData.seeThroughMats[powerupRoll];
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
-
-		powerupRoll = Random.Range(0, 6);
-		for (int i = 0; i <= 4; i++)
-		{
-			outline = transform.GetChild(i).GetComponent<MeshRenderer>();
-			outline.material = colours[powerupRoll];
-		}
-		for (int i = 5; i <= 9; i++)
-		{
-			seeThrough = transform.GetChild(i).GetComponent<MeshRenderer>();
-			seeThrough.material = seeThroughs[powerupRoll];
-		}
 
 		radius = transform.localScale.y * 1.1f;
 	}
 
 	void FixedUpdate()
-	{		
-		if (health <= 0)
-		{
-			Explode();
-		}
-
+	{
 		transform.LookAt(player.transform.position);
 		Vector3 targetPosition = player.transform.position + Vector3.Normalize(transform.position - player.transform.position) * 16f;
 		rb.AddForce((targetPosition - transform.position) * moveForce * Time.deltaTime);
@@ -71,16 +41,7 @@ public class ShotEnemy : Enemy {
 		if (collision.gameObject.CompareTag("Player"))
 		{
 			collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-			Explode();
+			getDamage(50f);
 		}
-	}
-
-	void Explode()
-	{
-		Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
-		Instantiate(powerups[powerupRoll], transform.position, Quaternion.identity);
-		Instantiate(explosions[powerupRoll], transform.position, transform.rotation);
-		Destroy(bar);
-		Destroy(gameObject);
 	}
 }

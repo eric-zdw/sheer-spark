@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - enemyEntry: {fileID: 11400000, guid: 9045df4e8d47ac94b8dfb15724fcf2eb, type: 2}
-    enemyCount: 15
+    enemyCount: 16
   - enemyEntry: {fileID: 11400000, guid: ddfeece98f05e9f409c54d984e394b0e, type: 2}
-    enemyCount: 15
+    enemyCount: 16
+  - enemyEntry: {fileID: 11400000, guid: 764e7c3f4d1afd5428f26dec2de56c14, type: 2}
+    enemyCount: 8
   initialSpawns: 8
   spawnRate: 2.5
   maxActiveEnemies: 8

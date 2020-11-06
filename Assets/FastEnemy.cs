@@ -39,7 +39,8 @@ public class FastEnemy : SmallEnemy {
 		rb.maxAngularVelocity = 10f;
 
         MeshRenderer centerMesh = transform.GetChild(4).GetComponent<MeshRenderer>();
-        smallEnemyData.outlines[powerupRoll].ApplyTo(centerMesh.material);
+		centerMesh.material = smallEnemyData.outlines[powerupRoll];
+        
     }
 
 	private IEnumerator NavigateWrapper() {
@@ -168,7 +169,7 @@ public class FastEnemy : SmallEnemy {
         {
 			if (collision.gameObject.GetComponent<PlayerBehaviour>().invincible <= 0f) {
 				collision.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
-            	getDamage(100f);
+            	getDamage(50f);
 			}
         }
     }

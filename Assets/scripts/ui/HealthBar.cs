@@ -30,7 +30,7 @@ public class HealthBar : MonoBehaviour {
 
         //Red portion of bar lerps to show damage taken
         redBarImg.transform.position = target.transform.position + new Vector3(0f, (target.transform.localScale.y / 2f) * 2f, 0f);
-        redBarImg.fillAmount = Mathf.SmoothDamp(redBarImg.fillAmount, barImg.fillAmount, ref velocity, 0.5f);
+        redBarImg.fillAmount = Mathf.SmoothDamp(redBarImg.fillAmount, barImg.fillAmount, ref velocity, (0.5f + enemyScript.getMaxHealth() * 0.0005f));
 	}
 
     public void setTarget(GameObject t)
