@@ -27,7 +27,12 @@ public abstract class Weapon : MonoBehaviour{
 
     protected void SetCooldown(float cd)
     {
-        cooldown = cd;
+        cooldown += cd;
+    }
+
+    protected void ResetCooldown()
+    {
+        cooldown = 0f;
     }
 
     protected void DecrementCooldown()

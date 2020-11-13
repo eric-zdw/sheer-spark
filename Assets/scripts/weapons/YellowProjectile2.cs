@@ -38,7 +38,8 @@ public class YellowProjectile2 : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 1000f;
 
 
         /*
@@ -72,22 +73,22 @@ public class YellowProjectile2 : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1.5f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1.5f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2f);
             transform.rotation = Quaternion.Euler(newR);
         }
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
-        if (projectileSpeed < 80f) {
+        if (projectileSpeed < 120f) {
             projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
-            projectileSpeedIncrease *= 1.16f;
+            projectileSpeedIncrease *= 1.18f;
         }
         else {
-            projectileSpeed = 80f;
+            projectileSpeed = 120f;
         }
     }
     

@@ -9758,8 +9758,8 @@ Camera:
   m_GameObject: {fileID: 1655013578555980}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 0.6885808, b: 0, a: 1}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -9823,9 +9823,10 @@ MonoBehaviour:
   followTarget: {fileID: 1651668818389564}
   shakeFactor: 0
   shakeMultiplier: 1
-  shakeDecayFactor: 0.8
+  shakeDecayFactor: 0.1
   bounds: {fileID: 0}
   playerScreenPosition: {x: 0, y: 0}
+  startPosition: {x: 0, y: 10, z: -50}
 --- !u!114 &805488646528282024
 MonoBehaviour:
   m_ObjectHideFlags: 0

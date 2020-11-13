@@ -19,12 +19,17 @@ public class CameraFollow : MonoBehaviour {
     public CameraBounds bounds;
     public Vector2 playerScreenPosition;
 
+    private bool inIntro = true;
+    public Vector3 startPosition;
+
 	// Use this for initialization
 	void Start ()
     {
         followTarget = GameObject.Find("Player");
         cam = GetComponent<Camera>();
-        bounds = GameObject.Find("CameraBounds").GetComponent<CameraBounds>();
+        //bounds = GameObject.Find("CameraBounds").GetComponent<CameraBounds>();
+
+        StartCoroutine(StageIntroRoutine());
 	}
 	
 	// Update is called once per frame
@@ -41,12 +46,15 @@ public class CameraFollow : MonoBehaviour {
             newPosition = lastPosition;
 
         //add mouse positioning
-        Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
-        newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
-        newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
+        if (!inIntro) {
+            Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
+            newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
+            newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
+            transform.position = newPosition;
+        }
         //newPosition += cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
         //newPosition = new Vector3(newPosition.x / 2, newPosition.y / 2, -CameraDistance);
-        transform.position = newPosition;
+        
 
         //clamp
         if (bounds) {
@@ -86,5 +94,25 @@ public class CameraFollow : MonoBehaviour {
         {
             yield return null;
         }
+    }
+
+    IEnumerator StageIntroRoutine() {
+        inIntro = true;
+        float lerp = 0f;
+        float t = 0f;
+
+        while (lerp < 0.999f) {
+            Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
+            Vector3 newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
+            newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
+            newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
+            transform.position = Vector3.Lerp(startPosition, newPosition, lerp);
+
+            t += Time.deltaTime * 0.2f;
+            lerp = Mathf.SmoothStep(0f, 1f, t);
+            yield return new WaitForEndOfFrame();
+        }
+
+        inIntro = false;
     }
 }
