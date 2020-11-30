@@ -18,6 +18,6 @@ public class PowerupManager : MonoBehaviour {
 	}
 
     void Update() {
-        print(powerups[3].name);
+        //print(powerups[3].name);
     }
 }

@@ -23,6 +23,8 @@ public class PlayerBehaviour : MonoBehaviour {
     private GameObject itemSlot1;
     private GameObject itemSlot2;
 
+    public int[] sparkEnergy;
+
     private MeshRenderer mesh;
     public Material defaultColour;
 
@@ -35,12 +37,11 @@ public class PlayerBehaviour : MonoBehaviour {
     public float powerupLevel;
     public bool hasPowerup;
     private float heatTimer = 0f;
-    private bool heatOn;
     public float heatFactor;
     public float heatDecayFactor;
     public float heatConstantDecay;
-    private float decayTimer;
     public float HP;
+    public EnergyPanel energyPanel;
 
     private AudioSource collisionSound;
 
@@ -86,11 +87,12 @@ public class PlayerBehaviour : MonoBehaviour {
 
         weapon = weaponSlot.GetComponentInChildren<Weapon>();
         util = utilitySlot.GetComponentInChildren<Utility>();
+        
+        sparkEnergy = new int[6];
 
         mesh = GetComponent<MeshRenderer>();
 
         rb.maxAngularVelocity = maxAngularVelocity;
-        decayTimer = 0.1f;
         HP = maxHP;
 
         collisionSound = GetComponent<AudioSource>();
@@ -142,34 +144,17 @@ public class PlayerBehaviour : MonoBehaviour {
             }
         }
 
-        decayTimer -= Time.deltaTime;
-        if (decayTimer <= 0f)
+        if (powerupLevel >= 7.5f)
         {
-            if (heatFactor > 0)
-            {
-                heatFactor *= heatDecayFactor;
-                heatFactor -= heatConstantDecay;
-            }
-            else
-                heatFactor = 0f;
-
-            decayTimer += 0.1f;
-        }
-
-        if (powerupLevel >= 7.5f && !heatOn)
-        {
-            heatOn = true;
             heatFactor = 1f;
             playerSpeed = playerBaseSpeed + (playerHeatSpeed * heatFactor);
         }
 
-        if (powerupLevel <= 0f && heatOn)
+        if (powerupLevel <= 0f)
         {
-            powerupLevel = 0f;
-            heatOn = false;
             playerSpeed = playerBaseSpeed;
         }
-        else if (powerupLevel > 0f && heatOn)
+        else if (powerupLevel > 0f)
         {
             powerupLevel -= Time.deltaTime * 0.6f;
         }
@@ -233,15 +218,15 @@ public class PlayerBehaviour : MonoBehaviour {
         inside2.GetComponent<MeshRenderer>().material = newColour;
         inside3.GetComponent<MeshRenderer>().material = newColour;
 
-
         powerupTimer = Mathf.Clamp(powerupTimer + powerupIncrement, 0f, powerupDuration);
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
+
+        sparkEnergy[index] = Mathf.Clamp(sparkEnergy[index] + 1, 0, 6);
+        energyPanel.UpdateEnergyMeters();
 
         radialBar.changePowerup(newColour);
         //offset for default trail color
         lightTrail.material = trailMaterials[index + 1];
-
-        //powerupLevel++;
 
         if (HP < maxHP) {
             StartCoroutine(healthBar.Flash());

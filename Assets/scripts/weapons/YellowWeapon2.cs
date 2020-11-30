@@ -33,7 +33,7 @@ public class YellowWeapon2 : Weapon {
         else if (GetCooldown() < 0)
             ResetCooldown();
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
     }
 
@@ -51,7 +51,7 @@ public class YellowWeapon2 : Weapon {
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-8f, 8f) + (altFire * 8f))
+                Quaternion.Euler(0, 0, angle + Random.Range(-5f, 5f) + (altFire * 5f))
                 );
             proj.GetComponent<YellowProjectile2>().setDamage(realDamage);
             proj.GetComponent<YellowProjectile2>().setRadius(realRadius);

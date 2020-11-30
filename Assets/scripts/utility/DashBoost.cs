@@ -42,7 +42,7 @@ public class DashBoost : Utility {
 	
 	// Update is called once per frame
 	void Update () {
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 
         if (dashTimer > 0f)
         {

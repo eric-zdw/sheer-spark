@@ -45,7 +45,7 @@ public class BlueProjectile : Projectile {
         lifeTime = 8f;
         rb = GetComponent<Rigidbody>();
         projectileSpeed = launchSpeed;
-        rb.AddForce(Random.insideUnitCircle * 2000f);
+        rb.AddForce(Vector3.Normalize(Random.insideUnitCircle) * 1600f);
 		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		player = GameObject.FindGameObjectWithTag("Player");
         bw = GameObject.FindGameObjectWithTag("BlueWeapon").GetComponent<BlueWeapon>();

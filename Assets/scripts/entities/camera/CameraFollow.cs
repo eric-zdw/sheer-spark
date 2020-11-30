@@ -35,6 +35,7 @@ public class CameraFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+
         Vector3 newPosition;
         //inital camera position
         if (followTarget != null)
@@ -108,7 +109,7 @@ public class CameraFollow : MonoBehaviour {
             newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
             transform.position = Vector3.Lerp(startPosition, newPosition, lerp);
 
-            t += Time.deltaTime * 0.2f;
+            t += Time.deltaTime * 0.15f;
             lerp = Mathf.SmoothStep(0f, 1f, t);
             yield return new WaitForEndOfFrame();
         }

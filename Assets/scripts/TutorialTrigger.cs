@@ -43,7 +43,7 @@ public class TutorialTrigger : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             GameObject.FindGameObjectWithTag("WaveSystem").GetComponent<WaveSystem>().gameStarted = true;
-            GameObject.Find("Get Ready").GetComponent<Ready>().gameStarted = true;
+            //GameObject.Find("Get Ready").GetComponent<Ready>().gameStarted = true;
             Destroy(gameObject);
         }
     }

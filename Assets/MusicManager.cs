@@ -7,26 +7,43 @@ public class MusicManager : MonoBehaviour {
     AudioSource lastMusic;
     AudioSource newMusic;
 
-    public AudioSource[] musics;
+    public AudioClip[] musics;
+    private AudioSource[] sources;
     private bool[] activeMusics;
     private bool musicChosen = false;
 
 	// Use this for initialization
 	void Start () {
-
-		musics = GameObject.FindGameObjectWithTag("MainCamera").GetComponents<AudioSource>();
-        lastMusic = musics[0];
-        newMusic = musics[0];
-        activeMusics = new bool[5];
-        for (int i = 0; i < 5; i++)
-        {
-            activeMusics[i] = false;
+        sources = GetComponents<AudioSource>();
+        for (int i = 0; i < 6; i++) {
+            sources[i].clip = musics[i];
         }
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 	}
+
+    public void StartMusic() {
+        for (int i = 0; i < 6; i++) {
+            sources[i].Play();
+        }
+    }
+
+    public IEnumerator ChangeMusic(int index) {
+        float volume = 0f;
+        while (volume < 1f) {
+            print("music changing");
+            volume += Time.unscaledDeltaTime * 0.2f;
+            sources[index].volume = volume;
+
+            for (int i = 0; i < 6; i++) {
+                if (i != index) {
+                    sources[i].volume -= Time.unscaledDeltaTime * 0.2f;
+                }
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
 }

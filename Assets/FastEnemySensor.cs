@@ -25,7 +25,7 @@ public class FastEnemySensor : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") && dodgeTimer <= 0f) {
             Vector3 angle = Vector3.Normalize(other.transform.position - transform.position);
             fastEnemy.Dodge(angle);
-            dodgeTimer = 0.6f;
+            dodgeTimer = 0.9f;
         }
     }
 }

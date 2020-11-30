@@ -108,6 +108,12 @@ public class WaveSystem : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
+        //play start music
+        musicManager.StartMusic();
+        StartCoroutine(musicManager.ChangeMusic(0));
+        StartCoroutine(ppManager.SlowDown());
+        StartCoroutine(ppManager.ChangePP());
+
         while (true) {
             //spawn initial enemies
             for (int i = 0; i < waveEntries[waveNumber].InitialSpawns; i++) {
@@ -205,6 +211,7 @@ public class WaveSystem : MonoBehaviour {
         waveNumber++;
         if (waveNumber == waveEntries.Length)
         {
+            StartCoroutine(musicManager.ChangeMusic(5));
             //Game is done. Increment stats and end game.
             gameFinished = true;
             StartCoroutine(ppManager.GameEndEffects());
@@ -212,6 +219,18 @@ public class WaveSystem : MonoBehaviour {
         }
 
         else {
+            if (waveNumber == 1) {
+                StartCoroutine(musicManager.ChangeMusic(1));
+            }
+            else if (waveNumber == 3) {
+                StartCoroutine(musicManager.ChangeMusic(2));
+            }
+            else if (waveNumber == 4) {
+                StartCoroutine(musicManager.ChangeMusic(3));
+            }
+            else if (waveNumber == 6) {
+                StartCoroutine(musicManager.ChangeMusic(4));
+            }
             //Start slow down and post-processing effects.
             StartCoroutine(ppManager.SlowDown());
             StartCoroutine(ppManager.ChangePP());
