@@ -31,7 +31,7 @@ public class GreenProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        lifeTime = 3.6f;
+        lifeTime = 2.4f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         pulseTimer = pulseInterval;
@@ -104,7 +104,7 @@ public class GreenProjectile : Projectile {
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage * 0.125f);
+        hb.setDamage(damage * 0.25f);
         hb.setRadius(radius * 1.5f);
     }
 

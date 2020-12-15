@@ -21,10 +21,13 @@ public class YellowProjectile2 : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 12f;
+        projectileSpeed = 60f;
         lifeTime = 5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 1000f;
     }
 
     // Update is called once per frame
@@ -38,8 +41,8 @@ public class YellowProjectile2 : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
-        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 1000f;
+        //Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        //mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 1000f;
 
 
         /*
@@ -73,16 +76,17 @@ public class YellowProjectile2 : Projectile {
 
         if (leftAngle < rightAngle)
         {
-            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2f);
+            Vector3 newR = transform.rotation.eulerAngles - new Vector3(0, 0,  (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 4f);
             transform.rotation = Quaternion.Euler(newR);
         }
         else
         {
-            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 2f);
+            Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 4f);
             transform.rotation = Quaternion.Euler(newR);
         }
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
+        /*
         if (projectileSpeed < 120f) {
             projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
             projectileSpeedIncrease *= 1.18f;
@@ -90,6 +94,7 @@ public class YellowProjectile2 : Projectile {
         else {
             projectileSpeed = 120f;
         }
+        */
     }
     
 
@@ -109,7 +114,7 @@ public class YellowProjectile2 : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
+        if (Physics.SphereCast(transform.position, 0.4f, transform.right, out info, projectileSpeed * Time.deltaTime, layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);

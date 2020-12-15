@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueWeapon : Weapon {
-
     public GameObject explosion;
     public GameObject explosionHitbox;
     public GameObject chargeHitbox;
@@ -20,8 +19,6 @@ public class BlueWeapon : Weapon {
 
     public float rangeRadius = 0f;
     private float lastRR = 0f;
-    private float rangeRate = 2f;
-    public float maxRange = 6f;
 
     public GameObject rangeSphere;
     private GameObject rs;
@@ -35,12 +32,23 @@ public class BlueWeapon : Weapon {
     public float radius = 5f;
     public float heatRadiusRate = 0.002f;
 
+    public float rotationSpeed = 2f;
+    public float rotationDistance = 3f;
+
+    static public float circleX = 0;
+    static public float circleY = 0;
+    static public int numberOfProjectiles = 0;
+    public int maxProjectiles = 8;
+    public int ringJumps = 1;
+    public int spinDirection = 1;
+
     void Start () {
         SetFireRate(bFireRate);
         WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
         rs = Instantiate(rangeSphere, transform.position, Quaternion.identity, transform);
+        numberOfProjectiles = 0;
     }
 
     void Update()
@@ -53,40 +61,9 @@ public class BlueWeapon : Weapon {
 
         rs.transform.position = transform.position;
         rs.transform.localScale = new Vector3(rangeRadius * (2f/0.3f), rangeRadius * (2f / 0.3f), rangeRadius * (2f / 0.3f));
-        /*
-        if (Input.GetButton("Fire1"))
-        {
-            rangeRadius += rangeRate * (maxRange - rangeRadius) * Time.deltaTime;
-            lastRR = rangeRadius;
-            float r = 0.25f * (rangeRadius / maxRange);
-            float g = 0.375f * (rangeRadius / maxRange);
-            float b = 0.5f * (rangeRadius / maxRange);
-            float a = 0.5f * (rangeRadius / maxRange);
-            rangeMaterial.SetColor("_TintColor", new Color(r, g, b, a));
-        }  
-        */ 
-
         if (Input.GetButtonUp("Fire1"))
         {
-            //sounds[0].volume = (lastRR / maxRange) * 0.5f;
-            //sounds[0].Play();
-            //GameObject.Destroy(chargeHit.gameObject);
-
-            //rangeMaterial.SetColor("_TintColor", new Color(0f, 0f, 0f, 0f));
-
-            /*
-            noiseManager.AddNoise(25f * rangeRadius);
-            GameObject exp = Instantiate(explosion, transform.position, Quaternion.identity);
-            exp.transform.localScale = new Vector3(rangeRadius * 2f, rangeRadius * 2f, rangeRadius * 2f);
-
-            BlueExplosionHitbox expHit = Instantiate(explosionHitbox, transform.position, Quaternion.identity).GetComponent<BlueExplosionHitbox>();
-            expHit.GetComponent<SphereCollider>().radius = rangeRadius * 6f;
-            expHit.setDamage(damage * (rangeRadius / maxRange));
-            expHit.setRadius(rangeRadius * 6f);
-            */
-
-            //rangeRadius = 0f;
-            //lastRR = rangeRadius;
+            BlueWeapon.numberOfProjectiles = 0;
         }
 
         //Debug.DrawLine(transform.position, transform.position + new Vector3(rangeRadius, 0, 0));
@@ -98,8 +75,16 @@ public class BlueWeapon : Weapon {
             "Current heat factor: " + player.getHeatFactor()
             + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
             + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
-        if (GetCooldown() <= 0)
+        if (GetCooldown() <= 0 && numberOfProjectiles < maxProjectiles)
         {
+            if (numberOfProjectiles == 0) {
+                if (mousePosition.x > player.transform.position.x) {
+                    spinDirection = -1;
+                }
+                else {
+                    spinDirection = 1;
+                }
+            }
             float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
             float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
             GameObject proj = Instantiate(
@@ -111,6 +96,8 @@ public class BlueWeapon : Weapon {
 
             proj.GetComponent<BlueProjectile>().setDamage(realDamage);
             proj.GetComponent<BlueProjectile>().setRadius(realRadius);
+            numberOfProjectiles++;
+            proj.GetComponent<BlueProjectile>().id = numberOfProjectiles;
 
             SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         }

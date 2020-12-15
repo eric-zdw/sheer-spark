@@ -39,8 +39,8 @@ public class OrangeProjectile : Projectile {
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            //40% direct hit damage bonus?
-            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.4f);
+            //30% direct hit damage bonus?
+            collision.gameObject.GetComponent<Enemy>().getDamage(damage * 0.3f);
             Explode();
         }
     }

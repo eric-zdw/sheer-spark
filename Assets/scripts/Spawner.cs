@@ -7,8 +7,7 @@ public class Spawner : MonoBehaviour {
     private GameObject spawnTarget;
     public GameObject particles;
     public GameObject particles2;
-    public float limitX;
-    public float limitY;
+    public float safeDistance;
 
     private float timer;
     private float animTime = 0.5f;
@@ -31,7 +30,7 @@ public class Spawner : MonoBehaviour {
     public bool SafeToSpawn() {
         if (player != null)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < 30f) {
+            if (Vector3.Distance(transform.position, player.transform.position) < safeDistance) {
                 return false;
             }
             else {
@@ -54,5 +53,10 @@ public class Spawner : MonoBehaviour {
         Instantiate(particles2, transform.position, Quaternion.identity);
         Instantiate(spawnTarget, transform.position, Quaternion.identity);
         isBusy = false;
+    }
+
+    public void OnDrawGizmos() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 0.4f);
     }
 }

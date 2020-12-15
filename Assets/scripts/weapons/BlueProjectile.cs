@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueProjectile : Projectile {
-
     public GameObject explosion;
     public GameObject hitbox;
 
@@ -36,13 +35,16 @@ public class BlueProjectile : Projectile {
     public float chargeMass = 10f;
     private float currentCharge = 0f;
     public float chargeDamage = 0f;
-
     private bool projectileMode = false;
+
+    public float id;
+
+    bool fixedMove = false;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 8f;
+        lifeTime = 30f;
         rb = GetComponent<Rigidbody>();
         projectileSpeed = launchSpeed;
         rb.AddForce(Vector3.Normalize(Random.insideUnitCircle) * 1600f);
@@ -51,9 +53,34 @@ public class BlueProjectile : Projectile {
         bw = GameObject.FindGameObjectWithTag("BlueWeapon").GetComponent<BlueWeapon>();
         mr = GetComponent<MeshRenderer>();
         //chargeTimer = chargeMax;
+        id = BlueWeapon.numberOfProjectiles * bw.ringJumps;
     }
 
     // Update is called once per frame
+    void Update() {
+        //isCharged = false;
+        if (projectileMode == false) {
+            if (Input.GetButton("Fire1"))
+            {
+                //rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * pullForce * (rb.mass * 0.8f));
+                fixedMove = true;
+            }
+
+            if (Input.GetButtonUp("Fire1")) {
+                lifeTime = 6f;
+                fixedMove = false;
+                //isShot = true;
+                //chargeTimer = chargeMax;
+                //rb.velocity = new Vector3(0, 0, 0);
+                rb.isKinematic = false;
+                GetComponent<SphereCollider>().isTrigger = true;
+                mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;
+                Destroy(rb);
+                projectileMode = true;
+            }
+        }
+    }
     void FixedUpdate() {
         if (lifeTime <= 0)
             Destroy(gameObject);
@@ -62,25 +89,12 @@ public class BlueProjectile : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        //isCharged = false;
-        if (projectileMode == false) {
-            if (Input.GetButton("Fire1"))
-            {
-                rb.AddForce(Vector3.Normalize((player.transform.position) - (transform.position)) * Time.deltaTime * pullForce * (rb.mass * 0.8f));
-            }
-
-            if (Input.GetButtonUp("Fire1")) {
-                //isShot = true;
-                //chargeTimer = chargeMax;
-                //rb.velocity = new Vector3(0, 0, 0);
-                GetComponent<SphereCollider>().isTrigger = true;
-                mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
-                launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;
-                Destroy(rb);
-                projectileMode = true;
-            }
+        if (fixedMove) {
+            float newTime = (Time.time + (id * (((2f * Mathf.PI) / bw.rotationSpeed) / bw.maxProjectiles))) * bw.rotationSpeed * bw.spinDirection;
+            rb.MovePosition(player.transform.position + new Vector3(Mathf.Cos(newTime), Mathf.Sin(newTime), 0f) * bw.rotationDistance);
         }
-        else if (projectileMode == true) {
+
+        if (projectileMode == true) {
             CheckLinecastCollision();
         }
 
@@ -161,7 +175,7 @@ public class BlueProjectile : Projectile {
 
     void Explode()
     {
-        Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(3f);
 
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);

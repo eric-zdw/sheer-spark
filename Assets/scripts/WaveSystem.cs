@@ -148,7 +148,7 @@ public class WaveSystem : MonoBehaviour {
         List<Spawner> availableSpawners = new List<Spawner>();
         for (int i = 0; i < spawners.Count; i++)
         {
-            if (spawnerScripts[i].SafeToSpawn())
+            if (spawnerScripts[i].SafeToSpawn() == true)
             {
                 availableSpawners.Add(spawnerScripts[i]);
             }

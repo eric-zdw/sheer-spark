@@ -34,7 +34,7 @@ public class RedProjectile2 : Projectile {
         else
         {
             CheckLinecastCollision();
-            damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.1f);
+            damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.2f);
             //Propogate();
             lifeTime -= Time.deltaTime;
         }

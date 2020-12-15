@@ -37,6 +37,7 @@ public class EnergyPanel : MonoBehaviour
                 whiteIsReady = false;
             }
         }
+        
         if (whiteIsReady) StartCoroutine(WhiteIsReady());
         else StopCoroutine(WhiteIsReady());
     }

@@ -193,14 +193,15 @@ public class PlayerBehaviour : MonoBehaviour {
 
     void Fire()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            weapon.Fire1();
-        }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButton("Fire2") && Input.GetButton("Fire1"))
         {
             weapon.Fire2();
         }
+        else if (Input.GetButton("Fire1"))
+        {
+            weapon.Fire1();
+        }
+        
         if (Input.GetButtonDown("Fire3"))
         {
             util.Activate();
