@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class DashIndicatorPanel : MonoBehaviour {
 
-	public UnityEngine.UI.Image topL;
-	public UnityEngine.UI.Image topR;
-	public UnityEngine.UI.Image bottomL;
-	public UnityEngine.UI.Image bottomR;
-	public UnityEngine.UI.Image topL2;
-	public UnityEngine.UI.Image topR2;
-	public UnityEngine.UI.Image bottomL2;
-	public UnityEngine.UI.Image bottomR2;
-	public UnityEngine.UI.Image topBG;
-	public UnityEngine.UI.Image bottomBG;
-	public UnityEngine.UI.Image leftBG;
-	public UnityEngine.UI.Image rightBG;
-
+	public UnityEngine.UI.Image dash1;
+	public UnityEngine.UI.Image dash2;
+	public UnityEngine.UI.Image dash3;
+	public UnityEngine.UI.Image dash4;
+	public UnityEngine.UI.Image dash5;
+	public UnityEngine.UI.Image bg1;
+	public UnityEngine.UI.Image bg2;
+	public UnityEngine.UI.Image bg3;
+	public UnityEngine.UI.Image bg4;
+	public UnityEngine.UI.Image bg5;
 	private DashBoost dashBoost;
 	private TeleBoost teleBoost;
 
@@ -28,6 +25,8 @@ public class DashIndicatorPanel : MonoBehaviour {
 	private float fadeDelay = 0.4f; 
 
 	private float totalPixels;
+	private float lerpFill = 5f;
+	private float lerpVelocity = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -38,54 +37,30 @@ public class DashIndicatorPanel : MonoBehaviour {
 			teleBoost = GameObject.Find("TeleBoost").GetComponent<TeleBoost>();
 		}
 
-		percent = dashBoost.uses / 4f;
+		percent = dashBoost.uses / 5f;
+		lerpFill = Mathf.Lerp(lerpFill, dashBoost.uses, 0.9f);
 
-		topBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-		leftBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-		rightBG.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-
-		int barWidth = (int)((Screen.height * Screen.width * 0.025f) / (2 * Screen.height + 2 * Screen.width));
-		topL.rectTransform.sizeDelta = new Vector2(topL.rectTransform.sizeDelta.x, barWidth);
-		topR.rectTransform.sizeDelta = new Vector2(topR.rectTransform.sizeDelta.x, barWidth);
-		bottomL.rectTransform.sizeDelta = new Vector2(bottomL.rectTransform.sizeDelta.x, barWidth);
-		bottomR.rectTransform.sizeDelta = new Vector2(bottomR.rectTransform.sizeDelta.x, barWidth);
-		topBG.rectTransform.sizeDelta = new Vector2(topBG.rectTransform.sizeDelta.x, barWidth);
-		bottomBG.rectTransform.sizeDelta = new Vector2(bottomBG.rectTransform.sizeDelta.x, barWidth);
-		leftBG.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height - (barWidth * 2));
-		rightBG.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height - (barWidth * 2));
-
-		bottomL2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
-		bottomR2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
-		topL2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
-		topR2.rectTransform.sizeDelta = new Vector2(barWidth, Screen.height / 2);
-
-
+		dash1.fillAmount = lerpFill;
+		dash2.fillAmount = lerpFill - 1f;
+		dash3.fillAmount = lerpFill - 2f;
+		dash4.fillAmount = lerpFill - 3f;
+		dash5.fillAmount = lerpFill - 4f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		totalPixels = Screen.width + Screen.height;
-		float heightRatio = Screen.height / totalPixels;
-		float widthRatio = Screen.width / totalPixels;
-		
-		percent = dashBoost.uses / 4f;
-		float fillHeight = (1f - widthRatio - (1f - percent)) / heightRatio;
-		float fillWidth = (1f - (1f - percent)) / widthRatio;
+		percent = dashBoost.uses / 5f;
 		
 		//if (dashBoost) fill = dashBoost.uses / 4f;
 		//if (teleBoost) fill = teleBoost.uses / 4f;
-		valueHeight = Mathf.Clamp(Mathf.Lerp(valueHeight, fillHeight, 0.25f), 0f, 1f);
-		valueWidth = Mathf.Clamp(Mathf.Lerp(valueWidth, fillWidth, 0.25f), 0f, 2f);
 
-		topL.fillAmount = valueWidth;
-		topR.fillAmount = valueWidth;
-		bottomL.fillAmount = valueWidth;
-		bottomR.fillAmount = valueWidth;
-		topL2.fillAmount = valueHeight;
-		topR2.fillAmount = valueHeight;
-		bottomL2.fillAmount = valueHeight;
-		bottomR2.fillAmount = valueHeight;
+		//lerpFill = Mathf.SmoothDamp(lerpFill, dashBoost.uses, ref lerpVelocity, 0.01f);
+
+		dash1.fillAmount = dashBoost.uses;
+		dash2.fillAmount = dashBoost.uses - 1f;
+		dash3.fillAmount = dashBoost.uses - 2f;
+		dash4.fillAmount = dashBoost.uses - 3f;
+		dash5.fillAmount = dashBoost.uses - 4f;
 
 		Color color;
 		// non-full dash
@@ -93,7 +68,7 @@ public class DashIndicatorPanel : MonoBehaviour {
 			alpha = 0.5f;
 			fadeDelay = 0.4f;
 
-			if (percent < 0.25f) {
+			if (percent < 0.20f) {
 				if (dashBoost) red = 0.2f;
 				if (teleBoost) red = 0.2f;
 				color = new Color (1f, red, red, alpha);
@@ -113,18 +88,15 @@ public class DashIndicatorPanel : MonoBehaviour {
 		}
 		color = new Color(1f, red, red, alpha);
 
-		topL.color = color;
-		topR.color = color;
-		bottomL.color = color;
-		bottomR.color = color;
-		topL2.color = color;
-		topR2.color = color;
-		bottomL2.color = color;
-		bottomR2.color = color;
-
-		topBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
-		bottomBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
-		leftBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
-		rightBG.color = new Color(0.5f, 0.5f, 0.5f, alpha * 0.2f);
+		dash1.color = color;
+		dash2.color = color;
+		dash3.color = color;
+		dash4.color = color;
+		dash5.color = color;
+		bg1.color = color * 0.5f;
+		bg2.color = color * 0.5f;
+		bg3.color = color * 0.5f;
+		bg4.color = color * 0.5f;
+		bg5.color = color * 0.5f;
 	}
 }

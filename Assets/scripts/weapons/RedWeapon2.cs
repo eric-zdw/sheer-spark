@@ -18,6 +18,7 @@ public class RedWeapon2 : Weapon {
     public float shotSpread = .1f;
     public float shotSeparation = .1f;
     public int numberOfShots = 10;
+    public int numberOfRandomShots = 10;
     public float burstDamage = 6f;
     public float burstShotSpread = .1f;
     public float burstShotSeparation = .1f;
@@ -73,6 +74,17 @@ public class RedWeapon2 : Weapon {
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
                 Quaternion.Euler(0, 0, angle + (i * shotSeparation) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
+                );
+                
+                proj.GetComponent<RedProjectile2>().setDamage(realDamage);
+            }
+            float randomShotSpread = ((numberOfShots - 1) * shotSeparation) * 0.5f;
+            for (int i = 0; i < numberOfRandomShots; i++) {
+                float realDamage = burstDamage * (1f + (heatDamageRate * player.getHeatFactor()));
+                GameObject proj = Instantiate(
+                projectile,
+                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
+                Quaternion.Euler(0, 0, angle + Random.Range(-randomShotSpread, randomShotSpread))
                 );
                 
                 proj.GetComponent<RedProjectile2>().setDamage(realDamage);

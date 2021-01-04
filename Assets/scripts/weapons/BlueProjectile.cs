@@ -129,7 +129,9 @@ public class BlueProjectile : Projectile {
     {
 		if (other.gameObject.CompareTag("Enemy") && projectileMode == false)
         {
-			Explode();
+            other.gameObject.GetComponent<Enemy>().getDamage(damage * 0.4f);
+			ExplodeSmall();
+            Camera.main.GetComponent<CameraFollow>().AddNoise(0.2f);
         }
     }
 
@@ -190,6 +192,20 @@ public class BlueProjectile : Projectile {
         transform.GetChild(0).parent = null;
 
         Destroy(gameObject);
+    }
+
+    void ExplodeSmall()
+    {
+        Camera.main.GetComponent<CameraFollow>().AddNoise(3f);
+
+        GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
+        exp.transform.localScale = new Vector3(radius * 0.2f, radius * 0.2f, radius * 0.2f);
+
+        OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
+        hb.GetComponent<SphereCollider>().radius = radius * 0.6f;
+        hb.setDamage(0);
+        hb.setRadius(radius * 0.6f);
+        hb.printRadius();
     }
 
 

@@ -30,7 +30,7 @@ public class DashBoost : Utility {
     // Use this for initialization
     void Start () {
         SetUseRate(useRate);
-        uses = 4f;
+        uses = 5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camFollow = cam.GetComponent<CameraFollow>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -49,7 +49,7 @@ public class DashBoost : Utility {
             dashTimer -= Time.deltaTime;
         }
 
-        if (uses < 4f)
+        if (uses < 5f)
         {
             if (Physics.Raycast(transform.position, Vector3.down, 1f, layermask)) {
                 uses += 2.5f * Time.deltaTime;
@@ -58,8 +58,8 @@ public class DashBoost : Utility {
                 uses += 0.5f * Time.deltaTime;
             }
         }
-        else if (uses > 4f)
-            uses = 4f;
+        else if (uses > 5f)
+            uses = 5f;
 
 		//print ("horizontal: " + Input.GetAxis ("Horizontal") + ", vertical: " + Input.GetAxis ("Vertical"));
     }

@@ -33,6 +33,7 @@ public class PPManager : MonoBehaviour {
 
         Time.timeScale = ppDefaultTimeScale;
         Time.fixedDeltaTime = ppDefaultTimeScale / ppFixedScale;
+		Time.maximumParticleDeltaTime = ppDefaultTimeScale / ppFixedScale;
 	}
 	
 	// Update is called once per frame
@@ -70,11 +71,13 @@ public class PPManager : MonoBehaviour {
 	public IEnumerator ChangePP() {
 		Time.timeScale = ppSlowTimeScale;
 		Time.fixedDeltaTime = Time.timeScale / 60f;
+		Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
 		while (Time.timeScale < ppDefaultTimeScale) {
 			if (!WaveSystem.isPaused) {
 				Time.timeScale *= ppTimeIncreaseRate;
 				Time.fixedDeltaTime = Time.timeScale / 60f;
+				Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
 				print(Time.timeScale);
 
@@ -110,6 +113,7 @@ public class PPManager : MonoBehaviour {
 
 		Time.timeScale = 0.022f;
 		Time.fixedDeltaTime = Time.timeScale / 60f;
+		Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
 		while (true) {
 			/*

@@ -15,16 +15,19 @@ public class RedProjectile2 : Projectile {
     private bool soundDecreasing = false;
 
     private float dampVelocity = 0f;
+    private float slowRateRef = 0f;
+    private float slowRate = 0f;
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 300f;
-        lifeTime = 2f;
+        projectileSpeed = Random.Range(50f, 300f);
+        lifeTime = 0.8f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
 
         //StartCoroutine(IncreaseSpeed());
+        slowRate = 0.2f;
     }
 
     // Update is called once per frame
@@ -35,6 +38,7 @@ public class RedProjectile2 : Projectile {
         {
             CheckLinecastCollision();
             damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.2f);
+            projectileSpeed = Mathf.SmoothDamp(projectileSpeed, 0f, ref slowRateRef, slowRate);
             //Propogate();
             lifeTime -= Time.deltaTime;
         }

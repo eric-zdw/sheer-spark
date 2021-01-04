@@ -176,13 +176,15 @@ public class PlayerBehaviour : MonoBehaviour {
     void Movement()
     {
         float horizontal = Input.GetAxis("Horizontal");
+        float speedMultiplier = 1f;
+
         Vector3 movement = new Vector3(horizontal, 0f, 0f);
         if (horizontal < -0.5f && rb.velocity.x > -4f)
-            rb.AddForce(movement * playerSpeed * 1.5f * Time.deltaTime);
+            speedMultiplier *= 1.5f;
         else if (horizontal > 0.5f && rb.velocity.x < 4f)
-            rb.AddForce(movement * playerSpeed * 1.5f * Time.deltaTime);
-        else
-            rb.AddForce(movement * playerSpeed * Time.deltaTime);
+            speedMultiplier *= 1.5f;
+        
+        rb.AddForce(movement * playerSpeed * speedMultiplier * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);
 
         float vertical = Input.GetAxis("Vertical");
@@ -225,7 +227,8 @@ public class PlayerBehaviour : MonoBehaviour {
         sparkEnergy[index] = Mathf.Clamp(sparkEnergy[index] + 1, 0, 6);
         energyPanel.UpdateEnergyMeters();
 
-        radialBar.changePowerup(newColour);
+        Color radialColor = new Color(powerColors[index].r, powerColors[index].g, powerColors[index].b, 0.25f);
+        radialBar.GetComponent<UnityEngine.UI.Image>().color = (powerColors[index]);
         //offset for default trail color
         lightTrail.material = trailMaterials[index + 1];
 

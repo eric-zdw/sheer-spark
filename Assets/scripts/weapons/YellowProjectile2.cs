@@ -27,7 +27,7 @@ public class YellowProjectile2 : Projectile {
         player = GameObject.FindGameObjectWithTag("Player");
 
         Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 1000f;
+        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 10000f;
     }
 
     // Update is called once per frame
@@ -114,7 +114,7 @@ public class YellowProjectile2 : Projectile {
 
     void CheckLinecastCollision() {
         RaycastHit info;
-        if (Physics.SphereCast(transform.position, 0.4f, transform.right, out info, projectileSpeed * Time.deltaTime, layermask)) {
+        if (Physics.SphereCast(transform.position, 0.25f, transform.right, out info, projectileSpeed * Time.deltaTime, layermask)) {
             transform.position = info.point;
             if (info.collider.gameObject.CompareTag("Enemy")) {
                 //info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
@@ -140,7 +140,7 @@ public class YellowProjectile2 : Projectile {
     {
 		Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 0.3f, radius * 0.3f, radius * 0.3f);
+        exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
