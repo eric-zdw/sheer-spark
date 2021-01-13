@@ -21,7 +21,7 @@ public class YellowProjectile2 : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 60f;
+        projectileSpeed = 80f;
         lifeTime = 5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");

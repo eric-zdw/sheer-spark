@@ -20,24 +20,28 @@ public class RedProjectile2 : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = Random.Range(50f, 300f);
-        lifeTime = 0.8f;
+        projectileSpeed = Random.Range(50f, 400f);
+        lifeTime = 0.25f;
+        var particle = GetComponent<ParticleSystem>();
+        var mainModule = particle.main;
+        mainModule.startLifetime = lifeTime;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
 
         //StartCoroutine(IncreaseSpeed());
-        slowRate = 0.2f;
+        slowRate = 0.08f;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         if (lifeTime <= 0)
-            Destroy(gameObject);
+
+            Destroy(gameObject, 0.4f);
         else
         {
             CheckLinecastCollision();
-            damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.2f);
+            //damage = Mathf.SmoothDamp(damage, 0f, ref dampVelocity, 0.2f);
             projectileSpeed = Mathf.SmoothDamp(projectileSpeed, 0f, ref slowRateRef, slowRate);
             //Propogate();
             lifeTime -= Time.deltaTime;

@@ -179,7 +179,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.06
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4785,7 +4785,7 @@ Transform:
   m_GameObject: {fileID: 1453142070821372}
   m_LocalRotation: {x: -0, y: -0, z: 0.36219016, w: 0.9321043}
   m_LocalPosition: {x: -9.203252, y: -13.86, z: 31.228806}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4488074471150518}
   m_Father: {fileID: 0}
@@ -4880,8 +4880,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 1526053759308188, guid: e07bc80e3d733a34ab773214f09f9f02, type: 3}
+  activateParticle: {fileID: 1526053759308188, guid: e07bc80e3d733a34ab773214f09f9f02,
+    type: 3}
   hitbox: {fileID: 1453142070821372, guid: 1b3a67a0f0123eb419f1ca20f143c502, type: 3}
-  launchSpeed: 55
+  launchSpeed: 75
   pullForce: 2000
   chargeMaterial: {fileID: 2100000, guid: bc8ea2cc896948f4ea706acdfbb2e39b, type: 2}
   normalMaterial: {fileID: 2100000, guid: a286bd78e31777a46889bb6279091ae1, type: 2}

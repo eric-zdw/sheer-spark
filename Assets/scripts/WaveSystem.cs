@@ -111,8 +111,8 @@ public class WaveSystem : MonoBehaviour {
         //play start music
         musicManager.StartMusic();
         StartCoroutine(musicManager.ChangeMusic(0));
-        StartCoroutine(ppManager.SlowDown());
-        StartCoroutine(ppManager.ChangePP());
+        //StartCoroutine(ppManager.SlowDown());
+        //StartCoroutine(ppManager.ChangePP());
 
         while (true) {
             //spawn initial enemies
