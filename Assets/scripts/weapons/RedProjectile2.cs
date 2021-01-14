@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,9 @@ public class RedProjectile2 : Projectile {
     private float slowRateRef = 0f;
     private float slowRate = 0f;
 
+    private bool wasDestroyed = false;
+    private List<int> enemiesHit;
+
     // Use this for initialization
     void Start() {
         projectileSpeed = Random.Range(50f, 400f);
@@ -28,6 +32,7 @@ public class RedProjectile2 : Projectile {
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
+        enemiesHit = new List<int>();
 
         //StartCoroutine(IncreaseSpeed());
         slowRate = 0.08f;
@@ -70,29 +75,46 @@ public class RedProjectile2 : Projectile {
     }
 
     void CheckLinecastCollision() {
-        RaycastHit info;
-        if (Physics.SphereCast(transform.position, 0.1f, transform.right, out info, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), PlayerBehaviour.projectileLayerMask)) {
-            transform.position = info.point;
-            if (info.collider.gameObject.CompareTag("Enemy")) {
-                float leftoverDamage = Mathf.Clamp(-(info.collider.gameObject.GetComponent<Enemy>().getHealth() - damage), 0f, damage);
-                print("enemy health: " + info.collider.gameObject.GetComponent<Enemy>().getHealth() + ", damage: " + damage + ", leftoverDamage: " + leftoverDamage);
-                info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
-                Camera.main.GetComponent<CameraFollow>().AddNoise(.75f);
-                // Pierce through enemies if full damage wasn't dealt
-                if (leftoverDamage > 0f) {
-                    damage = leftoverDamage;
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.1f, transform.right, Vector3.Magnitude(transform.right * projectileSpeed * Time.deltaTime), PlayerBehaviour.projectileLayerMask);
+        hits = hits.OrderBy(x => Vector3.Distance(transform.position, x.point)).ToArray();
+        foreach (RaycastHit info in hits) {
+            if (!wasDestroyed) {
+                //transform.position = info.point;
+                if (info.collider.gameObject.CompareTag("Enemy") && !enemiesHit.Contains(info.collider.gameObject.GetInstanceID())) {
+                    //each enemy can only be hit once
+                    enemiesHit.Add(info.collider.gameObject.GetInstanceID());
+                    float leftoverDamage = Mathf.Clamp(-(info.collider.gameObject.GetComponent<Enemy>().getHealth() - damage), 0f, damage);
+                    //print("enemy health: " + info.collider.gameObject.GetComponent<Enemy>().getHealth() + ", damage: " + damage + ", leftoverDamage: " + leftoverDamage);
+                    bool wasAlreadyDead = false;
+                    if (info.collider.gameObject.GetComponent<Enemy>().getHealth() > 0) {
+                        wasAlreadyDead = true;
+                    }
+                    info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
+                    Explode(info.point);
+                    if (!wasAlreadyDead) {
+                        damage *= 0.6f;
+                    }
+                    Camera.main.GetComponent<CameraFollow>().AddNoise(damage * 0.2f);
+                    // Pierce through enemies if full damage wasn't dealt
+                    /*
+                    if (leftoverDamage > 0f) {
+                        damage = leftoverDamage;
+                    }
+                    else {
+                        Explode();
+                    }
+                    */
                 }
                 else {
-                    Explode();
+                    Explode(info.point);
+                    transform.GetChild(0).parent = null;
+                    transform.GetChild(0).parent = null;
+                    wasDestroyed = true;
+                    Destroy(gameObject);
                 }
-            }
-            else {
-                Explode();
             }
         }
         transform.position += transform.right * projectileSpeed * Time.deltaTime;
-        //else
-        //    transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
     /*
@@ -125,15 +147,15 @@ public class RedProjectile2 : Projectile {
         //damageDecayRate = damage * 0.5f;
     }
 
-    void Explode()
+    void Explode(Vector3 point)
     {
         Camera.main.GetComponent<CameraFollow>().AddNoise(.5f);
-        Instantiate(explosion, transform.position, transform.rotation);
-        Instantiate(explosion2, transform.position, transform.rotation);
-        Instantiate(explosion3, transform.position, transform.rotation);
-        transform.GetChild(0).parent = null;
-        transform.GetChild(0).parent = null;
-        Destroy(gameObject);
+        Instantiate(explosion, point, transform.rotation);
+        Instantiate(explosion2, point, transform.rotation);
+        Instantiate(explosion3, point, transform.rotation);
+        //transform.GetChild(0).parent = null;
+        //transform.GetChild(0).parent = null;
+        
     }
 
 
