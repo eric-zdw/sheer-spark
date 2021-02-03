@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 199908112149609708}
   - component: {fileID: 4072656115185546000}
   - component: {fileID: 114189021348181914}
-  m_Layer: 12
+  - component: {fileID: 6564594887480905113}
+  m_Layer: 14
   m_Name: EnemyProjectile1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +288,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.75
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4826,7 +4827,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114189021348181914
 MonoBehaviour:
@@ -4840,8 +4841,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b64352138bcd64495118d2d76e6847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 1132967370857014, guid: aef6684529904b0488cdaf5afed5fe9f, type: 3}
+  explosion: {fileID: 8200481068195317658, guid: f5e3d83102df54f49ae6d43d743dd87f,
+    type: 3}
   speed: 20
+--- !u!54 &6564594887480905113
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453142070821372}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7293820641978124526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4853,7 +4871,7 @@ GameObject:
   - component: {fileID: 7293820641978124527}
   - component: {fileID: 7293820641978124525}
   - component: {fileID: 7293820641978124524}
-  m_Layer: 12
+  m_Layer: 14
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4957,7 +4975,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5064,7 +5082,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.5019608}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5126,7 +5144,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.75
       minScalar: 1
       maxCurve:
         serializedVersion: 2

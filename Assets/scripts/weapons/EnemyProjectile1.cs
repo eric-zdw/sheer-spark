@@ -43,7 +43,7 @@ public class EnemyProjectile1 : Projectile {
             Explode();
 			other.gameObject.GetComponent<PlayerBehaviour>().takeDamage(1);
         }
-        else if (!other.gameObject.CompareTag("Enemy"))
+        else if (other.gameObject.CompareTag("Geometry"))
         {
             Explode();
         }
@@ -58,13 +58,17 @@ public class EnemyProjectile1 : Projectile {
     public IEnumerator FlashRed() {
         while (true) {
             mpb.SetColor("_Color", new Color(1f, 0f, 0f, 1f));
-            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 1f));
+            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 1f) * 2f);
             renderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.08f);
+            yield return new WaitForSeconds(0.1f);
             mpb.SetColor("_Color", new Color(1f, 0f, 0f, 0.04f));
-            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 0.04f));
+            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 0.02f));
             renderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.08f);
+            yield return new WaitForSeconds(0.05f);
+            mpb.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
+            mpb.SetColor("_EmissionColor", new Color(1f, 1f, 1f, 1f) * 4f);
+            renderer.SetPropertyBlock(mpb);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

@@ -180,9 +180,9 @@ public class PlayerBehaviour : MonoBehaviour {
 
         Vector3 movement = new Vector3(horizontal, 0f, 0f);
         if (horizontal < -0.5f && rb.velocity.x > -4f)
-            speedMultiplier *= 1.5f;
+            speedMultiplier *= 1.75f;
         else if (horizontal > 0.5f && rb.velocity.x < 4f)
-            speedMultiplier *= 1.5f;
+            speedMultiplier *= 1.75f;
         
         rb.AddForce(movement * playerSpeed * speedMultiplier * Time.deltaTime);
         rb.AddTorque(0, 0, -horizontal * torqueStrength * Time.deltaTime);

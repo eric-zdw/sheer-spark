@@ -7,8 +7,15 @@ public class JumpPad : MonoBehaviour {
     public Vector3 boost;
     public float boostCooldown = 0.1f;
     private float currentBoostCooldown;
+
+    //display HDR
+    [ColorUsageAttribute(true,true)]
     public Color particleColor;
+    [ColorUsageAttribute(true,true)]
+    public Color fresnelColor;
+    [ColorUsageAttribute(true,true)]
     public Color meshColor;
+    public GameObject boostPrefab;
 
     private MaterialPropertyBlock particleMpb, meshMpb;
     private ParticleSystemRenderer renderer;
@@ -25,8 +32,8 @@ public class JumpPad : MonoBehaviour {
         particleMpb.SetColor("_EmissionColor", particleColor);
         renderer.SetPropertyBlock(particleMpb);
 
-        meshMpb.SetColor("_Color", meshColor);
-        meshMpb.SetColor("_EmissionColor", meshColor);
+        meshMpb.SetColor("Color_3238E920", fresnelColor);
+        meshMpb.SetColor("Color_34C5F63F", meshColor);
         mesh.SetPropertyBlock(meshMpb);
 	}
 	
@@ -45,6 +52,22 @@ public class JumpPad : MonoBehaviour {
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             rb.velocity = boost;
             currentBoostCooldown = boostCooldown;
+
+            Instantiate(boostPrefab, transform.position, transform.rotation);
+            StartCoroutine(BoostGlow());
         }
+    }
+
+    IEnumerator BoostGlow() {
+        float duration = 0.8f;
+        while (duration > 0) {
+            meshMpb.SetColor("Color_3238E920", fresnelColor + (fresnelColor * 5f * duration));
+            mesh.SetPropertyBlock(meshMpb);
+            duration -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        meshMpb.SetColor("Color_3238E920", fresnelColor);
+        mesh.SetPropertyBlock(meshMpb);
     }
 }

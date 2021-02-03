@@ -9,6 +9,7 @@ public class GreenProjectile : Projectile {
     public GameObject explosion3;
     public GameObject hitbox;
     public GameObject hitbox2;
+    public GameObject hitbox3;
     public GameObject tether;
 
     public float extraGravityForce;
@@ -26,12 +27,12 @@ public class GreenProjectile : Projectile {
     private float tetherCheck = 0.2f;
     private float tetherTimer;
     private float damageTimer;
-    private float damageInterval = 1.2f;
+    private float damageInterval = 0.75f;
 
 
     // Use this for initialization
     void Start() {
-        lifeTime = 2.4f;
+        lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.right * launchForce);
         pulseTimer = pulseInterval;
@@ -98,13 +99,13 @@ public class GreenProjectile : Projectile {
 
     private void damagePulse()
     {
-        Camera.main.GetComponent<CameraFollow>().AddNoise(10f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(2f);
         GameObject exp = Instantiate(explosion2, transform.position, transform.rotation, transform);
         exp.transform.localScale = new Vector3(radius * 0.5f, radius * 0.5f, radius * 0.5f);
 
-        OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
+        OrangeProjectileHitbox hb = Instantiate(hitbox3, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage * 0.25f);
+        hb.setDamage(damage * 0.125f);
         hb.setRadius(radius * 1.5f);
     }
 
@@ -120,15 +121,15 @@ public class GreenProjectile : Projectile {
 
     void Explode()
     {
-        Camera.main.GetComponent<CameraFollow>().AddNoise(15f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(8f);
 
         GameObject exp = Instantiate(explosion3, transform.position, transform.rotation);
-        exp.transform.localScale = new Vector3(radius * 1.5f, radius * 1.5f, radius * 1.5f);
+        exp.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
 
         OrangeProjectileHitbox hb = Instantiate(hitbox2, transform.position, Quaternion.identity).GetComponent<OrangeProjectileHitbox>();
         hb.GetComponent<SphereCollider>().radius = radius;
-        hb.setDamage(damage * 0.75f);
-        hb.setRadius(radius * 2f);
+        hb.setDamage(damage * 0.625f);
+        hb.setRadius(radius * 3f);
 
         Destroy(gameObject);
     }

@@ -217,7 +217,7 @@ public class NavMeshGenerator : MonoBehaviour {
 		}
 	}
 
-	void OnDrawGizmos() {
+	void OnDrawGizmosSelected() {
 		if (nodes != null) {
 			for (int i = 0; i < 200; i++) {
 				for (int j = 0; j < 200; j++) {
