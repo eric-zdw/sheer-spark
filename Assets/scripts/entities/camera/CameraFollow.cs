@@ -24,6 +24,11 @@ public class CameraFollow : MonoBehaviour {
 
     public bool isReversed = false;
 
+    public float mousePositionMagnitude;
+    private Vector3 cameraVelocity;
+    public bool smoothDampEnabled = false;
+    public float smoothDampValue = 0.05f;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -43,7 +48,6 @@ public class CameraFollow : MonoBehaviour {
         if (followTarget != null)
         {
             newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
-            //print("followtager" + followTarget.transform.position + ", newPosition" + newPosition);
             lastPosition = newPosition;
         }
         else
@@ -51,10 +55,31 @@ public class CameraFollow : MonoBehaviour {
 
         //add mouse positioning
         if (!inIntro) {
+            Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);
+            Vector2 mousePosRelativeToCenter = new Vector2(Input.mousePosition.x - center.x, Input.mousePosition.y - center.y);
+            //normalize mousePosRelativeToCenter
+            mousePosRelativeToCenter /= new Vector2(Screen.width, Screen.height);
+            
+            if (isReversed) {
+                mousePosRelativeToCenter.x *= -1;
+            }
+
+            newPosition += (Vector3)(mousePosRelativeToCenter * mousePositionMagnitude);
+
+            //old mouse positioning code, has lerp drift
+            /*
             Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(CameraDistance)));
             newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
             newPosition = new Vector3(newPosition.x, newPosition.y, followTarget.transform.position.z - CameraDistance);
-            transform.position = newPosition;
+            */
+            
+            if (smoothDampEnabled) {
+                transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref cameraVelocity, smoothDampValue);
+            }
+            else {
+                transform.position = newPosition;
+            }
+            
         }
         //newPosition += cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
         //newPosition = new Vector3(newPosition.x / 2, newPosition.y / 2, -CameraDistance);
@@ -126,5 +151,23 @@ public class CameraFollow : MonoBehaviour {
         }
 
         inIntro = false;
+    }
+
+    //calculate new position immediately and skip lerping; mainly used for teleporting
+    public void SnapToNewPosition() {
+        Vector3 newPosition;
+        newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
+
+        Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);
+        Vector2 mousePosRelativeToCenter = new Vector2(Input.mousePosition.x - center.x, Input.mousePosition.y - center.y);
+        //normalize mousePosRelativeToCenter
+        mousePosRelativeToCenter /= new Vector2(Screen.width, Screen.height);
+        
+        if (isReversed) {
+            mousePosRelativeToCenter.x *= -1;
+        }
+
+        newPosition += (Vector3)(mousePosRelativeToCenter * mousePositionMagnitude);
+        transform.position = newPosition;
     }
 }

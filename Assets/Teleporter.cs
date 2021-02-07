@@ -18,6 +18,7 @@ public class Teleporter : MonoBehaviour
     private MaterialPropertyBlock mpb;
     public Color emissionColor;
     private bool isFlashing = false;
+    public GameObject teleporterFlashPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,7 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.name == "Player" && playerCooldown <= 0) {
+            Instantiate(teleporterFlashPrefab, GameObject.FindGameObjectWithTag("GameUI").transform);
             float playerYRelativeToTeleporter = other.transform.position.y - center.y;
             other.transform.position = destination.exitPosition + new Vector3(0f, playerYRelativeToTeleporter, 0f);
             playerCooldown = 0.5f;
@@ -41,6 +43,7 @@ public class Teleporter : MonoBehaviour
                 CameraFollow cameraScript = Camera.main.GetComponent<CameraFollow>();
                 CameraFollow.CameraDistance *= -1f;
                 cameraScript.isReversed = !cameraScript.isReversed;
+                cameraScript.SnapToNewPosition();
                 other.GetComponent<PlayerBehaviour>().isReversed = !other.GetComponent<PlayerBehaviour>().isReversed;
             }
             if (reverseVelocity) {
