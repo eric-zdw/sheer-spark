@@ -9,9 +9,9 @@ public class BlasterProjectile : Projectile {
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 120f;
+        projectileSpeed = 90f;
         lifeTime = 10f;
-        damage = 11f;
+        damage = 12f;
     }
 
     // Update is called once per frame

@@ -18,4 +18,6 @@ public class SmallEnemyScriptableObject : ScriptableObject
     public Material[] seeThroughMats;
 
     public GameObject healthBarPrefab;
+
+    public GameObject delayedDeathPrefab;
 }

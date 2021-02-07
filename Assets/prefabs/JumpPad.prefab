@@ -299,25 +299,9 @@ MonoBehaviour:
   assetGuid: 
   m_Mesh: {fileID: 0}
   m_IsSelectable: 1
-  m_SelectedFaces: 0000000002000000
-  m_SelectedEdges:
-  - a: 0
-    b: 1
-  - a: 2
-    b: 0
-  - a: 1
-    b: 3
-  - a: 3
-    b: 2
-  - a: 8
-    b: 9
-  - a: 10
-    b: 8
-  - a: 9
-    b: 11
-  - a: 11
-    b: 10
-  m_SelectedVertices: 0000000001000000020000000300000008000000090000000a0000000b000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!64 &4082757637610039092
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -346,8 +330,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boost: {x: 0, y: 50, z: 0}
   boostCooldown: 0.1
-  particleColor: {r: 0, g: 7.999999, b: 0.028602596, a: 0}
-  meshColor: {r: 0, g: 0, b: 0, a: 0}
+  particleColor: {r: 0, g: 1.1450981, b: 2, a: 1}
+  fresnelColor: {r: 0, g: 1.4039216, b: 2, a: 1}
+  meshColor: {r: 0, g: 0.6289654, b: 1, a: 1}
   boostPrefab: {fileID: 617864283867652502, guid: fac9988e40fd3e945ade5de848c69517,
     type: 3}
 --- !u!54 &4082757637610039090

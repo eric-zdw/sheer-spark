@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public abstract class SmallEnemy : Enemy
 {
     public SmallEnemyScriptableObject smallEnemyData;
@@ -24,6 +25,10 @@ public abstract class SmallEnemy : Enemy
     private MaterialPropertyBlock seeThroughMPB;
     private MaterialPropertyBlock damageFlashMPB;
 
+    private Rigidbody rb;
+
+    protected bool isDelayedDeath = false;
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -31,6 +36,8 @@ public abstract class SmallEnemy : Enemy
         healthBar = Instantiate(smallEnemyData.healthBarPrefab);
         healthBar.GetComponent<HealthBar>().setTarget(gameObject);
         health = maxHealth;
+
+        rb = GetComponent<Rigidbody>();
 
         powerupRoll = Random.Range(0, 6);
         enemyColor = smallEnemyData.powerupColors[powerupRoll];
@@ -55,10 +62,11 @@ public abstract class SmallEnemy : Enemy
     public override void getDamage(float damage) {
         //Check health previous to damage calculation to prevent duplicate deaths
         float oldHealth = health;
-        if (oldHealth > 0f) {
+        if (oldHealth > 0f && !isDelayedDeath) {
             health -= damage;
             if (health <= 0f) {
                 DefeatRoutine();
+                //StartCoroutine(DelayedDeathRoutine());
             }
             else {
                 StartCoroutine(FlashWhite());
@@ -82,6 +90,19 @@ public abstract class SmallEnemy : Enemy
         ScoreManager.IncreaseScore(Mathf.RoundToInt(scoreValue * ScoreManager.multiplier));
 		Destroy(gameObject);
     }
+
+	private IEnumerator DelayedDeathRoutine() {
+        isDelayedDeath = true;
+		float duration = 2.5f;
+		Instantiate(smallEnemyData.delayedDeathPrefab, transform.position, Quaternion.identity);
+		rb.AddForce(Vector3.up * 1000f);
+        rb.useGravity = true;
+		while (duration > 0f) {
+			duration -= Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+        DefeatRoutine();
+	}
 
     IEnumerator FlashWhite() {
 		float colorValue = 2f;

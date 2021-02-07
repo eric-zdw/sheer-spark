@@ -22,6 +22,8 @@ public class CameraFollow : MonoBehaviour {
     private bool inIntro = true;
     public Vector3 startPosition;
 
+    public bool isReversed = false;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -41,6 +43,7 @@ public class CameraFollow : MonoBehaviour {
         if (followTarget != null)
         {
             newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
+            //print("followtager" + followTarget.transform.position + ", newPosition" + newPosition);
             lastPosition = newPosition;
         }
         else
@@ -48,13 +51,21 @@ public class CameraFollow : MonoBehaviour {
 
         //add mouse positioning
         if (!inIntro) {
-            Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
+            Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(CameraDistance)));
             newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
-            newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
+            newPosition = new Vector3(newPosition.x, newPosition.y, followTarget.transform.position.z - CameraDistance);
             transform.position = newPosition;
         }
         //newPosition += cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
         //newPosition = new Vector3(newPosition.x / 2, newPosition.y / 2, -CameraDistance);
+
+        //add reversed camera
+        if (isReversed) {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
         
 
         //clamp

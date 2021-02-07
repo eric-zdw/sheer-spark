@@ -74,6 +74,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public static int projectileLayerMask = ~((1 << 9) | (1 << 13) | (1 << 8) | (1 << 14) | (1 << 18) | (1 << 21));
 
+    public bool isReversed;
+
     // Use this for initialization
     void Start()
     {
@@ -176,6 +178,10 @@ public class PlayerBehaviour : MonoBehaviour {
     void Movement()
     {
         float horizontal = Input.GetAxis("Horizontal");
+        if (isReversed) {
+            horizontal *= -1f;
+        }
+
         float speedMultiplier = 1f;
 
         Vector3 movement = new Vector3(horizontal, 0f, 0f);

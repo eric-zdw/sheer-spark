@@ -42,7 +42,7 @@ public class DashBoost : Utility {
 	
 	// Update is called once per frame
 	void Update () {
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(CameraFollow.CameraDistance)));
 
         if (dashTimer > 0f)
         {
@@ -73,7 +73,7 @@ public class DashBoost : Utility {
 
             float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
             rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle), dashRealVelocity * Mathf.Sin(angle), 0f);
-            print("velocity: " + rb.velocity);
+            //print("velocity: " + rb.velocity);
             if (rb.velocity.x > 0f)
                 rb.angularVelocity = new Vector3(0f, 0f, -10f);
             else

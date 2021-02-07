@@ -19,6 +19,8 @@ public class ChaseEnemy : SmallEnemy {
 
 	private Color gizColor;
 
+	public GameObject delayedDeathPrefab;
+
     void Start()
 	{
 		Initialize();
@@ -40,7 +42,7 @@ public class ChaseEnemy : SmallEnemy {
 		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
 		yield return new WaitForSeconds(1f);
 
-		while (true) {
+		while (true && !isDelayedDeath) {
 			// Reset navigation if too far away from navPath, or if player moves to new location
 			if (Vector3.Distance(player.transform.position, playerPosition) >= 4f) {
 				print("player moved from target position, recalculating...");
@@ -63,7 +65,6 @@ public class ChaseEnemy : SmallEnemy {
 
 	void FixedUpdate()
 	{
-		Debug.DrawRay(transform.position, Vector3.down * 10f, Color.red, 0.1f);
 		if (Physics.Linecast(transform.position, transform.position + Vector3.down * 2f, LayerMask.GetMask("Geometry"))) {
 			if (!isGrounded) {
 				isGrounded = true;
@@ -97,52 +98,55 @@ public class ChaseEnemy : SmallEnemy {
         }
 		*/
 
-		if (navPath.Count > 0) {
-			//print(Vector3.Distance(navPath[0].transform.position, transform.position));
-			if (Vector3.Distance(navPath[0].transform.position, transform.position) < 2f 
-				&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {
-					currentNode = navPath[0];
-					navPath.RemoveAt(0);
-
-				if (currentNode.jumpConnections.Contains(navPath[0])) {
-					timeToJump = true;
+		if (!isDelayedDeath) {
+			if (navPath.Count > 0) {
+				//print(Vector3.Distance(navPath[0].transform.position, transform.position));
+				if (Vector3.Distance(navPath[0].transform.position, transform.position) < 2f 
+					&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {
+						currentNode = navPath[0];
+						navPath.RemoveAt(0);
+	
+					if (currentNode.jumpConnections.Contains(navPath[0])) {
+						timeToJump = true;
+					}
+					else {
+						timeToJump = false;
+					}
 				}
-				else {
-					timeToJump = false;
+	
+				float xDist = navPath[0].transform.position.x - transform.position.x;
+				int direction = 0;
+				if (xDist > 0f) {
+					direction = 1;
+					//print("right");
+        	        rb.AddForce(new Vector3(350f, 0f, 0f) * Time.deltaTime);
+        	        rb.AddTorque(0, 0, -100f * Time.deltaTime);
+				}
+				else if (xDist < 0f){
+					direction = -1;
+					//print("left");
+        	        rb.AddForce(new Vector3(-350f, 0f, 0f) * Time.deltaTime);
+        	        rb.AddTorque(0, 0, 100f * Time.deltaTime);
+				}
+	
+				
+	
+				float yDist = navPath[0].transform.position.y - transform.position.y;
+				if (isGrounded && jumpCooldown <= 0f && timeToJump && Vector3.Distance(transform.position, currentNode.transform.position) < 2f && Mathf.Sign(direction) == Mathf.Sign(rb.velocity.x)) {
+					if (Vector3.Distance(navPath[0].transform.position, currentNode.transform.position) > 3f) {
+						rb.velocity = new Vector3(rb.velocity.x * 0.5f, 0f, rb.velocity.z);
+						rb.AddForce(new Vector3(direction * 100f, 1500f, 0f));
+						jumpCooldown = 2f;
+					}
 				}
 			}
-
-			float xDist = navPath[0].transform.position.x - transform.position.x;
-			int direction = 0;
-			if (xDist > 0f) {
-				direction = 1;
-				//print("right");
-                rb.AddForce(new Vector3(350f, 0f, 0f) * Time.deltaTime);
-                rb.AddTorque(0, 0, -100f * Time.deltaTime);
-			}
-			else if (xDist < 0f){
-				direction = -1;
-				//print("left");
-                rb.AddForce(new Vector3(-350f, 0f, 0f) * Time.deltaTime);
-                rb.AddTorque(0, 0, 100f * Time.deltaTime);
-			}
-
-			
-
-			float yDist = navPath[0].transform.position.y - transform.position.y;
-			if (isGrounded && jumpCooldown <= 0f && timeToJump && Vector3.Distance(transform.position, currentNode.transform.position) < 2f && Mathf.Sign(direction) == Mathf.Sign(rb.velocity.x)) {
-				if (Vector3.Distance(navPath[0].transform.position, currentNode.transform.position) > 3f) {
-					rb.velocity = new Vector3(rb.velocity.x * 0.5f, 0f, rb.velocity.z);
-					rb.AddForce(new Vector3(direction * 100f, 1500f, 0f));
-					jumpCooldown = 2f;
-				}
-			}
+	
+			jumpCooldown = Mathf.Clamp(jumpCooldown - Time.deltaTime, 0f, 0.5f);
+	
+			rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 20f * Time.deltaTime);
+			rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
 		}
 
-		jumpCooldown = Mathf.Clamp(jumpCooldown - Time.deltaTime, 0f, 0.5f);
-
-		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 20f * Time.deltaTime);
-		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
 
 
 		//-------------------
