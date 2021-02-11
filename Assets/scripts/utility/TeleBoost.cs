@@ -17,7 +17,6 @@ public class TeleBoost : Utility {
     private Enemy targetEnemy;
 
     public float dashVelocity = 20f;
-    public float dashHeatVelocity = 20f;
     public float teleDistance = 4f;
     bool isPrimed = false;
 
@@ -74,9 +73,8 @@ public class TeleBoost : Utility {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
 			//angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
 
-            float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
             //player.transform.position += new Vector3(teleDistance * Mathf.Cos(angle), teleDistance * Mathf.Sin(angle), 0f);
-            rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle) * 2f, dashRealVelocity * Mathf.Sin(angle), 0f) * 2f;
+            rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle) * 2f, dashVelocity * Mathf.Sin(angle), 0f) * 2f;
             if (rb.velocity.x > 0f)
                 rb.angularVelocity = new Vector3(0f, 0f, -4f);
             else

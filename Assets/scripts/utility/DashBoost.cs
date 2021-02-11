@@ -17,7 +17,6 @@ public class DashBoost : Utility {
     private Enemy targetEnemy;
 
     public float dashVelocity = 20f;
-    public float dashHeatVelocity = 20f;
     bool isPrimed = false;
 
     private AudioSource[] sounds;
@@ -71,8 +70,7 @@ public class DashBoost : Utility {
             angle = Mathf.Atan2(mousePosition.y - player.transform.position.y, mousePosition.x - player.transform.position.x);
 			//angle = Mathf.Atan2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
 
-            float dashRealVelocity = dashVelocity + (dashHeatVelocity * playerBehaviour.heatFactor);
-            rb.velocity = new Vector3(dashRealVelocity * Mathf.Cos(angle), dashRealVelocity * Mathf.Sin(angle), 0f);
+            rb.velocity = new Vector3(dashVelocity * Mathf.Cos(angle), dashVelocity * Mathf.Sin(angle), 0f);
             //print("velocity: " + rb.velocity);
             if (rb.velocity.x > 0f)
                 rb.angularVelocity = new Vector3(0f, 0f, -10f);

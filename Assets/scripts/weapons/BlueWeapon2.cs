@@ -11,8 +11,8 @@ public class BlueWeapon2 : Weapon {
     private float angle;
     public float bFireRate = 0.2f;
 
-    public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.004f;
+    public float maxHeatDamage = 0.5f;
+    public float maxHeatFireRate = 1f;
     public float damage = 6f;
 
     public float rangeRadius = 0f;
@@ -26,7 +26,6 @@ public class BlueWeapon2 : Weapon {
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
         rs = Instantiate(rangeSphere, transform.position, Quaternion.identity, transform);
@@ -46,10 +45,6 @@ public class BlueWeapon2 : Weapon {
 
     public override void Fire1()
     {
-        print(
-            "Current heat factor: " + player.getHeatFactor()
-            + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         if (GetCooldown() <= 0)
         {
             float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));

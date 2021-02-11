@@ -22,7 +22,7 @@ public class EnergyPanel : MonoBehaviour
     public void UpdateEnergyMeters() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
-                if (player.sparkEnergy[i] >= (j + 1)) {
+                if (player.powerupEnergy[i] >= (j + 1)) {
                     meters[i].transform.GetChild(j).GetComponent<UnityEngine.UI.Image>().enabled = true;
                 }
                 else {
@@ -32,7 +32,7 @@ public class EnergyPanel : MonoBehaviour
         }
 
         bool whiteIsReady = true;
-        foreach (int energy in player.sparkEnergy) {
+        foreach (int energy in player.powerupEnergy) {
             if (energy < 2) {
                 whiteIsReady = false;
             }

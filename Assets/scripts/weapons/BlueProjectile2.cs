@@ -10,7 +10,7 @@ public class BlueProjectile2 : Projectile {
 	private List<Collider> currentHits;
 
 	private float damageDecayRate;
-	private SphereCollider collider;
+	private SphereCollider hitbox;
 
 	private Rigidbody rb;
 
@@ -23,7 +23,7 @@ public class BlueProjectile2 : Projectile {
 	void Start() {
 		projectileForce = -300f;
 		lifeTime = 2f;
-		collider = GetComponent<SphereCollider>();
+		hitbox = GetComponent<SphereCollider>();
 		rb = GetComponent<Rigidbody>();
 		rb.AddForce(-transform.up * 8000f * Time.deltaTime);
 		player = GameObject.FindGameObjectWithTag("Player");
@@ -35,8 +35,6 @@ public class BlueProjectile2 : Projectile {
 			Destroy(gameObject);
 		else
 		{
-			//transform.position += -transform.up * projectileForce * Time.deltaTime;
-			//rb.AddForce(-transform.up * projectileForce * Time.deltaTime);
 			rb.AddForce(Vector3.Normalize(transform.position - player.transform.position) * projectileForce * Time.deltaTime);
 			lifeTime -= Time.deltaTime;
 		}
@@ -46,9 +44,8 @@ public class BlueProjectile2 : Projectile {
 	{
 		if (other.gameObject.CompareTag("Enemy"))
 		{
-			Vector3 expPosition = collider.ClosestPointOnBounds(other.transform.position);
+			Vector3 expPosition = hitbox.ClosestPointOnBounds(other.transform.position);
 			Instantiate(explosion, expPosition, transform.rotation);
-			//Instantiate(explosion2, expPosition, transform.rotation);
 			other.gameObject.GetComponent<Enemy>().getDamage(damage);
 			print("real damage: " + damage);
 			damage *= 0.6f;
@@ -67,7 +64,6 @@ public class BlueProjectile2 : Projectile {
 	public void setDamage(float d)
 	{
 		damage = d;
-		//damageDecayRate = damage * 0.5f;
 	}
 
 	void Explode()
@@ -75,11 +71,6 @@ public class BlueProjectile2 : Projectile {
 		Instantiate(explosion, transform.position, transform.rotation);
 		Instantiate(explosion2, transform.position, transform.rotation);
 		Destroy(gameObject);
-	}
-
-	void DamageRoutine()
-	{
-		//foreach(Collider 
 	}
 
 

@@ -11,7 +11,7 @@ public class EnemyProjectileHoming : Projectile {
     public float speed;
 
     private MaterialPropertyBlock mpb;
-    private ParticleSystemRenderer renderer;
+    private ParticleSystemRenderer psRenderer;
 
     // Use this for initialization
     void Start() {
@@ -21,7 +21,7 @@ public class EnemyProjectileHoming : Projectile {
         damage = 8f;
 
         mpb = new MaterialPropertyBlock();
-        renderer = GetComponent<ParticleSystemRenderer>();
+        psRenderer = GetComponent<ParticleSystemRenderer>();
 
         StartCoroutine(FlashRed());
     }
@@ -67,15 +67,15 @@ public class EnemyProjectileHoming : Projectile {
         while (true) {
             mpb.SetColor("_Color", new Color(1f, 0f, 0f, 1f));
             mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 1f) * 2f);
-            renderer.SetPropertyBlock(mpb);
+            psRenderer.SetPropertyBlock(mpb);
             yield return new WaitForSeconds(0.1f);
             mpb.SetColor("_Color", new Color(1f, 0f, 0f, 0.04f));
             mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 0.02f));
-            renderer.SetPropertyBlock(mpb);
+            psRenderer.SetPropertyBlock(mpb);
             yield return new WaitForSeconds(0.05f);
             mpb.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
             mpb.SetColor("_EmissionColor", new Color(1f, 1f, 1f, 1f) * 4f);
-            renderer.SetPropertyBlock(mpb);
+            psRenderer.SetPropertyBlock(mpb);
             yield return new WaitForSeconds(0.05f);
         }
     }

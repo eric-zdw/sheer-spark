@@ -20,10 +20,9 @@ public class PlayerBehaviour : MonoBehaviour {
     private Weapon weapon;
     private Utility util;
     private GameObject utilitySlot;
-    private GameObject itemSlot1;
-    private GameObject itemSlot2;
 
-    public int[] sparkEnergy;
+    public int[] powerupEnergy;
+    public int maxPowerupEnergy;
 
     private MeshRenderer mesh;
     public Material defaultColour;
@@ -33,13 +32,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float powerupIncrement;
     public float powerupTimer;
     public float powerupHealth;
-
-    public float powerupLevel;
     public bool hasPowerup;
-    private float heatTimer = 0f;
-    public float heatFactor;
-    public float heatDecayFactor;
-    public float heatConstantDecay;
     public float HP;
     public EnergyPanel energyPanel;
 
@@ -84,13 +77,11 @@ public class PlayerBehaviour : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         weaponSlot = GameObject.Find("WeaponSlot");
         utilitySlot = GameObject.Find("UtilitySlot");
-        itemSlot1 = GameObject.Find("ItemSlot1");
-        itemSlot2 = GameObject.Find("ItemSlot2");
 
         weapon = weaponSlot.GetComponentInChildren<Weapon>();
         util = utilitySlot.GetComponentInChildren<Utility>();
         
-        sparkEnergy = new int[6];
+        powerupEnergy = new int[6];
 
         mesh = GetComponent<MeshRenderer>();
 
@@ -110,7 +101,7 @@ public class PlayerBehaviour : MonoBehaviour {
         inside2 = GameObject.Find("Inside2");
         inside3 = GameObject.Find("Inside3");
 
-        //weapon selection
+
         transform.position = GameObject.Find("PlayerSpawn").transform.position;
 
         if (localGravity) {
@@ -146,20 +137,7 @@ public class PlayerBehaviour : MonoBehaviour {
             }
         }
 
-        if (powerupLevel >= 7.5f)
-        {
-            heatFactor = 1f;
-            playerSpeed = playerBaseSpeed + (playerHeatSpeed * heatFactor);
-        }
-
-        if (powerupLevel <= 0f)
-        {
-            playerSpeed = playerBaseSpeed;
-        }
-        else if (powerupLevel > 0f)
-        {
-            powerupLevel -= Time.deltaTime * 0.6f;
-        }
+        playerSpeed = playerBaseSpeed;
 
         if (invincible > 0f) {
             invincible -= Time.deltaTime;
@@ -230,7 +208,7 @@ public class PlayerBehaviour : MonoBehaviour {
         powerupTimer = Mathf.Clamp(powerupTimer + powerupIncrement, 0f, powerupDuration);
         GameObject.FindGameObjectWithTag("PlayerLight").GetComponent<Light>().color = powerColors[index];
 
-        sparkEnergy[index] = Mathf.Clamp(sparkEnergy[index] + 1, 0, 6);
+        powerupEnergy[index] = Mathf.Clamp(powerupEnergy[index] + 1, 0, maxPowerupEnergy);
         energyPanel.UpdateEnergyMeters();
 
         Color radialColor = new Color(powerColors[index].r, powerColors[index].g, powerColors[index].b, 0.25f);
@@ -248,11 +226,6 @@ public class PlayerBehaviour : MonoBehaviour {
     public void addRecoil(Vector3 direction)
     {
         rb.AddForce(direction);
-    }
-
-    public float getHeatFactor()
-    {
-        return heatFactor;
     }
 
     public void takeDamage(int damage)
@@ -280,6 +253,21 @@ public class PlayerBehaviour : MonoBehaviour {
     {
         collisionSound.volume = collision.relativeVelocity.magnitude * 0.05f;
         collisionSound.Play();
+    }
+
+    public float GetHeatFactor(int color) {
+        //special case for color 6, which is white
+        if (color == 6) {
+            int totalEnergy = 0;
+            foreach (int p in powerupEnergy) {
+                totalEnergy += p;
+            }
+            return (float)totalEnergy / (float)(maxPowerupEnergy * 6);
+        }
+        else {
+            return (float)powerupEnergy[color] / (float)maxPowerupEnergy;
+        }
+        
     }
 
 }

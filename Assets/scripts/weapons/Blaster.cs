@@ -15,7 +15,6 @@ public class Blaster : Weapon {
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 

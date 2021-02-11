@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour {
 	
 	private static float multiplierDecayRate = 2f;
 	private PlayerBehaviour player;
+	private float multiplierVelocity = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,8 +20,9 @@ public class ScoreManager : MonoBehaviour {
 
 	private IEnumerator MultiplierDecay() {
 		while (true) {
-			if (multiplier > 1f && !player.hasPowerup) {
-				multiplier = ((multiplier - 1f) * 0.998f) + 1f;
+			if (multiplier > 1f) {
+				//multiplier = ((multiplier - 1f) * 0.999f) + 1f;
+				multiplier = Mathf.SmoothDamp(multiplier, 1f, ref multiplierVelocity, 60f);
 			}
 			if (multiplier < 1f) {
 				multiplier = 1f;

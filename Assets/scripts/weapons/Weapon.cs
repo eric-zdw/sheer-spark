@@ -4,13 +4,11 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour{
 
-    public enum WeaponType {Automatic, SingleShot};
     private float fireRate;
     private float cooldown;
 
     public Weapon()
     {
-        WeaponType weaponType = WeaponType.Automatic;
         fireRate = 0f;
         cooldown = 0f;
     }

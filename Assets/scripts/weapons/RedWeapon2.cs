@@ -103,7 +103,7 @@ public class RedWeapon2 : Weapon {
             + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
             + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         */
-        if (GetCooldown() <= 0 && (player.sparkEnergy[0] >= 1 || debugMode))
+        if (GetCooldown() <= 0 && (player.powerupEnergy[0] >= 1 || debugMode))
         {
             
             /*
@@ -134,7 +134,7 @@ public class RedWeapon2 : Weapon {
             }
             
             if (!debugMode) {
-                player.sparkEnergy[0] -= 1;
+                player.powerupEnergy[0] -= 1;
                 player.energyPanel.UpdateEnergyMeters();
             }
             

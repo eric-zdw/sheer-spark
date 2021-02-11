@@ -48,7 +48,9 @@ public class Teleporter : MonoBehaviour
             }
             if (reverseVelocity) {
                 Vector3 velocity = other.GetComponent<Rigidbody>().velocity;
+                Vector3 angularVelocity = other.GetComponent<Rigidbody>().angularVelocity;
                 other.GetComponent<Rigidbody>().velocity = new Vector3(-velocity.x, velocity.y, velocity.z);
+                other.GetComponent<Rigidbody>().angularVelocity = new Vector3(angularVelocity.x, angularVelocity.y, -angularVelocity.z);
                 other.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
             }
             Instantiate(teleporterSparksPrefab, destination.exitPosition, Quaternion.identity);
