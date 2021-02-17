@@ -22,14 +22,14 @@ public class PurpleWeapon1 : Weapon {
     private ParticleSystem ps;
     private PlayerBehaviour player;
 
-    public float heatDamageRate = 0.005f;
-    public float heatRadiusRate = 0.004f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
 
     private AudioSource chargeSound;
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         light = GetComponent<Light>();
@@ -64,9 +64,9 @@ public class PurpleWeapon1 : Weapon {
             */
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
-            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor())));
-            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (heatRadiusRate * player.getHeatFactor()));
-            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (heatDamageRate * player.getHeatFactor())));
+            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple))));
+            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple)));
+            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Purple))));
             print("chargeValue: " + chargeValue + ", damage charged: " + (chargeValue*chargeValue*chargeValue*damage));
 
 
@@ -109,11 +109,6 @@ public class PurpleWeapon1 : Weapon {
 
     public override void Fire1()
     {
-        print(
-        "Current heat factor: " + player.getHeatFactor()
-        + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-        + " , maxSize: " + maxSize * (1f + (heatRadiusRate * player.getHeatFactor())));
-
         ps.enableEmission = true;
         if (chargeSound.isPlaying == false)
             chargeSound.Play();

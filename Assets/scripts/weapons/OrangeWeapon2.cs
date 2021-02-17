@@ -11,16 +11,14 @@ public class OrangeWeapon2 : Weapon {
     private Vector2 mousePosition;
     private float angle;
     public float bFireRate = 0.16f;
-
-    public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.001f;
-    public float heatRadiusRate = 0.002f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
     public float damage = 35f;
     public float radius = 5f;
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
@@ -36,20 +34,14 @@ public class OrangeWeapon2 : Weapon {
 
     public override void Fire1()
     {
-        print(
-            "Current heat factor: " + player.getHeatFactor()
-            + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor()))
-            + " , radius: " + radius * (1f + (heatRadiusRate * player.getHeatFactor())));
-
         if (GetCooldown() <= 0)
         {
-            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Orange)));
+            float realRadius = radius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Orange)));
             OrangeProjectile2 proj = Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle + Random.Range(-15f, 15f))).GetComponent<OrangeProjectile2>();
             proj.setDamage(realDamage);
             proj.setRadius(realRadius);
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Orange))));
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnergyColor {Red, Orange, Yellow, Green, Blue, Purple, White};
 public class PlayerBehaviour : MonoBehaviour {
     public float playerBaseSpeed = 25f;
     public float playerHeatSpeed = 25f;
@@ -22,7 +23,7 @@ public class PlayerBehaviour : MonoBehaviour {
     private GameObject utilitySlot;
 
     public int[] powerupEnergy;
-    public int maxPowerupEnergy;
+    public int maxPowerupEnergy = 6;
 
     private MeshRenderer mesh;
     public Material defaultColour;
@@ -197,7 +198,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public void getPowerup(GameObject newWeapon, Material newColour, int index, Material newMaterial, string powerName)
     {
         hasPowerup = true;
-        ScoreManager.IncreaseScore(500);
+        ScoreManager.IncreaseScore(50);
         ScoreManager.IncreaseMultiplier(1f);
         weapon = newWeapon.GetComponent<Weapon>();
         mesh.material = newColour;
@@ -255,9 +256,9 @@ public class PlayerBehaviour : MonoBehaviour {
         collisionSound.Play();
     }
 
-    public float GetHeatFactor(int color) {
+    public float GetHeatFactor(EnergyColor color) {
         //special case for color 6, which is white
-        if (color == 6) {
+        if (color == EnergyColor.White) {
             int totalEnergy = 0;
             foreach (int p in powerupEnergy) {
                 totalEnergy += p;
@@ -265,7 +266,7 @@ public class PlayerBehaviour : MonoBehaviour {
             return (float)totalEnergy / (float)(maxPowerupEnergy * 6);
         }
         else {
-            return (float)powerupEnergy[color] / (float)maxPowerupEnergy;
+            return (float)powerupEnergy[(int)color] / (float)maxPowerupEnergy;
         }
         
     }

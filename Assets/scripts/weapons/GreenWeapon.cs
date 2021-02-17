@@ -11,9 +11,9 @@ public class GreenWeapon : Weapon {
     private float angle;
     public float bFireRate = 0.2f;
 
-    public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.004f;
-    public float heatRadiusRate = 0.002f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
     public float damage = 6f;
     public float radius = 1f;
         
@@ -21,7 +21,6 @@ public class GreenWeapon : Weapon {
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
@@ -44,8 +43,8 @@ public class GreenWeapon : Weapon {
         if (GetCooldown() <= 0)
         {
             altFire *= -1;
-            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Green)));
+            float realRadius = radius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Green)));
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.8f),
@@ -53,7 +52,7 @@ public class GreenWeapon : Weapon {
                 );
             proj.GetComponent<GreenProjectile>().setDamage(realDamage);
             proj.GetComponent<GreenProjectile>().setRadius(realRadius);
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Green))));
             player.GetComponent<Rigidbody>().AddForce(Vector3.Normalize((Vector3)mousePosition - transform.position) * -10f);
         }
     }

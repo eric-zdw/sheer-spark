@@ -45,11 +45,11 @@ public class ChaseEnemy : SmallEnemy {
 		while (true && !isDelayedDeath) {
 			// Reset navigation if too far away from navPath, or if player moves to new location
 			if (Vector3.Distance(player.transform.position, playerPosition) >= 4f) {
-				print("player moved from target position, recalculating...");
+				//print("player moved from target position, recalculating...");
 				ResetNavigation();
 			}
 			if (!timeToJump && Vector3.Distance(currentNode.transform.position, transform.position) > 5f) {
-				print("enemy strayed too far from path, recalculating...");
+				//print("enemy strayed too far from path, recalculating...");
 				ResetNavigation();
 			}
 			yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));

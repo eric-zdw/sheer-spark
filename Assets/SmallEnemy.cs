@@ -87,7 +87,7 @@ public abstract class SmallEnemy : Enemy
         Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
         Instantiate(smallEnemyData.powerups[powerupRoll], transform.position, Quaternion.identity);
 		Instantiate(smallEnemyData.deathExplosions[powerupRoll], transform.position, transform.rotation);
-        ScoreManager.IncreaseScore(Mathf.RoundToInt(scoreValue * ScoreManager.multiplier));
+        ScoreManager.IncreaseScore(scoreValue);
 		Destroy(gameObject);
     }
 

@@ -10,16 +10,15 @@ public class RedWeapon1 : Weapon {
     private Vector2 mousePosition;
     private float angle;
     public float bFireRate = 0.2f;
-
-    public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.004f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
     public float damage = 6f;
     public float shotSeparation = 1.25f;
     public float shotSpread = 0f;
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
@@ -35,16 +34,12 @@ public class RedWeapon1 : Weapon {
 
     public override void Fire1()
     {
-        print(
-            "Current heat factor: " + player.getHeatFactor()
-            + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
         if (GetCooldown() <= 0)
         {
             
             for (int i = -8; i <= 8; i++)
             {
-                float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+                float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
                 GameObject proj = Instantiate(
                     projectile, 
                     transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f), 
@@ -66,7 +61,7 @@ public class RedWeapon1 : Weapon {
             proj.GetComponent<RedProjectile>().setDamage(realDamage);
             */
             
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
         }
     }
 

@@ -22,7 +22,6 @@ public class PurpleWeapon2 : Weapon {
     private AudioSource chargeSound;
 
     void Start () {
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         light = GetComponent<Light>();

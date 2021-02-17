@@ -11,8 +11,9 @@ public class BlueWeapon2 : Weapon {
     private float angle;
     public float bFireRate = 0.2f;
 
-    public float maxHeatDamage = 0.5f;
-    public float maxHeatFireRate = 1f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
     public float damage = 6f;
 
     public float rangeRadius = 0f;
@@ -47,7 +48,7 @@ public class BlueWeapon2 : Weapon {
     {
         if (GetCooldown() <= 0)
         {
-            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Blue)));
             GameObject proj = Instantiate(
                 projectile, 
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.5f), 
@@ -57,7 +58,7 @@ public class BlueWeapon2 : Weapon {
 
             proj.GetComponent<BlueProjectile2>().setDamage(realDamage);
 
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Blue))));
         }
     }
 

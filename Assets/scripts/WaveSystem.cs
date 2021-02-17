@@ -262,7 +262,7 @@ public class WaveSystem : MonoBehaviour {
         savedTimeScale = Time.timeScale;
         Time.timeScale = 0f;
         pauseMenu.SetActive(true);
-        gameUI.SetActive(false);
+        //gameUI.SetActive(false);
     }
 
     public void UnpauseGame() {

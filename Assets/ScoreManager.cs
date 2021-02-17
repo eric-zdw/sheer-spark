@@ -6,10 +6,13 @@ public class ScoreManager : MonoBehaviour {
 
 	public static int score = 0;
 	public static float multiplier = 1;
+	public static float exponentPart = 500f;
+	const float basePart = 1f;
 	
 	private static float multiplierDecayRate = 2f;
 	private PlayerBehaviour player;
 	private float multiplierVelocity = 0f;
+	const float updateInterval = 0.02f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,16 +22,25 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	private IEnumerator MultiplierDecay() {
-		while (true) {
-			if (multiplier > 1f) {
-				//multiplier = ((multiplier - 1f) * 0.999f) + 1f;
-				multiplier = Mathf.SmoothDamp(multiplier, 1f, ref multiplierVelocity, 60f);
-			}
-			if (multiplier < 1f) {
-				multiplier = 1f;
-			}
 
-			yield return new WaitForSeconds(0.02f);
+		float timer = updateInterval;
+
+		while (true) {
+			timer -= Time.deltaTime;
+			// in the event of Time.deltaTime taking too much time, multipler should decay several intervals
+			while (timer <= 0f) {
+				if (exponentPart > 0f) {
+					exponentPart -= 0.004f;
+					exponentPart *= 0.9999f;
+					multiplier = basePart + exponentPart;
+				}
+				else if (exponentPart < 0f) {
+					exponentPart = 0f;
+				}
+				timer += updateInterval;
+			}
+			
+			yield return new WaitForFixedUpdate();
 		}
 	}
 	
@@ -49,6 +61,6 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	public static void IncreaseMultiplier(float value) {
-		multiplier += value;
+		exponentPart += value;
 	}
 }

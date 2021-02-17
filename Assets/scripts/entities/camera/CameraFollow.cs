@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour {
 
 	public float shakeFactor = 0f;
     public float shakeMultiplier = 1f;
-    public float shakeDecayFactor;
+    public float shakeDecayFactor = 0.95f;
     private Vector3 lastPosition;
 
     private float resetTimer = 5f;
@@ -29,12 +29,16 @@ public class CameraFollow : MonoBehaviour {
     public bool smoothDampEnabled = false;
     public float smoothDampValue = 0.05f;
 
+    public const float shakeReductionInterval = 0.02f;
+    private float shakeTimer = 0f;
+
 	// Use this for initialization
 	void Start ()
     {
         followTarget = GameObject.Find("Player");
         cam = GetComponent<Camera>();
         //bounds = GameObject.Find("CameraBounds").GetComponent<CameraBounds>();
+        shakeTimer = shakeReductionInterval;
 
         StartCoroutine(StageIntroRoutine());
 	}
@@ -100,11 +104,19 @@ public class CameraFollow : MonoBehaviour {
             transform.position = new Vector3(x, y, transform.position.z);
         }
         
-        if (shakeFactor >= 0.0001f)
-        {
-            transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor * shakeMultiplier);
+        //reduce shake factor
+        //reduces factor in intervals of 0.02 seconds. Reduces multiple times if deltaTime passes one interval.
+        shakeTimer -= Time.unscaledDeltaTime;
+        while (shakeTimer < 0f) {
+            shakeFactor *= shakeDecayFactor;
+            shakeTimer += shakeReductionInterval;
         }
-        shakeFactor *= shakeDecayFactor;
+        if (shakeFactor < 0.0001f) {
+            shakeFactor = 0f;
+        }
+
+        transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor * shakeMultiplier);
+        
         
         if (followTarget == null)
         {

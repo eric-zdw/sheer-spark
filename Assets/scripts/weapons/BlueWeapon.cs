@@ -77,8 +77,8 @@ public class BlueWeapon : Weapon {
                     spinDirection = 1;
                 }
             }
-            float finalDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(4)));
-            float finalRadius = radius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(4)));
+            float finalDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Blue)));
+            float finalRadius = radius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Blue)));
             GameObject proj = Instantiate(
                 projectile, 
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.5f), 
@@ -91,7 +91,7 @@ public class BlueWeapon : Weapon {
             numberOfProjectiles++;
             proj.GetComponent<BlueProjectile>().id = numberOfProjectiles;
 
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Blue))));
         }
     }
 

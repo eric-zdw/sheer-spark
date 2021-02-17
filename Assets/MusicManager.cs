@@ -34,7 +34,7 @@ public class MusicManager : MonoBehaviour {
     public IEnumerator ChangeMusic(int index) {
         float volume = 0f;
         while (volume < 1f) {
-            print("music changing");
+            //print("music changing");
             volume += Time.unscaledDeltaTime * 0.2f;
             sources[index].volume = volume;
 

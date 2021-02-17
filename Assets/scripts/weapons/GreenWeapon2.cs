@@ -21,7 +21,6 @@ public class GreenWeapon2 : Weapon {
 
     void Start () {
         SetFireRate(bFireRate);
-        WeaponType weaponType = WeaponType.Automatic;
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
@@ -44,8 +43,8 @@ public class GreenWeapon2 : Weapon {
         if (GetCooldown() <= 0)
         {
             altFire *= -1;
-            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-            float realRadius = radius * (1f + (heatRadiusRate * player.getHeatFactor()));
+            float realDamage = damage * (1f + (heatDamageRate * player.GetHeatFactor(EnergyColor.Green)));
+            float realRadius = radius * (1f + (heatRadiusRate * player.GetHeatFactor(EnergyColor.Green)));
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.8f),
@@ -53,7 +52,7 @@ public class GreenWeapon2 : Weapon {
                 );
             proj.GetComponent<GreenProjectile>().setDamage(realDamage);
             proj.GetComponent<GreenProjectile>().setRadius(realRadius);
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
+            SetCooldown(bFireRate / (1f + (heatFireRate * player.GetHeatFactor(EnergyColor.Green))));
         }
     }
 
