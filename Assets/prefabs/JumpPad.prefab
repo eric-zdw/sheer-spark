@@ -331,10 +331,12 @@ MonoBehaviour:
   boost: {x: 0, y: 50, z: 0}
   boostCooldown: 0.1
   particleColor: {r: 0, g: 1.1450981, b: 2, a: 1}
+  glowColor: {r: 0, g: 0, b: 0, a: 0}
   fresnelColor: {r: 0, g: 1.4039216, b: 2, a: 1}
   meshColor: {r: 0, g: 0.6289654, b: 1, a: 1}
   boostPrefab: {fileID: 617864283867652502, guid: fac9988e40fd3e945ade5de848c69517,
     type: 3}
+  glowObject: {fileID: 6028745365065528797}
 --- !u!54 &4082757637610039090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5241,8 +5243,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
-      minScalar: 0.2
+      scalar: 0
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5295,7 +5297,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0.3462386, b: 1, a: 0.03137255}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.03137255}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5357,7 +5359,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9
+      scalar: 6
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5738,7 +5740,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0, y: 0.5, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
     m_Scale: {x: 4, y: 4, z: 1}
     placementMode: 0
@@ -5938,7 +5940,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2

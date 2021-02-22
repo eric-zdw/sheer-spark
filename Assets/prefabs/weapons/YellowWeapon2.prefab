@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4034443471760690}
-  - component: {fileID: 114924383932439348}
+  - component: {fileID: 114763515893879398}
   m_Layer: 0
-  m_Name: YellowWeapon2
+  m_Name: YellowWeapon
   m_TagString: PlayerWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114924383932439348
+--- !u!114 &114763515893879398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,13 +40,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1313234464062574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ba590c4e903b745b5fe23922b44083, type: 3}
+  m_Script: {fileID: 11500000, guid: b70c988e5cc7b404e80a55fb096e8e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1453142070821372, guid: 5bf970251bd7b174dbe57b4efe5942ae, type: 3}
-  bFireRate: 0.16
-  maxHeatDamageMulti: 0.3
-  maxHeatFireRateMulti: 0.3
-  maxHeatRadiusMulti: 0.3
-  damage: 20
-  radius: 2
+  projectile: {fileID: 1453142070821372, guid: c21b9dd47e78dd3428721e9a2166f926, type: 3}
+  bFireRate: 1.1
+  maxHeatDamageMulti: 0.5
+  maxHeatFireRateMulti: 0.5
+  maxHeatRadiusMulti: 0.5
+  damage: 80
+  radius: 8

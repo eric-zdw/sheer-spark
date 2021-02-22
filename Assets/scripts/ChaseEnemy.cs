@@ -69,9 +69,9 @@ public class ChaseEnemy : SmallEnemy {
 			if (!isGrounded) {
 				isGrounded = true;
 				//print("grounded?");
-				// If I presumably landed after a jump and didn't seem to reach the node, recalculate route.
+				// If I landed after a jump and didn't seem to reach the node, recalculate route.
 				if (timeToJump && Vector3.Distance(transform.position, navPath[0].transform.position) > 3f) {
-					//print("jump didn't land as intended, recalculating...");
+					print("jump didn't land as intended, recalculating...");
 					ResetNavigation();
 				}
 			}
@@ -143,8 +143,8 @@ public class ChaseEnemy : SmallEnemy {
 	
 			jumpCooldown = Mathf.Clamp(jumpCooldown - Time.deltaTime, 0f, 0.5f);
 	
-			rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 20f * Time.deltaTime);
-			rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
+			//rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 20f * Time.deltaTime);
+			//rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 50f * Time.deltaTime);
 		}
 
 

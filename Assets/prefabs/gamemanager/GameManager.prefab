@@ -1422,20 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e9bc699ff03844939860b9ce88f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerups:
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
-  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
-  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
-  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
-  weaponList:
-  - {fileID: 1881794500740252, guid: bbc053c3db647814abff2f97cba62aa1, type: 3}
-  - {fileID: 1881794500740252, guid: fb59b42309cdf6a4492c4862a5c006d3, type: 3}
-  - {fileID: 1567947007607036, guid: d8098eb2e9723934193476f4fd1e5264, type: 3}
-  - {fileID: 1567947007607036, guid: d02f408e9547deb4ca1396e10c5a0941, type: 3}
-  - {fileID: 1742119026110102, guid: 13dd15378af3c8241b2283df653140c1, type: 3}
-  - {fileID: 1881794500740252, guid: 1c203643c7da0a446a036d73c09ae274, type: 3}
+  powerupList: {fileID: 11400000, guid: 44c195ce431871744b33e0e467bb95e0, type: 2}
 --- !u!1 &1182850684358130
 GameObject:
   m_ObjectHideFlags: 0
@@ -8069,6 +8056,8 @@ MonoBehaviour:
     type: 3}
   bFireRate: 0.11
   secondaryRate: 0.9
+  maxHeatDamageMulti: 1
+  maxHeatFireRateMulti: 1
 --- !u!1 &1515042322410092
 GameObject:
   m_ObjectHideFlags: 0

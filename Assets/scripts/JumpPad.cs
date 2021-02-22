@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class JumpPad : MonoBehaviour {
 
     public Vector3 boost;
@@ -12,30 +13,52 @@ public class JumpPad : MonoBehaviour {
     [ColorUsageAttribute(true,true)]
     public Color particleColor;
     [ColorUsageAttribute(true,true)]
+    public Color glowColor;
+    [ColorUsageAttribute(true,true)]
     public Color fresnelColor;
     [ColorUsageAttribute(true,true)]
     public Color meshColor;
     public GameObject boostPrefab;
+    public GameObject glowObject;
 
-    private MaterialPropertyBlock particleMpb, meshMpb;
+    private MaterialPropertyBlock particleMpb, meshMpb, glowMpb, boostMpb;
     private ParticleSystemRenderer renderer;
+    private ParticleSystemRenderer glowRenderer;
     private MeshRenderer mesh;
 
-	// Use this for initialization
-	void Start () {
+    private void InitializeVisuals() {
 		particleMpb = new MaterialPropertyBlock();
         meshMpb = new MaterialPropertyBlock();
+        glowMpb = new MaterialPropertyBlock();
+        boostMpb = new MaterialPropertyBlock();
         renderer = GetComponent<ParticleSystemRenderer>();
+        glowRenderer = glowObject.GetComponent<ParticleSystemRenderer>();
         mesh = GetComponent<MeshRenderer>();
 
         particleMpb.SetColor("_Color", particleColor);
         particleMpb.SetColor("_EmissionColor", particleColor);
         renderer.SetPropertyBlock(particleMpb);
 
+        glowMpb.SetColor("_Color", glowColor);
+        glowMpb.SetColor("_EmissionColor", glowColor);
+        glowRenderer.SetPropertyBlock(glowMpb);
+
         meshMpb.SetColor("Color_3238E920", fresnelColor);
         meshMpb.SetColor("Color_34C5F63F", meshColor);
         mesh.SetPropertyBlock(meshMpb);
+
+        boostMpb.SetColor("_Color", glowColor);
+        boostMpb.SetColor("_EmissionColor", glowColor);        
+    }
+
+	// Use this for initialization
+	void Start () {
+		InitializeVisuals();
 	}
+
+    void OnValidate() {
+		InitializeVisuals();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -53,7 +76,9 @@ public class JumpPad : MonoBehaviour {
             rb.velocity = boost;
             currentBoostCooldown = boostCooldown;
 
-            Instantiate(boostPrefab, transform.position, transform.rotation);
+            GameObject boostObject = Instantiate(boostPrefab, transform.position, transform.rotation);
+            ParticleSystemRenderer boostParticles = boostObject.GetComponent<ParticleSystemRenderer>();
+            boostParticles.SetPropertyBlock(boostMpb);
             StartCoroutine(BoostGlow());
         }
     }

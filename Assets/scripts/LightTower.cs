@@ -13,7 +13,7 @@ public class LightTower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rotation += 15f * Time.deltaTime;
+        rotation += 5f * Time.deltaTime;
         transform.localRotation = Quaternion.Euler(0f, rotation, 0f);
 	}
 }

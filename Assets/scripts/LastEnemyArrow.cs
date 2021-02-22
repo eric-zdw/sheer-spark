@@ -31,7 +31,7 @@ public class LastEnemyArrow : MonoBehaviour {
 			lastEnemy = GameObject.FindGameObjectWithTag("Enemy");
 			direction = lastEnemy.transform.position - player.transform.position;
 
-			Vector3 uiPosition = cam.WorldToScreenPoint(player.transform.position + (direction * 0.1f));
+			Vector3 uiPosition = cam.WorldToScreenPoint(player.transform.position + (direction * 0.1f) + Vector3.Normalize(direction * 5f));
 			float newAngle = Mathf.Rad2Deg * Mathf.Atan2(direction.y, direction.x);
 			arrowPosition.SetPositionAndRotation(uiPosition, Quaternion.Euler(0, 0, newAngle));
 		}

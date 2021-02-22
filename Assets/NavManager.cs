@@ -19,8 +19,6 @@ public class NavManager : MonoBehaviour
 
     /// <summary>When called by an enemy, a path is calculated given every interval until path reaches destination</summary>
     public static IEnumerator NavigateToLocation(Vector3 start, Vector3 target, bool isGrounded, List<Node> nodePath) {
-        //print("start");
-        //print("Navigation restarted");
         List<NodeData> openNodes = new List<NodeData>();
         HashSet<NodeData> closedNodes = new HashSet<NodeData>();
 
@@ -153,7 +151,7 @@ public class NavManager : MonoBehaviour
                 if (stepsCalculated >= 50) {
                     CalculatePath(lowestHCostNode, nodePath);
                     //print("NavManager nodepath size: " + nodePath.Count);
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.125f, 0.375f));
                     stepsCalculated = 0;
                 }
             }

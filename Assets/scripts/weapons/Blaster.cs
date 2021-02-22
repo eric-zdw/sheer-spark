@@ -12,9 +12,12 @@ public class Blaster : Weapon {
     public float bFireRate = 0.18f;
     public float secondaryRate = 0.90f;
 
+    public float maxHeatDamageMulti = 1f;
+    public float maxHeatFireRateMulti = 1f;
+    //public float maxHeatRadiusMulti = 1f;
 
     void Start () {
-        SetFireRate(bFireRate);
+        //SetFireRate(bFireRate);
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
@@ -32,6 +35,7 @@ public class Blaster : Weapon {
         if (GetCooldown() <= 0)
         {
             Instantiate(projectile, transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.5f), Quaternion.Euler(0, 0, angle + Random.Range(-1f, 1f)));
+            //SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.White))));
             SetCooldown(bFireRate);
         }
     }
