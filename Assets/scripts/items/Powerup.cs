@@ -8,6 +8,7 @@ public class Powerup : MonoBehaviour {
     public Material playerMaterial;
     public GameObject explosion;
     public Material newMaterial;
+    //private float driftMagnitude = 200f;
     
     private float timer = 20f;
 
@@ -16,6 +17,7 @@ public class Powerup : MonoBehaviour {
         //get current player weapon from settings.
         //weaponPrefab = 
 
+        //GetComponent<Rigidbody>().AddForce(driftMagnitude * Random.insideUnitCircle);
         Destroy(gameObject, timer);
     }
 	

@@ -9714,7 +9714,6 @@ MonoBehaviour:
   dashImpact: {fileID: 1132967370857014, guid: 2b3b314a2e92d104b90c4b53ee4d7a62, type: 3}
   impactDamage: 55
   dashVelocity: 30
-  dashHeatVelocity: 20
 --- !u!135 &135402963417613196
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14780,7 +14779,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 56
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &114050058241825968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14801,7 +14800,8 @@ MonoBehaviour:
   maxAngularVelocity: 15
   torqueStrength: 1
   maxHP: 4
-  sparkEnergy: 
+  powerupEnergy: 
+  maxPowerupEnergy: 6
   defaultColour: {fileID: 2100000, guid: 314500b82439feb4da6576ee0fa4e19a, type: 2}
   defaultWeapon: {fileID: 1313234464062574, guid: 35d29199f7e29c341af7737a170d14e3,
     type: 3}
@@ -14809,11 +14809,7 @@ MonoBehaviour:
   powerupIncrement: 0
   powerupTimer: 0
   powerupHealth: 0
-  powerupLevel: 0
   hasPowerup: 0
-  heatFactor: 0
-  heatDecayFactor: 1
-  heatConstantDecay: 0
   HP: 0
   energyPanel: {fileID: 0}
   deathExplosion: {fileID: 1848463479600148, guid: 4793ab311b2faec4bb3173a901eba1d2,
@@ -14846,6 +14842,7 @@ MonoBehaviour:
   isDashing: 0
   damageClip: {fileID: 0}
   localGravity: 0
+  isReversed: 0
 --- !u!135 &135768229228990472
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15297,6 +15294,8 @@ MonoBehaviour:
     type: 3}
   bFireRate: 0.11
   secondaryRate: 0.9
+  maxHeatDamageMulti: 1
+  maxHeatFireRateMulti: 1
 --- !u!1 &1950558307330272
 GameObject:
   m_ObjectHideFlags: 0

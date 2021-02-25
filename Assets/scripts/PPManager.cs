@@ -17,7 +17,7 @@ public class PPManager : MonoBehaviour {
     public float ppTransitionTime = 0.4f;
     public float ppDefaultTimeScale = 1.5f;
     public float ppSlowTimeScale = 0.015f;
-    public float ppFixedScale = 60f;
+    public float ppFixedScale = 200f;
 	public float ppTimeIncreaseRate = 1.01f;
 
 	// Use this for initialization

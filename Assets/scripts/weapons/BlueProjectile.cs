@@ -70,15 +70,13 @@ public class BlueProjectile : Projectile {
             if (Input.GetButtonUp("Fire1")) {
                 lifeTime = 6f;
                 fixedMove = false;
-                //isShot = true;
-                //chargeTimer = chargeMax;
-                //rb.velocity = new Vector3(0, 0, 0);
                 rb.isKinematic = false;
                 transform.localScale *= 0.6f;
                 var particleSystem = transform.GetChild(0).GetComponent<ParticleSystem>();
                 var mainModule = particleSystem.main;
                 mainModule.startLifetime = 0.1f;
-                Instantiate(activateParticle, transform.position, Quaternion.identity);
+                GameObject explode = Instantiate(activateParticle, transform.position, Quaternion.identity);
+                explode.transform.localScale = new Vector3(radius * 0.4f, radius * 0.4f, radius * 0.4f);
                 GetComponent<SphereCollider>().isTrigger = true;
                 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
                 launchVector = Vector3.Normalize(mousePosition - (transform.position)) * launchSpeed;

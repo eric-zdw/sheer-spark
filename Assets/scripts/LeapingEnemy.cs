@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseEnemy : SmallEnemy {
+public class LeapingEnemy : SmallEnemy {
 	private GameObject player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
@@ -41,7 +41,7 @@ public class ChaseEnemy : SmallEnemy {
 			yield return new WaitForSeconds(0.2f);
 		}
 		playerPosition = player.transform.position;
-
+		
 		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
 		yield return new WaitForSeconds(1f);
 
@@ -66,9 +66,6 @@ public class ChaseEnemy : SmallEnemy {
 		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
 	}
 
-	// Navigation: has Patrol Mode and Chase mode.
-	// If player cannot be reached, enters Patrol mode and travel from one end of platform to other end.
-	// If player can be reached, navigate to player and attempt to collide.
 	void FixedUpdate()
 	{
 		if (Physics.Linecast(transform.position, transform.position + Vector3.down * 2f, LayerMask.GetMask("Geometry"))) {
@@ -125,13 +122,13 @@ public class ChaseEnemy : SmallEnemy {
 				if (xDist > 0f) {
 					direction = 1;
 					//print("right");
-        	        rb.AddForce(new Vector3(900f, 0f, 0f) * Time.deltaTime);
+        	        rb.AddForce(new Vector3(350f, 0f, 0f) * Time.deltaTime);
         	        rb.AddTorque(0, 0, -100f * Time.deltaTime);
 				}
 				else if (xDist < 0f){
 					direction = -1;
 					//print("left");
-        	        rb.AddForce(new Vector3(-900f, 0f, 0f) * Time.deltaTime);
+        	        rb.AddForce(new Vector3(-350f, 0f, 0f) * Time.deltaTime);
         	        rb.AddTorque(0, 0, 100f * Time.deltaTime);
 				}
 	

@@ -6,7 +6,7 @@ public class ScoreManager : MonoBehaviour {
 
 	public static int score = 0;
 	public static float multiplier = 1;
-	public static float exponentPart = 500f;
+	public static float exponentPart = 0f;
 	const float basePart = 1f;
 	
 	private static float multiplierDecayRate = 2f;

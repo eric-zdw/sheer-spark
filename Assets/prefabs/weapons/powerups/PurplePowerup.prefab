@@ -1091,6 +1091,7 @@ GameObject:
   - component: {fileID: 23057366498216340}
   - component: {fileID: 135718511573952684}
   - component: {fileID: -6544063919588277470}
+  - component: {fileID: 9152487811759474052}
   m_Layer: 13
   m_Name: PurplePowerup
   m_TagString: Powerup
@@ -1200,6 +1201,22 @@ MonoBehaviour:
   playerMaterial: {fileID: 2100000, guid: 2a8c17456e102ca4a9bbf7b7f26eb72a, type: 2}
   explosion: {fileID: 1445801679278778, guid: 9946ade641f201d449599720cc53a502, type: 3}
   newMaterial: {fileID: 2100000, guid: 0dd25a814cb49614686c12d915e3e704, type: 2}
+--- !u!54 &9152487811759474052
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881794500740252}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 2
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 8
+  m_CollisionDetection: 0
 --- !u!1 &1948631285606328
 GameObject:
   m_ObjectHideFlags: 0

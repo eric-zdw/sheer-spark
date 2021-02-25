@@ -11,8 +11,7 @@ public class Teleporter : MonoBehaviour
     public static float playerCooldown = 0f;
 
     public GameObject teleporterSparksPrefab;
-
-    public Vector3 center;
+    public Vector3 teleportOffset;
 
     private float baseGlowValue = 0f;
     private MaterialPropertyBlock mpb;
@@ -36,8 +35,8 @@ public class Teleporter : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.name == "Player" && playerCooldown <= 0) {
             Instantiate(teleporterFlashPrefab, GameObject.FindGameObjectWithTag("GameUI").transform);
-            float playerYRelativeToTeleporter = other.transform.position.y - center.y;
-            other.transform.position = destination.exitPosition + new Vector3(0f, playerYRelativeToTeleporter, 0f);
+            float playerYRelativeToTeleporter = other.transform.position.y - (transform.position + teleportOffset).y;
+            other.transform.position = destination.transform.position + destination.teleportOffset + new Vector3(0f, playerYRelativeToTeleporter, 0f);
             playerCooldown = 0.5f;
             if (reverseControls) {
                 CameraFollow cameraScript = Camera.main.GetComponent<CameraFollow>();
@@ -53,7 +52,7 @@ public class Teleporter : MonoBehaviour
                 other.GetComponent<Rigidbody>().angularVelocity = new Vector3(angularVelocity.x, angularVelocity.y, -angularVelocity.z);
                 other.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
             }
-            Instantiate(teleporterSparksPrefab, destination.exitPosition, Quaternion.identity);
+            Instantiate(teleporterSparksPrefab, destination.transform.position + destination.teleportOffset, Quaternion.identity);
             StartFlash();
             destination.StartFlash();
         }
