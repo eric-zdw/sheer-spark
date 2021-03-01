@@ -127,6 +127,11 @@ public class LeapingEnemy : SmallEnemy {
 		navPath.Clear();
 		playerPosition = player.transform.position;
 		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
+
+		//Account for edge cases where jumping fails and enemy never leaves the ground.
+		if (isGrounded && isLeaping) {
+			isLeaping = false;
+		}
 	}
 
 	void FixedUpdate()
@@ -147,7 +152,6 @@ public class LeapingEnemy : SmallEnemy {
 			isGrounded = false;
 		}
 
-		print(isLeaping);
 		if (!isLeaping) {
 			if (navPath.Count > 0) {
 				print(navPath[0].transform.position);
@@ -184,7 +188,8 @@ public class LeapingEnemy : SmallEnemy {
 					}			
 
 					float yDist = navPath[0].transform.position.y - transform.position.y;
-					if (isGrounded && jumpCooldown <= 0f && timeToJump && Vector3.Distance(transform.position, currentlyAtNode.transform.position) < 2f && Mathf.Sign(direction) == Mathf.Sign(rb.velocity.x)) {
+					//if (isGrounded && jumpCooldown <= 0f && timeToJump && Vector3.Distance(transform.position, currentlyAtNode.transform.position) < 2f && Mathf.Sign(direction) == Mathf.Sign(rb.velocity.x)) {
+					if (isGrounded && jumpCooldown <= 0f && timeToJump && Vector3.Distance(transform.position, currentlyAtNode.transform.position) < 2f) {
 						if (Vector3.Distance(navPath[0].transform.position, currentlyAtNode.transform.position) > 3f) {
 							rb.velocity = new Vector3(rb.velocity.x * 0.5f, 0f, rb.velocity.z);
 							LeapToTarget(navPath[0].transform.position);
@@ -220,7 +225,8 @@ public class LeapingEnemy : SmallEnemy {
     }
 
 	void LeapToTarget(Vector3 target) {
-		print("leaping");
+		bool isInNegativeXDirection = false;
+
 		isLeaping = true;
 		rb.drag = 0f;
 
@@ -228,8 +234,12 @@ public class LeapingEnemy : SmallEnemy {
 		float heightOfJump = (target.y - transform.position.y) * 1.5f;
 
 		Vector3 relativeTarget = target - transform.position;
+		if (relativeTarget.x < 0) {
+			isInNegativeXDirection = true;
+			relativeTarget = new Vector3(-relativeTarget.x, relativeTarget.y, relativeTarget.z);
+		}
 
-		float speed = 35f;
+		float speed = 10f + (1.5f * Vector3.Distance(transform.position, target));
 
 		float tan1 = (Mathf.Pow(speed, 2) + Mathf.Sqrt(Mathf.Pow(speed, 4) - g * (g * Mathf.Pow(relativeTarget.x, 2) + 2 * relativeTarget.y * Mathf.Pow(speed, 2)))) / (g * relativeTarget.x);
         //float tan2 = (Mathf.Pow(speed, 2) - Mathf.Sqrt(Mathf.Pow(speed, 4) - g * (g * Mathf.Pow(relativeTarget.x, 2) + 2 * relativeTarget.y * Mathf.Pow(speed, 2)))) / (g * relativeTarget.x);
@@ -239,10 +249,19 @@ public class LeapingEnemy : SmallEnemy {
         //print(launchAngle1 * Mathf.Rad2Deg + ", " + launchAngle2 * Mathf.Rad2Deg);
 
         Vector3 velocity = new Vector3(Mathf.Cos(launchAngle1), Mathf.Sin(launchAngle1)) * speed;
-        print("velocity: " + velocity);
+		if (float.IsNaN(velocity.x) || float.IsNaN(velocity.y)) {
+			Debug.LogError("Attempted jump is not possible with given speed!");
+		}
+		else {
+			if (isInNegativeXDirection) {
+				velocity = new Vector3(-velocity.x, velocity.y, velocity.z);
+			}
 
-		rb.velocity = Vector3.zero;
-		rb.AddForce(velocity, ForceMode.VelocityChange);
-		rb.AddTorque(0f, 0f, -50f, ForceMode.VelocityChange);
+
+			rb.velocity = Vector3.zero;
+			rb.AddForce(velocity, ForceMode.VelocityChange);
+			rb.AddTorque(0f, 0f, -50f, ForceMode.VelocityChange);
+		}
+
 	}
 }

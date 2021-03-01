@@ -20,23 +20,24 @@ public class NavMeshGenerator : MonoBehaviour {
 	private Node testN;
 	private Node testN2;
 
-	/*
-	void Start () {
+	public NodeMapScriptableObject nodeMap;
+
+	void Awake () {
+		GenerateMesh();
+
+		// If NoPathfinding objects were found, disable them before game starts
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("NoPathFinding")) {
+			Destroy(obj);
+		}
+	}
+
+	public void GenerateMesh() {
+		CleanUpMesh();
 		CreateNodeGrid();
 		CheckGroundNode();
 		CheckEdgeNode();
 		CheckDropConnections();
 		StartCoroutine(CheckJumpConnections());
-	}
-	*/
-
-	public void GenerateMesh() {
-		CleanUpMesh();
-		//CreateNodeGrid();
-		//CheckGroundNode();
-		//CheckEdgeNode();
-		//CheckDropConnections();
-		//StartCoroutine(CheckJumpConnections());
 	}
 	
 	// Update is called once per frame
@@ -45,8 +46,8 @@ public class NavMeshGenerator : MonoBehaviour {
 	}
 
 	void CleanUpMesh() {
-		foreach (Transform t in transform.GetComponentInChildren<Transform>()) {
-			GameObject.Destroy(t.gameObject);
+		while (transform.childCount != 0) {
+			DestroyImmediate(transform.GetChild(0).gameObject);
 		}
 	}
 
@@ -106,11 +107,6 @@ public class NavMeshGenerator : MonoBehaviour {
 			}
 
 			iX++;
-		}
-
-		// If NoPathfinding objects were found, disable them before game starts
-		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("NoPathFinding")) {
-			Destroy(obj);
 		}
 	}
 
