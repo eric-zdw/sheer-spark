@@ -90,6 +90,7 @@ public class OrangeBossHead : Enemy {
 		}
 
 		//Teleport to first waypoint and travel down travelline
+		//Do not interpolate with rigidbody MovePosition
 		transform.position = path[0].position;
 
 		Vector3 direction = path[1].position - transform.position;
@@ -137,7 +138,8 @@ public class OrangeBossHead : Enemy {
 		positionHistory.Insert(0, transform.position);
 		for (int i = 0; i < segments.Count; i++) {
 			//offset each segment by (spacing) physics steps
-			segments[i].transform.position = positionHistory[(i + 1) * spacing];
+			segments[i].GetComponent<Rigidbody>().MovePosition(positionHistory[(i + 1) * spacing]);
+			//segments[i].transform.position = positionHistory[(i + 1) * spacing];
 		}
 
 		//remove last location

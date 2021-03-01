@@ -63,10 +63,15 @@ public class BlueWeapon : Weapon {
     private void FixedUpdate() {
         if (GetCooldown() > 0)
             DecrementCooldown();
+
+        if (numberOfProjectiles != 0) {
+            player.GetComponent<Rigidbody>().AddForce(Vector3.up * (numberOfProjectiles * 1.25f) * Time.deltaTime);
+        }
     }
 
     public override void Fire1()
     {
+        //player.GetComponent<Rigidbody>().velocity = new Vector3(player.GetComponent<Rigidbody>().velocity.x, player.GetComponent<Rigidbody>().velocity.y * 0.9f, player.GetComponent<Rigidbody>().velocity.z);
         if (GetCooldown() <= 0 && numberOfProjectiles < maxProjectiles)
         {
             if (numberOfProjectiles == 0) {

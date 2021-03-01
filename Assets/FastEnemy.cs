@@ -17,6 +17,7 @@ public class FastEnemy : SmallEnemy {
 	private Node currentNode;
 	private bool timeToJump = false;
 	private Vector3 playerPosition;
+	private NavigationType navType = NavigationType.Jumping;
 
 	private Color gizColor;
 
@@ -46,7 +47,7 @@ public class FastEnemy : SmallEnemy {
 	private IEnumerator NavigateWrapper() {
 		yield return new WaitForSeconds(0.5f);
 		playerPosition = player.transform.position;
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 		yield return new WaitForSeconds(1f);
 
 		while (true) {
@@ -64,10 +65,10 @@ public class FastEnemy : SmallEnemy {
 	}
 
 	private void ResetNavigation() {
-		StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 		navPath.Clear();
 		playerPosition = player.transform.position;
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 	}
 
 	void FixedUpdate()

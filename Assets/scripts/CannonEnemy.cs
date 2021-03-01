@@ -16,6 +16,8 @@ public class CannonEnemy : SmallEnemy {
 
 	private float dampVelocity = 0f;
 
+	private NavigationType navType = NavigationType.Air;
+
     void Start()
 	{
         Initialize();
@@ -63,9 +65,9 @@ public class CannonEnemy : SmallEnemy {
 		while (true) {
 			Vector3 playerPosition = player.transform.position;
 			Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 50f;
-			StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+			StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 			yield return new WaitForSeconds(16f);
-			StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+			StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 			navPath.Clear();
 		}
 	}

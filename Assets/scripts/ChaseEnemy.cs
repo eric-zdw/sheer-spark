@@ -21,6 +21,8 @@ public class ChaseEnemy : SmallEnemy {
 
 	public GameObject delayedDeathPrefab;
 
+	private NavigationType navType = NavigationType.Grounded;
+
     void Start()
 	{
 		Initialize();
@@ -42,7 +44,7 @@ public class ChaseEnemy : SmallEnemy {
 		}
 		playerPosition = player.transform.position;
 
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 		yield return new WaitForSeconds(1f);
 
 		while (true && !isDelayedDeath) {
@@ -60,10 +62,10 @@ public class ChaseEnemy : SmallEnemy {
 	}
 
 	private void ResetNavigation() {
-		StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 		navPath.Clear();
 		playerPosition = player.transform.position;
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, true, navPath));
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 	}
 
 	// Navigation: has Patrol Mode and Chase mode.

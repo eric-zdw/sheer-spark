@@ -15,6 +15,8 @@ public class DriftEnemy : SmallEnemy {
 
 	private List<Node> navPath;
 
+	private NavigationType navType = NavigationType.Air;
+
     void Start()
 	{
 		Initialize();
@@ -30,17 +32,17 @@ public class DriftEnemy : SmallEnemy {
 		yield return new WaitForSeconds(0.5f);
 		Vector3 playerPosition = player.transform.position;
 		Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 8f;
-		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 		yield return new WaitForSeconds(1f);
 		while (true) {
 			// Reset navigation if too far away from navPath, or if player moves to new location
 			if ((navPath.Count > 0 && Vector3.Distance(navPath[0].transform.position, transform.position) >= 5f) || Vector3.Distance(player.transform.position, playerPosition) >= 4f) {
 				print("enemy too far away from path, recalculating...");
-				StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+				StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 				navPath.Clear();
 				playerPosition = player.transform.position;
 				randomOffset = UnityEngine.Random.insideUnitCircle * 4f;
-				StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, false, navPath));
+				StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 			}
 			yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
 		}

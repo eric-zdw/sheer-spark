@@ -9,10 +9,17 @@ public class OrangeBossPiece : Enemy {
 	private MaterialPropertyBlock damageMatBlock;
 	private MeshRenderer damageFlash;
 
+	private Vector3 oldPosition;
+
 	// Use this for initialization
 	void Start () {
 		damageFlash = transform.GetChild(2).GetComponent<MeshRenderer>();
 		damageMatBlock = new MaterialPropertyBlock();
+		oldPosition = transform.position;
+	}
+
+	void FixedUpdate() {
+		transform.up = GetComponent<Rigidbody>().velocity;
 	}
 	
 	// Update is called once per frame
@@ -22,7 +29,7 @@ public class OrangeBossPiece : Enemy {
 
 	public override void getDamage(float damage)
     {
-        head.getDamageNoFlash(damage * 0.12f);
+        head.getDamageNoFlash(damage * 0.2f);
 		StartCoroutine(FlashWhite());
     }
 

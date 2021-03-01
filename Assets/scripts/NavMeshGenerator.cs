@@ -20,6 +20,7 @@ public class NavMeshGenerator : MonoBehaviour {
 	private Node testN;
 	private Node testN2;
 
+	/*
 	void Start () {
 		CreateNodeGrid();
 		CheckGroundNode();
@@ -27,10 +28,26 @@ public class NavMeshGenerator : MonoBehaviour {
 		CheckDropConnections();
 		StartCoroutine(CheckJumpConnections());
 	}
+	*/
+
+	public void GenerateMesh() {
+		CleanUpMesh();
+		//CreateNodeGrid();
+		//CheckGroundNode();
+		//CheckEdgeNode();
+		//CheckDropConnections();
+		//StartCoroutine(CheckJumpConnections());
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		//testN.jumpConnections.Add(testN2);
+	}
+
+	void CleanUpMesh() {
+		foreach (Transform t in transform.GetComponentInChildren<Transform>()) {
+			GameObject.Destroy(t.gameObject);
+		}
 	}
 
 	void CreateNodeGrid() {
@@ -206,14 +223,16 @@ public class NavMeshGenerator : MonoBehaviour {
 	IEnumerator CheckJumpConnections() {
 		yield return new WaitForSeconds(0.5f);
 		GameObject jumpNodes = GameObject.FindGameObjectWithTag("JumpNodes");
-		foreach (Transform jumpSet in jumpNodes.transform) {
-			// index 0 is start, index 1 is end
-			testN = FindClosestNode(jumpSet.GetChild(0).position);
-			testN2 = FindClosestNode(jumpSet.GetChild(1).position);
-			testN.jumpConnections.Add(testN2);
-			testN2.isJumpDestination = true;
-			//print(testN.transform.position);
-			//print(testN.jumpConnections.Count);
+		if (jumpNodes != null) {
+			foreach (Transform jumpSet in jumpNodes.transform) {
+				// index 0 is start, index 1 is end
+				testN = FindClosestNode(jumpSet.GetChild(0).position);
+				testN2 = FindClosestNode(jumpSet.GetChild(1).position);
+				testN.jumpConnections.Add(testN2);
+				testN2.isJumpDestination = true;
+				//print(testN.transform.position);
+				//print(testN.jumpConnections.Count);
+			}
 		}
 	}
 

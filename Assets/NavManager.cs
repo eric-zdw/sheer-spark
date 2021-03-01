@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum NavigationType {Air, Jumping, Grounded};
+
 public class NavManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -18,18 +20,18 @@ public class NavManager : MonoBehaviour
     }
 
     /// <summary>When called by an enemy, a path is calculated given every interval until path reaches destination</summary>
-    public static IEnumerator NavigateToLocation(Vector3 start, Vector3 target, bool isGrounded, List<Node> nodePath) {
+    public static IEnumerator NavigateToLocation(Vector3 start, Vector3 target, NavigationType navType, List<Node> nodePath) {
         List<NodeData> openNodes = new List<NodeData>();
         HashSet<NodeData> closedNodes = new HashSet<NodeData>();
 
-        NodeData startNode = new NodeData(FindClosestNode(start, isGrounded));
+        NodeData startNode = new NodeData(FindClosestNode(start, navType));
         //print("start: " + startNode.node.transform.position);
         startNode.gCost = 0f;
         startNode.hCost = Vector3.Distance(startNode.node.transform.position, target);
         startNode.fCost = startNode.hCost;
         openNodes.Add(startNode);
 
-        Node targetNode = FindClosestNode(target, isGrounded);
+        Node targetNode = FindClosestNode(target, navType);
         //print("target: " + targetNode.transform.position);
 
         int stepsCalculated = 0;
@@ -51,7 +53,7 @@ public class NavManager : MonoBehaviour
             }
             else {
                 //print("neighbournodes: " + currentNode.node.neighbourNodes.Count);
-                if (!isGrounded) {
+                if (navType == NavigationType.Air) {
         	        foreach (GameObject neighbour in currentNode.node.neighbourNodes) {
         	        	if (neighbour) {
                             // Node is in closed set -- ignore
@@ -95,7 +97,7 @@ public class NavManager : MonoBehaviour
         	        	}
         	        }
                 }
-                else if (isGrounded) {
+                else if (navType == NavigationType.Jumping) {
                     // Populate candidates for cost calculation.
                     List<Node> candidates = new List<Node>();
                     foreach (GameObject neighbour in currentNode.node.neighbourNodes) {
@@ -189,14 +191,14 @@ public class NavManager : MonoBehaviour
 
 
     // Find the node closest to the given position.
-    private static Node FindClosestNode(Vector3 pos, bool isGrounded) {
+    private static Node FindClosestNode(Vector3 pos, NavigationType navType) {
 
         float smallestDistance = Mathf.Infinity;
         Node n = null;
 
         foreach (List<GameObject> row in NavMeshGenerator.nodes) {
             foreach (GameObject node in row) {
-                if (node && (!isGrounded || (isGrounded && node.GetComponent<Node>().isGroundNode))) {
+                if (node && (navType == NavigationType.Air || (navType == NavigationType.Jumping && node.GetComponent<Node>().isGroundNode))) {
                     float dist = Vector3.Distance(node.transform.position, pos);
                     if (dist < smallestDistance) {
                         smallestDistance = dist;
