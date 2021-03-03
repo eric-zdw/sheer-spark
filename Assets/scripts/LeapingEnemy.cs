@@ -177,14 +177,28 @@ public class LeapingEnemy : SmallEnemy {
 					if (xDist > 0f) {
 						direction = 1;
 						//print("right");
-        	    	    rb.AddForce(new Vector3(350f, 0f, 0f) * Time.deltaTime);
+						if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(direction))
+                        {
+							rb.AddForce(new Vector3(380f * 2f, 0f, 0f) * Time.deltaTime);
+						}
+						else
+                        {
+							rb.AddForce(new Vector3(380f, 0f, 0f) * Time.deltaTime);
+						}
         	    	    rb.AddTorque(0, 0, -100f * Time.deltaTime);
 					}
 					else if (xDist < 0f){
 						direction = -1;
 						//print("left");
-        	    	    rb.AddForce(new Vector3(-350f, 0f, 0f) * Time.deltaTime);
-        	    	    rb.AddTorque(0, 0, 100f * Time.deltaTime);
+						if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(direction))
+						{
+							rb.AddForce(new Vector3(-380f * 2f, 0f, 0f) * Time.deltaTime);
+						}
+						else
+						{
+							rb.AddForce(new Vector3(-380f, 0f, 0f) * Time.deltaTime);
+						}
+						rb.AddTorque(0, 0, 100f * Time.deltaTime);
 					}			
 
 					float yDist = navPath[0].transform.position.y - transform.position.y;
@@ -260,7 +274,14 @@ public class LeapingEnemy : SmallEnemy {
 
 			rb.velocity = Vector3.zero;
 			rb.AddForce(velocity, ForceMode.VelocityChange);
-			rb.AddTorque(0f, 0f, -50f, ForceMode.VelocityChange);
+			if (isInNegativeXDirection)
+            {
+				rb.AddTorque(0f, 0f, 50f, ForceMode.VelocityChange);
+			}
+			else
+            {
+				rb.AddTorque(0f, 0f, -50f, ForceMode.VelocityChange);
+            }
 		}
 
 	}

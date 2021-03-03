@@ -11,7 +11,7 @@ public class TipText : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		int selection = Random.Range(0, tipList.Count);
-		tipText.text = tipList[selection];
+		tipText.text = tipList[selection].ToUpper();
 	}
 	
 	// Update is called once per frame

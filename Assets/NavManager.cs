@@ -150,10 +150,10 @@ public class NavManager : MonoBehaviour
         	        }
                 }
 
-                if (stepsCalculated >= 50) {
+                if (stepsCalculated >= 100) {
                     CalculatePath(lowestHCostNode, nodePath);
                     //print("NavManager nodepath size: " + nodePath.Count);
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.125f, 0.375f));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.125f, 0.25f));
                     stepsCalculated = 0;
                 }
             }

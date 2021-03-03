@@ -71,7 +71,6 @@ public class GateEnemy : Enemy {
 
 		rb.AddForce(new Vector3(-rb.velocity.x, 0, 0) * 2f * Time.deltaTime);
 		rb.AddForce(new Vector3(0, -rb.velocity.y, 0) * 80f * Time.deltaTime);
-	    
 	}
 
     private void OnCollisionEnter(Collision collision)
