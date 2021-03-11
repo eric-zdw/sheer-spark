@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LeapingEnemy : SmallEnemy {
-	private GameObject player;
+	private PlayerBehaviour player;
 	private Vector3 playerLocation;
 	private Rigidbody rb;
 
@@ -32,10 +32,10 @@ public class LeapingEnemy : SmallEnemy {
 	{
 		Initialize();
 
-		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();
 		defaultDrag = rb.drag;
 
+		player = WaveSystem.player;
 		layermask = LayerMask.GetMask("Geometry");
 
 		navPath = new List<Node>();
@@ -47,6 +47,13 @@ public class LeapingEnemy : SmallEnemy {
 	private IEnumerator NavigateWrapper() {
 		// wait for initialization
 		yield return new WaitForSeconds(0.2f);
+
+		// wait for player initialization
+		while (!player.isActiveAndEnabled)
+        {
+			yield return new WaitForFixedUpdate();
+		}
+
 		playerPosition = player.transform.position;
 		
 		StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
@@ -154,7 +161,7 @@ public class LeapingEnemy : SmallEnemy {
 
 		if (!isLeaping) {
 			if (navPath.Count > 0) {
-				print(navPath[0].transform.position);
+				//print(navPath[0].transform.position);
 				//print(Vector3.Distance(navPath[0].transform.position, transform.position));
 				if (Vector3.Distance(navPath[0].transform.position, transform.position) < 2f 
 					&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {

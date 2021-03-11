@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour {
 
-	private GameObject ui;
+	public GameObject gameUI;
 	public GameObject fadeObject;
 
 	// Use this for initialization
 	void Start () {
-		ui = GameObject.Find("GameUI");
-		fadeObject = Instantiate(fadeObject, ui.transform);
+		gameUI = GameObject.Find("GameUI");
+		fadeObject = Instantiate(fadeObject, gameUI.transform);
 		fadeObject.GetComponent<Fade>().StartCoroutine("FadeIn");
 	}
 	

@@ -10,13 +10,13 @@ public class ScoreManager : MonoBehaviour {
 	const float basePart = 1f;
 	
 	private static float multiplierDecayRate = 2f;
-	private PlayerBehaviour player;
+	//private PlayerBehaviour player;
 	private float multiplierVelocity = 0f;
 	const float updateInterval = 0.02f;
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+		//player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
 
 		StartCoroutine(MultiplierDecay());
 	}

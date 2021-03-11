@@ -57,7 +57,7 @@ public class JumpPad : MonoBehaviour {
 	}
 
     void OnValidate() {
-		//InitializeVisuals();
+		InitializeVisuals();
     }
 	
 	// Update is called once per frame

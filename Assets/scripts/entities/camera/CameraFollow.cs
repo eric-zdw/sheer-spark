@@ -13,13 +13,13 @@ public class CameraFollow : MonoBehaviour {
     public float shakeDecayFactor = 0.95f;
     private Vector3 lastPosition;
 
-    private float resetTimer = 5f;
     private bool hasRestarted = false;
 
     public CameraBounds bounds;
     public Vector2 playerScreenPosition;
 
     private bool inIntro = true;
+    private bool introStarted = false;
     public Vector3 startPosition;
 
     public bool isReversed = false;
@@ -35,12 +35,11 @@ public class CameraFollow : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        followTarget = GameObject.Find("Player");
-        cam = GetComponent<Camera>();
+        //followTarget = GameObject.Find("Player");
         //bounds = GameObject.Find("CameraBounds").GetComponent<CameraBounds>();
+        cam = GetComponent<Camera>();
         shakeTimer = shakeReductionInterval;
-
-        StartCoroutine(StageIntroRoutine());
+        transform.position = startPosition;
 	}
 	
 	// Update is called once per frame
@@ -51,11 +50,20 @@ public class CameraFollow : MonoBehaviour {
         //inital camera position
         if (followTarget != null)
         {
+            if (!introStarted)
+            {
+                introStarted = true;
+                StartCoroutine(StageIntroRoutine());
+            }
             newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
             lastPosition = newPosition;
+
+            playerScreenPosition = cam.WorldToScreenPoint(followTarget.transform.position);
         }
         else
+        {
             newPosition = lastPosition;
+        }
 
         //add mouse positioning
         if (!inIntro) {
@@ -116,33 +124,17 @@ public class CameraFollow : MonoBehaviour {
         }
 
         transform.position += (Vector3)(Random.insideUnitCircle * shakeFactor * shakeMultiplier);
-        
-        
-        if (followTarget == null)
-        {
-            print("about to reset...");
-            resetTimer -= Time.deltaTime;
-            if (resetTimer < 0f && !hasRestarted)
-            {
-                StartCoroutine(ResetScene());
-                hasRestarted = true;
-            }
-        }
 
-        playerScreenPosition = cam.WorldToScreenPoint(followTarget.transform.position);
+        
     }
 
     public void AddNoise(float a) {
 		shakeFactor += a * 0.1f;
 	}
 
-    IEnumerator ResetScene()
+    public void Reset()
     {
-        AsyncOperation load = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-        while(!load.isDone)
-        {
-            yield return null;
-        }
+        print("test");
     }
 
     IEnumerator StageIntroRoutine() {
@@ -157,7 +149,7 @@ public class CameraFollow : MonoBehaviour {
             newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
             transform.position = Vector3.Lerp(startPosition, newPosition, lerp);
 
-            t += Time.deltaTime * 0.15f;
+            t += Time.deltaTime * 0.2f;
             lerp = Mathf.SmoothStep(0f, 1f, t);
             yield return new WaitForEndOfFrame();
         }

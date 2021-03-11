@@ -70,6 +70,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public bool isReversed;
 
+    public GameObject playerSpawnPart;
+
     // Use this for initialization
     void Start()
     {
@@ -102,12 +104,14 @@ public class PlayerBehaviour : MonoBehaviour {
         inside2 = GameObject.Find("Inside2");
         inside3 = GameObject.Find("Inside3");
 
-
         transform.position = GameObject.Find("PlayerSpawn").transform.position;
 
         if (localGravity) {
             rb.useGravity = false;
         }
+
+        Camera.main.GetComponent<CameraFollow>().followTarget = this.gameObject;
+        Instantiate(playerSpawnPart, transform.position, Quaternion.identity);
     }
 
     void Update()
@@ -237,6 +241,14 @@ public class PlayerBehaviour : MonoBehaviour {
         if (damage > 0f && HP == 0f) {
             Camera.main.GetComponent<CameraFollow>().AddNoise(80f);
             Instantiate(deathExplosion, transform.position, Quaternion.identity);
+
+            // Don't go to lose state if the game is already finished.
+            if (WaveSystem.gameState != GameState.Postgame)
+            {
+                WaveSystem.gameState = GameState.Defeated;
+                WaveSystem.retried = true;
+            }
+
             Destroy(gameObject);
         }
         else {

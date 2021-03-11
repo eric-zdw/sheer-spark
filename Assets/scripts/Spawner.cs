@@ -13,14 +13,14 @@ public class Spawner : MonoBehaviour {
     private float animTime = 0.5f;
     private float animationTimer = 0.5f;
     private bool isSpawning;
-    private GameObject player;
+    private PlayerBehaviour player;
 
     public bool isGrounded;
     public bool isBusy;
 
 	// Use this for initialization
 	void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = WaveSystem.player;
 
         if (Physics.Raycast(transform.position, Vector3.down, 4f)) {
             isGrounded = true;

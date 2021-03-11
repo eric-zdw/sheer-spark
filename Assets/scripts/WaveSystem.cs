@@ -19,8 +19,16 @@ public static class IListExtensions {
     }
 }
 
+// Preview: In Stage selection menu, with scene as background. Player goes to pregame via menu.
+// Pregame: Player character is active, before enemies have spawned. Player goes to Playing via activation powerup.
+// Playing: Enemies start spawning. Goes to postgame after clearing last wave.
+// Postgame: Level is complete. Goes to stage selection after: a) new weapon is collected; b) automatically after period of time.
+public enum GameState { Preview, Pregame, Playing, Postgame, Defeated };
+
 public class WaveSystem : MonoBehaviour {
 
+    public static GameState gameState = GameState.Preview;
+    public static bool retried = false;
     public WaveEntry[] waveEntries;
 	public int waveNumber;
     public static float enemyPower = 1f;
@@ -43,7 +51,8 @@ public class WaveSystem : MonoBehaviour {
     private List<Spawner> airSpawners;
     private List<Spawner> spawnerScripts;
 
-    private PlayerBehaviour player;
+    public PlayerBehaviour playerPrefab;
+    public static PlayerBehaviour player;
     private bool highIntensity = false;
 
     public bool gameStarted = false;
@@ -55,6 +64,7 @@ public class WaveSystem : MonoBehaviour {
     public MusicManager musicManager;
 
     private bool gameFinished;
+    private bool resetStarted = false;
 
     public static bool isPaused = false;
 
@@ -62,12 +72,16 @@ public class WaveSystem : MonoBehaviour {
 
     public GameObject pauseMenu;
     public GameObject gameUI;
+    public GameObject playerSpaceUI;
 
     private int activeEnemies = 0;
 
     // Use this for initialization
     void Start () {
+        gameState = GameState.Preview;
         WaveSystem.isPaused = false;
+
+        player = playerPrefab;
         
         waveNumber = 0;
         enemyPower = 1f;
@@ -78,9 +92,17 @@ public class WaveSystem : MonoBehaviour {
 
         InitializeSpawners();
 
-        currentStage = PlayerPrefs.GetInt("ActiveStage");
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-        StartCoroutine(SpawnRoutine());
+        // what is this for again
+        //currentStage = PlayerPrefs.GetInt("ActiveStage");
+
+        //TEST
+        //ActivatePlayer();
+
+        // Go straight to PreGame if retrying stage.
+        if (retried)
+        {
+            ActivatePlayer();
+        }
     }
 
     private void InitializeEnemyQueue() {
@@ -99,6 +121,36 @@ public class WaveSystem : MonoBehaviour {
         //Fisher-Yates shuffle
         if (!waveEntries[waveNumber].SpawnInOrder) {
             enemyList.Shuffle();
+        }
+    }
+
+    public void ActivatePlayer()
+    {
+        gameState = GameState.Pregame;
+        player.gameObject.SetActive(true);
+        gameUI.SetActive(true);
+        playerSpaceUI.SetActive(true);
+        StartCoroutine(SpawnRoutine());
+    }
+
+    public static IEnumerator ResetSceneRoutine()
+    {
+        float resetTimer = 5f;
+
+        print("about to reset...");
+
+        while (resetTimer > 0f)
+        {
+            resetTimer -= Time.deltaTime;
+            print(resetTimer);
+            yield return new WaitForEndOfFrame();
+        }
+
+        AsyncOperation load = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        print("WORKING?!?!");
+        while (!load.isDone)
+        {
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -148,11 +200,14 @@ public class WaveSystem : MonoBehaviour {
         List<Spawner> availableSpawners = new List<Spawner>();
         for (int i = 0; i < spawners.Count; i++)
         {
+            print(spawnerScripts[i].SafeToSpawn());
             if (spawnerScripts[i].SafeToSpawn() == true)
             {
                 availableSpawners.Add(spawnerScripts[i]);
             }
         }
+
+        print(spawnerScripts.Count);
 
         int rngSpawner = Random.Range(0, availableSpawners.Count);
         StartCoroutine(availableSpawners[rngSpawner].Spawn(enemyList[0].Object));
@@ -160,6 +215,8 @@ public class WaveSystem : MonoBehaviour {
         enemyList.RemoveAt(0);
     }
 
+    // Enemy is in limbo when enemy is called for spawning but not spawned yet.
+    // Counts towards enemy count when deciding if wave is finished.
     private IEnumerator EnemyInLimbo() {
         enemiesInLimbo++;
         yield return new WaitForSeconds(2.5f);
@@ -186,13 +243,24 @@ public class WaveSystem : MonoBehaviour {
                 airSpawners.Add(s);
             }
         }
+
+        print("spawners: " + spawners.Count);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
             if (!isPaused) PauseGame();
             else UnpauseGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ActivatePlayer();
         }
 
         activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
@@ -204,6 +272,11 @@ public class WaveSystem : MonoBehaviour {
                 IncrementWave();
         }
 
+        if (gameState == GameState.Defeated && resetStarted == false)
+        {
+            resetStarted = true;
+            StartCoroutine(ResetSceneRoutine());
+        }
     }
 
     void IncrementWave()

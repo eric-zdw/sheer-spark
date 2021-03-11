@@ -9,7 +9,7 @@ public class MenuData : MonoBehaviour {
 
 	static int[] weaponsSelected = {0, 0, 0, 0, 0, 0};
 
-	public enum GameMode {Main, Free};
+	public enum GameMode {Main, Infinity, Free};
 	static GameMode modeSelected = GameMode.Main;
 
 	// Use this for initialization
@@ -25,6 +25,10 @@ public class MenuData : MonoBehaviour {
 
 	public void SetMainMode() {
 		modeSelected = GameMode.Main;
+	}
+	public void SetInfinityMode()
+	{
+		modeSelected = GameMode.Infinity;
 	}
 
 	public void SetFreeMode() {

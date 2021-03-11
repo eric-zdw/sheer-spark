@@ -17,9 +17,11 @@ public class JumpConnections : MonoBehaviour
         
     }
 
+    /*
     [DrawGizmo(GizmoType.InSelectionHierarchy |
                 GizmoType.NotInSelectionHierarchy |
                 GizmoType.Pickable)]
+    */
     void OnDrawGizmos() {
         Color color1 = new Color(0f, 0f, 1f);
         Color color2 = new Color(1f, 0.5f, 0f);
