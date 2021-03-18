@@ -20,12 +20,21 @@ public class PPManager : MonoBehaviour {
     public float ppFixedScale = 200f;
 	public float ppTimeIncreaseRate = 1.01f;
 
+	public UnityEngine.Rendering.Volume ppVolume;
+	public UnityEngine.Rendering.Volume ppWaveClear;
+	private UnityEngine.Rendering.Universal.Bloom ppBloom;
+	private UnityEngine.Rendering.Universal.SplitToning ppSplitToning;
+	private UnityEngine.Rendering.Universal.ColorAdjustments ppColorAdjust;
+
 	// Use this for initialization
+
 	void Start () {
+		
+
 		/*
 		ppProfile = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>().profile;
         ppSettings = ppProfile.colorGrading.settings;
-        ppSettings.basic.contrast = ppDefaultContrast;
+        ppSettings.basic.contrast = ppDefaultContrast;	
         ppSettings.basic.saturation = ppDefaultSaturation;
         ppSettings.basic.postExposure = ppDefaultExposure;
         ppProfile.colorGrading.settings = ppSettings;
@@ -73,19 +82,30 @@ public class PPManager : MonoBehaviour {
 		Time.fixedDeltaTime = Time.timeScale / 60f;
 		Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
+		float timer = 0f;
+		float timeDifference = ppDefaultTimeScale - ppSlowTimeScale;
+
 		while (Time.timeScale < ppDefaultTimeScale) {
 			if (!WaveSystem.isPaused) {
-				Time.timeScale *= ppTimeIncreaseRate;
-				Time.fixedDeltaTime = Time.timeScale / 60f;
-				Time.maximumParticleDeltaTime = Time.timeScale / 60f;
+				timer -= Time.unscaledDeltaTime;
+				while (timer < 0f) {
+					Time.timeScale *= ppTimeIncreaseRate;
+					Time.fixedDeltaTime = Time.timeScale / 60f;
+					Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
-				print(Time.timeScale);
+					print(Time.timeScale);
 
-				if (Time.timeScale >= ppDefaultTimeScale) {
-					Time.timeScale = ppDefaultTimeScale;
+					ppWaveClear.weight = 1 - ((Time.timeScale - ppSlowTimeScale) / timeDifference);
+
+					if (Time.timeScale >= ppDefaultTimeScale) {
+						Time.timeScale = ppDefaultTimeScale;
+						ppWaveClear.weight = 0;
+					}	
+
+					timer += 0.02f;
 				}
 			}
-			yield return new WaitForSecondsRealtime(0.01f);
+			yield return new WaitForFixedUpdate();
 		}
 		
 	}

@@ -27,11 +27,11 @@ public class BlueCrystalGlow : MonoBehaviour {
 	void FixedUpdate () {
 		if (direction == 0) {
 			currentEmission -= Time.deltaTime * realGlowSpeed;
-			matBlock.SetColor("_EmissionColor", new Color(.25f, .5f, 1f) * currentEmission);
+			matBlock.SetColor("_EmissionColor", new Color(.375f, .5f, 1f) * currentEmission);
 		}
 		else {
 			currentEmission += Time.deltaTime * realGlowSpeed;
-			matBlock.SetColor("_EmissionColor", new Color(.25f, .5f, 1f) * currentEmission);
+			matBlock.SetColor("_EmissionColor", new Color(.375f, .5f, 1f) * currentEmission);
 		}
 
 		if (currentEmission <= minimumGlow) direction = 1;

@@ -64,9 +64,11 @@ public class BlueWeapon : Weapon {
         if (GetCooldown() > 0)
             DecrementCooldown();
 
+        /*
         if (numberOfProjectiles != 0) {
             player.GetComponent<Rigidbody>().AddForce(Vector3.up * (numberOfProjectiles * 1.25f) * Time.deltaTime);
         }
+        */
     }
 
     public override void Fire1()

@@ -24,9 +24,13 @@ public class NavMeshGenerator : MonoBehaviour {
 
 	void Awake () {
 		GenerateMesh();
+	}
 
+	private void Start () {
 		// If NoPathfinding objects were found, disable them before game starts
+		print("start");
 		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("NoPathFinding")) {
+			print("found");
 			Destroy(obj);
 		}
 	}
@@ -54,7 +58,8 @@ public class NavMeshGenerator : MonoBehaviour {
 	void CreateNodeGrid() {
 		//Geometry indicates obstacles
 		mask = LayerMask.GetMask("Geometry", "NoPathFinding");
-		
+
+		// create initial node map
 		nodes = new List<List<GameObject>>(200);
 
 		for (int i = 0; i < 200; i++) {
@@ -64,6 +69,8 @@ public class NavMeshGenerator : MonoBehaviour {
 			}
 		}
 
+
+
 		int iX = 0;
 		for (float x = floor.x; x <= ceiling.x; x += density) {
 			
@@ -72,6 +79,7 @@ public class NavMeshGenerator : MonoBehaviour {
 				
 				Vector3 position = new Vector3(x, y, 0f);
 
+				// don't make a node if there is an obstacle within padding range.
 				if (!Physics.CheckSphere(position, padding, mask)) {
 					//print("iX: " + iX + ", iY: " + iY);
 					//print("Creating node at " + x + " " + y);
@@ -81,6 +89,8 @@ public class NavMeshGenerator : MonoBehaviour {
 					newNodeN.InitializeNode(iX, iY);
 					nodes[iX][iY] = newNode;
 
+					// Y direction is up +'ve, down -'ve
+					// e.g. y - 1 corresponds to one node below
 					if (iX != 0) {
 						if (iY != 0 && nodes[iX - 1][iY - 1] && !ObstacleBetweenNodes(newNode, nodes[iX - 1][iY - 1])) {
 							newNodeN.neighbourNodes[(int)Node.NodeDirection.DL] = nodes[iX - 1][iY - 1];
@@ -112,7 +122,7 @@ public class NavMeshGenerator : MonoBehaviour {
 
 	bool ObstacleBetweenNodes(GameObject a, GameObject b) {
 		Vector3 direction = b.transform.position - a.transform.position;
-		if (Physics.Raycast(a.transform.position, direction, Vector3.Magnitude(direction), LayerMask.GetMask("Geometry"))) {
+		if (Physics.Raycast(a.transform.position, direction, Vector3.Magnitude(direction), mask)) {
 			return true;
 		}
 		else return false;
@@ -170,42 +180,52 @@ public class NavMeshGenerator : MonoBehaviour {
 					//left side
 					if (nodes[i][j].GetComponent<Node>().leftEdgeNode) {
 						bool groundNodeReached = false;
-						Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>();
-						List<Node> potentialDropNodes = new List<Node>();
-						while (!groundNodeReached) {
-							if (currentNode.neighbourNodes[6]) {
-								potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
-								currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
+						try {
+							Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>().neighbourNodes[3].GetComponent<Node>();
+							List<Node> potentialDropNodes = new List<Node>();
+							while (!groundNodeReached) {
+								if (currentNode.neighbourNodes[6]) {
+									potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
+									currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
 
-								if (currentNode.isGroundNode) {
-									//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
-									nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+									if (currentNode.isGroundNode) {
+										//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
+										nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+										groundNodeReached = true;
+									}
+								}
+								else {
 									groundNodeReached = true;
 								}
 							}
-							else {
-								groundNodeReached = true;
-							}
+						}
+						catch (System.NullReferenceException ex) {
+							Debug.Log("drop node missing a drop neighbour, skipping...");
 						}
 					}
 					// Note that nodes could be both left AND right edges.
 					if (nodes[i][j].GetComponent<Node>().rightEdgeNode) {
 						bool groundNodeReached = false;
-						Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>();
-						List<Node> potentialDropNodes = new List<Node>();
-						while (!groundNodeReached) {
-							if (currentNode.neighbourNodes[6]) {
-								potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
-								currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
+						try {
+							Node currentNode = nodes[i][j].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>().neighbourNodes[4].GetComponent<Node>();
+							List<Node> potentialDropNodes = new List<Node>();
+							while (!groundNodeReached) {
+								if (currentNode.neighbourNodes[6]) {
+									potentialDropNodes.Add(currentNode.neighbourNodes[6].GetComponent<Node>());
+									currentNode = currentNode.neighbourNodes[6].GetComponent<Node>();
 
-								if (currentNode.isGroundNode) {
-									//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
-									nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+									if (currentNode.isGroundNode) {
+										//nodes[i][j].GetComponent<Node>().dropConnections.AddRange(potentialDropNodes);
+										nodes[i][j].GetComponent<Node>().dropConnections.Add(currentNode);
+									}
+								}
+								else {
+									groundNodeReached = true;
 								}
 							}
-							else {
-								groundNodeReached = true;
-							}
+						}
+						catch (System.NullReferenceException ex) {
+							Debug.Log("drop node missing a drop neighbour, skipping...");
 						}
 					}
 				}

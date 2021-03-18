@@ -17,6 +17,8 @@ public class DriftEnemy : SmallEnemy {
 
 	private NavigationType navType = NavigationType.Air;
 
+	private LayerMask playerLOSMask = 1 << 17;
+
     void Start()
 	{
 		Initialize();
@@ -41,8 +43,8 @@ public class DriftEnemy : SmallEnemy {
 				StopCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
 				navPath.Clear();
 				playerPosition = player.transform.position;
-				randomOffset = UnityEngine.Random.insideUnitCircle * 4f;
-				StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition + randomOffset, navType, navPath));
+				//randomOffset = UnityEngine.Random.insideUnitCircle * 2f;
+				StartCoroutine(NavManager.NavigateToLocation(transform.position, playerPosition, navType, navPath));
 			}
 			yield return new WaitForSeconds(UnityEngine.Random.Range(0.375f, 0.625f));
 		}
@@ -50,10 +52,17 @@ public class DriftEnemy : SmallEnemy {
 
 	void FixedUpdate()
 	{
-		if (navPath.Count > 0) {
+		// if enemy has a line of sight to the player, override navigation and travel straight to player
+		// at increased speed.
+		if (!Physics.Raycast(transform.position, player.transform.position - transform.position, Mathf.Clamp(Vector3.Distance(player.transform.position, transform.position), 0f, 20f), playerLOSMask)) {
+			GetComponent<Rigidbody>().AddForce(Vector3.Normalize(player.transform.position - transform.position) * 600f * Time.deltaTime);
+		}
+
+		// travel to player via pathfinding if no line of sight.
+		else if (navPath.Count > 0) {
 			GetComponent<Rigidbody>().AddForce(Vector3.Normalize(navPath[0].transform.position - transform.position) * 300f * Time.deltaTime);
 			// For a node to be considered visited, no obstacles must be between the object and the node
-			if (Vector3.Distance(navPath[0].transform.position, transform.position) < 1f 
+			if (Vector3.Distance(navPath[0].transform.position, transform.position) < 2f 
 				&& !Physics.Raycast(transform.position, navPath[0].transform.position - transform.position, Vector3.Distance(navPath[0].transform.position, transform.position), LayerMask.NameToLayer("Geometry"))) {
 					navPath.RemoveAt(0);
 			}
