@@ -51,10 +51,10 @@ public class DashBoost : Utility {
         if (uses < 5f)
         {
             if (Physics.Raycast(transform.position, Vector3.down, 1f, layermask)) {
-                uses += 2.5f * Time.deltaTime;
+                uses += 3f * Time.deltaTime;
             }
             else {
-                uses += 0.5f * Time.deltaTime;
+                uses += 0.6f * Time.deltaTime;
             }
         }
         else if (uses > 5f)

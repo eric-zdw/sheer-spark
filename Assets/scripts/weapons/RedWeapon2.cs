@@ -9,24 +9,16 @@ public class RedWeapon2 : Weapon {
     private PlayerBehaviour player;
     private Vector2 mousePosition;
     private float angle;
-    public float bFireRate1 = 0.2f;
-    public float bFireRate2 = 0.06f;
+    public float bFireRate = 0.2f;
     public float maxHeatDamageMulti = 0.5f;
     public float maxHeatFireRateMulti = 1f;
     public float maxHeatRadiusMulti = 1f;
     public float damage = 6f;
-    public float shotSpread = .1f;
-    public float shotSeparation = .1f;
-    public int numberOfShots = 10;
-    public int numberOfRandomShots = 10;
-    public float burstDamage = 6f;
-    public float burstShotSpread = .1f;
-    public float burstShotSeparation = .1f;
-    public int burstNumberOfShots = 10;
-    public bool debugMode = false;
+    public float shotSeparation = 1.25f;
+    public float shotSpread = 0f;
 
     void Start () {
-        //SetFireRate(bFireRate1);
+        SetFireRate(bFireRate);
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
@@ -42,19 +34,12 @@ public class RedWeapon2 : Weapon {
 
     public override void Fire1()
     {
-        /*
-        print(
-            "Current heat factor: " + player.getHeatFactor()
-            + " , damage: " + damage * (1f + (heatDamageRate * player.getHeatFactor()))
-            + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));
-        */
         if (GetCooldown() <= 0)
         {
             
-            /*
-            for (int i = -1; i <= 1; i++)
+            for (int i = -8; i <= 8; i++)
             {
-                float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+                float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
                 GameObject proj = Instantiate(
                     projectile, 
                     transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f), 
@@ -62,77 +47,25 @@ public class RedWeapon2 : Weapon {
                     );
 
 
-                proj.GetComponent<RedProjectile>().setDamage(realDamage);
+                proj.GetComponent<RedProjectile1>().setDamage(realDamage);
             }
+            
+            /*
+            float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
+            GameObject proj = Instantiate(
+                projectile,
+                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
+                Quaternion.Euler(0, 0, angle + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
+                );
+                
+            proj.GetComponent<RedProjectile>().setDamage(realDamage);
             */
             
-            float shot = ((numberOfShots - 1) / 2f);
-            for (float i = 0f - shot; i <= 0f + shot; i++) {
-                float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
-                GameObject proj = Instantiate(
-                projectile,
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + (i * shotSeparation) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
-                );
-                
-                proj.GetComponent<RedProjectile2>().setDamage(realDamage);
-            }
-            float randomShotSpread = ((numberOfShots - 1) * shotSeparation) * 0.5f;
-            for (int i = 0; i < numberOfRandomShots; i++) {
-                float realDamage = burstDamage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
-                GameObject proj = Instantiate(
-                projectile,
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-randomShotSpread, randomShotSpread))
-                );
-                
-                proj.GetComponent<RedProjectile2>().setDamage(realDamage);
-            }
-            
-            
-            SetCooldown(bFireRate1 / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
-            print("cooldown: " + player.GetHeatFactor(EnergyColor.Red));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
         }
     }
 
     public override void Fire2()
     {
-        if (GetCooldown() <= 0 && (player.powerupEnergy[0] >= 1 || debugMode))
-        {
-            
-            /*
-            for (int i = -1; i <= 1; i++)
-            {
-                float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
-                GameObject proj = Instantiate(
-                    projectile, 
-                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f), 
-                    Quaternion.Euler(0, 0, angle + (shotSeparation * i) + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
-                    );
-
-
-                proj.GetComponent<RedProjectile>().setDamage(realDamage);
-            }
-            */
-            
-            float shot = ((burstNumberOfShots - 1) / 2f);
-            for (float i = 0f - shot; i <= 0f + shot; i++) {
-                float realDamage = burstDamage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
-                GameObject proj = Instantiate(
-                projectile,
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
-                Quaternion.Euler(0, 0, angle + (i * burstShotSeparation) + Random.Range(-burstShotSpread * 0.5f, burstShotSpread * 0.5f))
-                );
-                
-                proj.GetComponent<RedProjectile2>().setDamage(realDamage);
-            }
-            
-            if (!debugMode) {
-                player.powerupEnergy[0] -= 1;
-                player.energyPanel.UpdateEnergyMeters();
-            }
-            
-            SetCooldown(bFireRate2 / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
-        }
     }
 }
