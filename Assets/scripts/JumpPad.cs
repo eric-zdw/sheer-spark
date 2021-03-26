@@ -26,6 +26,8 @@ public class JumpPad : MonoBehaviour {
     private ParticleSystemRenderer glowRenderer;
     private MeshRenderer mesh;
 
+    public bool updateInEditor = false;
+
     private void InitializeVisuals() {
 		particleMpb = new MaterialPropertyBlock();
         meshMpb = new MaterialPropertyBlock();
@@ -57,7 +59,10 @@ public class JumpPad : MonoBehaviour {
 	}
 
     void OnValidate() {
-		//InitializeVisuals();
+        if (updateInEditor)
+        {
+            InitializeVisuals();
+        }
     }
 	
 	// Update is called once per frame
