@@ -15,15 +15,20 @@ public class RedProjectile1 : Projectile {
     private AudioSource humSound;
     private bool soundDecreasing = false;
 
+    public GameObject burnPrefab;
+
     private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 2 | 1 << 18);
 
     // Use this for initialization
     void Start() {
-        projectileSpeed = 150f;
-        lifeTime = 0.1f;
+        projectileSpeed = 200f;
+        projectileSpeed = Random.Range(projectileSpeed * 0.5f, projectileSpeed * 1.5f);
+        lifeTime = 1.4f;
         collider = GetComponent<BoxCollider>();
         humSound = GetComponent<AudioSource>();
         humSound.volume = 0f;
+
+        GetComponent<Rigidbody>().AddForce(transform.right * projectileSpeed);
 
         StartCoroutine(DecreaseSpeed());
     }
@@ -34,15 +39,8 @@ public class RedProjectile1 : Projectile {
             Destroy(gameObject);
         else
         {
-            CheckLinecastCollision();
-            //Propogate();
             lifeTime -= Time.deltaTime;
         }
-
-        if (damage > minimumDamage) {
-            damage -= damageDecayRate * Time.deltaTime;
-        }
-        //transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y, transform.localScale.z);
 
         if (soundDecreasing)
             humSound.volume -= 0.5f * Time.deltaTime;
@@ -63,6 +61,29 @@ public class RedProjectile1 : Projectile {
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Enemy"))
+        {
+            collision.transform.GetComponent<Enemy>().getDamage(damage);
+            
+            if (collision.transform.Find("BurnEffect"))
+            {
+                BurnEffect b = collision.transform.Find("BurnEffect").GetComponent<BurnEffect>();
+                b.burnStacks += 3;
+            }
+            else
+            {
+                GameObject burnObj = Instantiate(burnPrefab, collision.transform.position, Quaternion.identity, collision.transform);
+                burnObj.name = "BurnEffect";
+            }
+            
+            //Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
+            Explode(transform.position);
+        }
+    }
+
+    /*
     void CheckLinecastCollision() {
         RaycastHit info;
         if (Physics.Linecast(transform.position, transform.position + transform.right * projectileSpeed * Time.deltaTime, out info, layermask)) {
@@ -78,6 +99,7 @@ public class RedProjectile1 : Projectile {
         }
         transform.position += transform.right * projectileSpeed * Time.fixedDeltaTime;
     }
+    */
 
     /*
     private void OnTriggerEnter(Collider other)
@@ -112,9 +134,9 @@ public class RedProjectile1 : Projectile {
     void Explode(Vector3 pos)
     {
         Camera.main.GetComponent<CameraFollow>().AddNoise(1f);
-        Instantiate(explosion, pos, transform.rotation);
-        Instantiate(explosion2, pos, transform.rotation);
-        Instantiate(explosion3, pos, transform.rotation);
+        //Instantiate(explosion, pos, transform.rotation);
+        //Instantiate(explosion2, pos, transform.rotation);
+        //Instantiate(explosion3, pos, transform.rotation);
         transform.GetChild(0).parent = null;
         Destroy(gameObject);
     }

@@ -19,6 +19,11 @@ public class Projectile : MonoBehaviour {
         transform.position += transform.right * projectileSpeed * Time.deltaTime;
     }
 
+    public virtual void PropogateRigidbody()
+    {
+        GetComponent<Rigidbody>().MovePosition(transform.position + transform.right * projectileSpeed * Time.deltaTime);
+    }
+
     public virtual void End()
     {
         Destroy(gameObject);

@@ -14,7 +14,7 @@ public class PowerupManager : MonoBehaviour {
 
     void Start() {
         int[] weaponPrefs = new int[6];
-        weaponPrefs[0] = PlayerPrefs.GetInt("RedWeapon", 0);
+        weaponPrefs[0] = PlayerPrefs.GetInt("RedWeapon", 1);
         weaponPrefs[1] = PlayerPrefs.GetInt("OrangeWeapon", 0);
         weaponPrefs[2] = PlayerPrefs.GetInt("YellowWeapon", 0);
         weaponPrefs[3] = PlayerPrefs.GetInt("GreenWeapon", 0);

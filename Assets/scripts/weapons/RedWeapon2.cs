@@ -36,7 +36,16 @@ public class RedWeapon2 : Weapon {
     {
         if (GetCooldown() <= 0)
         {
-            
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
+            GameObject proj = Instantiate(
+                projectile,
+                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
+                Quaternion.Euler(0, 0, angle + Random.Range(-shotSpread * 0.5f, shotSpread * 0.5f))
+                );
+
+
+            proj.GetComponent<RedProjectile1>().setDamage(realDamage);
+            /*
             for (int i = -8; i <= 8; i++)
             {
                 float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
@@ -49,7 +58,8 @@ public class RedWeapon2 : Weapon {
 
                 proj.GetComponent<RedProjectile1>().setDamage(realDamage);
             }
-            
+            */
+
             /*
             float realDamage = damage * (1f + (heatDamageRate * player.getHeatFactor()));
             GameObject proj = Instantiate(
@@ -60,7 +70,7 @@ public class RedWeapon2 : Weapon {
                 
             proj.GetComponent<RedProjectile>().setDamage(realDamage);
             */
-            
+
             SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
         }
     }

@@ -68,9 +68,9 @@ public class CameraFollow : MonoBehaviour {
         //add mouse positioning
         if (!inIntro) {
             Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);
-            Vector2 mousePosRelativeToCenter = new Vector2(Input.mousePosition.x - center.x, Input.mousePosition.y - center.y);
+            Vector2 rawMousePosRelativeToCenter = new Vector2(Input.mousePosition.x - center.x, Input.mousePosition.y - center.y);
             //normalize mousePosRelativeToCenter
-            mousePosRelativeToCenter /= new Vector2(Screen.width, Screen.height);
+            Vector3 mousePosRelativeToCenter = rawMousePosRelativeToCenter / new Vector2(Screen.width, Screen.width);
             
             if (isReversed) {
                 mousePosRelativeToCenter.x *= -1;
