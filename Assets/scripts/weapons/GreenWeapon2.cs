@@ -22,10 +22,25 @@ public class GreenWeapon2 : Weapon {
     public GameObject heldEnemy;
     private Vector3 heldVelocity;
 
-    void Start () {
+    void Start() {
         SetFireRate(bFireRate);
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+    }
+
+    private void Update()
+    {
+        if (holdingEnemy && Input.GetMouseButtonDown(0))
+        {
+            Vector3 shootDirection = transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 5000f);
+            float mass = heldEnemy.GetComponent<Rigidbody>().mass;
+            heldEnemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            heldEnemy.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(shootDirection - heldEnemy.transform.position) * 2250f * (0.5f + mass * 0.4f));
+            holdingEnemy = false;
+            heldEnemy = null;
+            //throw enemy
+            SetCooldown(bFireRate / (1f + (heatFireRate * player.GetHeatFactor(EnergyColor.Green))));
+        }
     }
 
     private void FixedUpdate()
@@ -38,9 +53,10 @@ public class GreenWeapon2 : Weapon {
 
         if (holdingEnemy)
         {
-            Vector3 holdPosition = transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 10f);
+            Vector3 holdPosition = transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 5f);
             heldEnemy.GetComponent<Rigidbody>().velocity = Vector3.SmoothDamp(heldEnemy.GetComponent<Rigidbody>().velocity, Vector3.zero, ref heldVelocity, 0.2f);
-            heldEnemy.GetComponent<Rigidbody>().AddExplosionForce(-15000f * Time.deltaTime, holdPosition, 100f, 0f);
+            heldEnemy.GetComponent<Rigidbody>().AddForce((holdPosition - heldEnemy.transform.position) * 2250f * (0.5f + heldEnemy.GetComponent<Rigidbody>().mass * 0.4f) * Time.deltaTime);
+            //heldEnemy.GetComponent<Rigidbody>().AddExplosionForce(-15000f * Time.deltaTime, holdPosition, 100f, 0f);
         }
     }
 
@@ -67,13 +83,5 @@ public class GreenWeapon2 : Weapon {
     public override void Fire2()
     {
 
-    }
-
-    public void OnMouseDown()
-    {
-        if (holdingEnemy)
-        {
-            //throw enemy
-        }
     }
 }

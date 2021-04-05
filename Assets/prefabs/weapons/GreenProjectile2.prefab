@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e671d87471cbfe34ab443e3c0520fd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puppetEffect: {fileID: 0}
 --- !u!135 &5194765827295702691
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &5306786860865027789
 MeshRenderer:
@@ -4844,6 +4845,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e671d87471cbfe34ab443e3c0520fd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puppetEffect: {fileID: 1064015308331266830, guid: 8cf61f13fc62cd74aa0eca253ceaf19a,
+    type: 3}
 --- !u!54 &-2978644592570981109
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4877,7 +4880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5325109156049948741
 Transform:
   m_ObjectHideFlags: 0

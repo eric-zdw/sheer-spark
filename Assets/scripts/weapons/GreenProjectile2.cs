@@ -5,6 +5,7 @@ using UnityEngine;
 public class GreenProjectile2 : Projectile
 {
     GreenWeapon2 weapon;
+    public GameObject puppetEffect;
 
     // Use this for initialization
     void Start()
@@ -36,6 +37,9 @@ public class GreenProjectile2 : Projectile
         if (other.CompareTag("Enemy"))
         {
             weapon.heldEnemy = other.gameObject;
+            other.gameObject.layer = 22;
+            other.attachedRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            //Instantiate(puppetEffect, other.transform.position, Quaternion.identity, other.transform);
             weapon.holdingEnemy = true;
             Destroy(gameObject);
         }
