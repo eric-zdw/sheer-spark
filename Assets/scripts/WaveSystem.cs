@@ -327,6 +327,7 @@ public class WaveSystem : MonoBehaviour {
 
     public void ReturnToMenu()
     {
+        PPManager.ResetTimeScale();
         SceneManager.LoadScene(0);
     }
 

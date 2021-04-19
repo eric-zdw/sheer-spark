@@ -14,11 +14,11 @@ public class PPManager : MonoBehaviour {
     public float ppDefaultExposure = 0f;
     public float ppSlowExposure = 0.5f;
 	*/
-    public float ppTransitionTime = 0.4f;
-    public float ppDefaultTimeScale = 1.5f;
-    public float ppSlowTimeScale = 0.015f;
-    public float ppFixedScale = 200f;
-	public float ppTimeIncreaseRate = 1.01f;
+    public static float ppTransitionTime = 0.4f;
+    public static float ppDefaultTimeScale = 1.5f;
+    public static float ppSlowTimeScale = 0.0025f;
+    public static float ppFixedScale = 60f;
+	public static float ppTimeIncreaseRate = 1.1f;
 
 	public UnityEngine.Rendering.Volume ppVolume;
 	public UnityEngine.Rendering.Volume ppWaveClear;
@@ -143,5 +143,12 @@ public class PPManager : MonoBehaviour {
 
 			yield return new WaitForEndOfFrame();
 		}
+	}
+
+	static public void ResetTimeScale()
+    {
+		Time.timeScale = ppDefaultTimeScale;
+		Time.fixedDeltaTime = ppDefaultTimeScale / ppFixedScale;
+		Time.maximumParticleDeltaTime = ppDefaultTimeScale / ppFixedScale;
 	}
 }

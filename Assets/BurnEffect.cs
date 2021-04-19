@@ -25,13 +25,13 @@ public class BurnEffect : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        adjustedBurnInterval = burnInterval / (1f + 0.25f * burnStacks);
+        adjustedBurnInterval = burnInterval / (1f + 0.2f * burnStacks);
         while (timer > adjustedBurnInterval)
         {
             timer -= adjustedBurnInterval;
             if (burnStacks > 0)
             {
-                target.getDamage(burnDamage * (1f + burnStacks * 0.005f));
+                target.getDamage(burnDamage * (1f + burnStacks * 0.000f));
 
                 burnStacks -= 1;
                 /*

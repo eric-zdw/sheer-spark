@@ -6,12 +6,14 @@ public class SaveData {
 	public List<string> levelsClearedOnNormal;
 	public List<string> levelsClearedOnHard;
 	public List<string> weaponsUnlocked;
-	public List<string> weaponLoadout;
+	//public List<string> weaponLoadout;
 
 	public SaveData() {
 		levelsClearedOnNormal = new List<string>();
 		levelsClearedOnHard = new List<string>();
 		weaponsUnlocked = new List<string>();
+
+		/*
 		weaponLoadout = new List<string>();
 
 		//default weapon loadout
@@ -21,6 +23,7 @@ public class SaveData {
 		weaponLoadout.Add("WeaponGreen1");
 		weaponLoadout.Add("WeaponBlue1");
 		weaponLoadout.Add("WeaponPurple1");
+		*/
 		
 	}
 }

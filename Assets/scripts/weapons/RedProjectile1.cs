@@ -70,7 +70,7 @@ public class RedProjectile1 : Projectile {
             if (collision.transform.Find("BurnEffect"))
             {
                 BurnEffect b = collision.transform.Find("BurnEffect").GetComponent<BurnEffect>();
-                b.burnStacks += 3;
+                b.burnStacks += 2;
             }
             else
             {

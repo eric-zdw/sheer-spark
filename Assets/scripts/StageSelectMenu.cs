@@ -12,6 +12,11 @@ public class StageSelectMenu : MonoBehaviour {
 	private UnityEngine.UI.Button leftButton;
 	private UnityEngine.UI.Button rightButton;
 
+	public GameObject contentList;
+	public GameObject stageSelectEntryPrefab;
+	public StagePreviewCanvas stagePreview;
+	public GameObject stagePreviewPanel;
+
 	void Start() {
 		availableStages = new List<StageEntry>();
 		foreach (StageEntry se in stageEntries) {
@@ -27,50 +32,21 @@ public class StageSelectMenu : MonoBehaviour {
 				print("Added.");
 				availableStages.Add(se);
 			}
+
 		}
-
-		nameText = GameObject.Find("StageName").GetComponent<UnityEngine.UI.Text>();
-		leftButton = GameObject.Find("LeftButton").GetComponent<UnityEngine.UI.Button>();
-		rightButton = GameObject.Find("RightButton").GetComponent<UnityEngine.UI.Button>();
-
-		stageSelected = 0;
-		UpdateMenu();
-	}
-
-	public void NextStage() {
-		stageSelected++;
-		UpdateMenu();
-	}
-
-	public void PreviousStage() {
-		stageSelected--;
-		UpdateMenu();
-	}
-
-	public void BackToMenu() {
-
-	}
-
-	private void UpdateMenu() {
-		nameText.text = availableStages[stageSelected].StageName;
-		PlayerPrefs.SetInt("stageSelected", stageSelected);
-
-		if (stageSelected == availableStages.Count - 1) {
-			rightButton.enabled = false;
-		}
-		else {
-			rightButton.enabled = true;
-		}
-
-		if (stageSelected == 0) {
-			leftButton.enabled = false;
-		}
-		else {
-			leftButton.enabled = true;
+		foreach (StageEntry addse in availableStages)
+        {
+			GameObject stageSelectEntry = Instantiate(stageSelectEntryPrefab);
+			stageSelectEntry.transform.SetParent(contentList.transform);
+			stageSelectEntry.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().text = addse.StageName;
+			stageSelectEntry.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { JumpToStage(addse.StageName); });
 		}
 	}
 
-	public void Play() {
-		SceneManager.LoadScene(availableStages[stageSelected].SceneIndex);
+	void JumpToStage(string name)
+    {
+		stagePreview.LoadStagePreviewAction(name);
+		stagePreviewPanel.SetActive(true);
+		gameObject.SetActive(false);
 	}
 }

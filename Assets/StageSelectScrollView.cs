@@ -9,11 +9,13 @@ public class StageSelectScrollView : MonoBehaviour
     // Expressed as a fraction of screen height.
     public float heightPerItem = 0.05f;
     private int screenHeight;
+    private int numberOfItemsInList;
 
     // Start is called before the first frame update
     void Start()
     {
         screenHeight = Screen.height;
+        numberOfItemsInList = transform.childCount;
         Resize();
     }
 
@@ -25,11 +27,15 @@ public class StageSelectScrollView : MonoBehaviour
             screenHeight = Screen.height;
             Resize();
         }
+        if (numberOfItemsInList != transform.childCount)
+        {
+            Resize();
+        }
     }
 
     void Resize()
     {
-        int numberOfItemsInList = transform.childCount;
+        numberOfItemsInList = transform.childCount;
         int pixelHeightPerItem = (int)(Screen.height * heightPerItem);
         rect.sizeDelta = new Vector2(rect.sizeDelta.x, pixelHeightPerItem * numberOfItemsInList);
     }

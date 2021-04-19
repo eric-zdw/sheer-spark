@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+public enum WeaponColor {Red, Orange, Yellow, Green, Blue, Purple};
+
 [System.Serializable]
 public class SaveManager : MonoBehaviour {
 
@@ -47,35 +49,56 @@ public class SaveManager : MonoBehaviour {
 
     public int[] GetSelectedWeapons(SaveData data) {
         int[] weaponsList = new int[6];
-        weaponsList[0] = PlayerPrefs.GetInt("SelectedWeaponRed", 1);
-        weaponsList[1] = PlayerPrefs.GetInt("SelectedWeaponOrange", 1);
-        weaponsList[2] = PlayerPrefs.GetInt("SelectedWeaponYellow", 1);
-        weaponsList[3] = PlayerPrefs.GetInt("SelectedWeaponGreen", 1);
-        weaponsList[4] = PlayerPrefs.GetInt("SelectedWeaponBlue", 1);
-        weaponsList[5] = PlayerPrefs.GetInt("SelectedWeaponPurple", 1);
+        weaponsList[0] = PlayerPrefs.GetInt("SelectedWeaponRed", 0);
+        weaponsList[1] = PlayerPrefs.GetInt("SelectedWeaponOrange", 0);
+        weaponsList[2] = PlayerPrefs.GetInt("SelectedWeaponYellow", 0);
+        weaponsList[3] = PlayerPrefs.GetInt("SelectedWeaponGreen", 0);
+        weaponsList[4] = PlayerPrefs.GetInt("SelectedWeaponBlue", 0);
+        weaponsList[5] = PlayerPrefs.GetInt("SelectedWeaponPurple", 0);
 
         return weaponsList;
     }
 
-    public void SetSelectedWeapon(string color, int type) {
+    public static int GetSelectedWeapon(WeaponColor color)
+    {
+        switch (color)
+        {
+            case WeaponColor.Red:
+                return PlayerPrefs.GetInt("SelectedWeaponRed", 0);
+            case WeaponColor.Orange:
+                return PlayerPrefs.GetInt("SelectedWeaponOrange", 0);
+            case WeaponColor.Yellow:
+                return PlayerPrefs.GetInt("SelectedWeaponYellow", 0);
+            case WeaponColor.Green:
+                return PlayerPrefs.GetInt("SelectedWeaponGreen", 0);
+            case WeaponColor.Blue:
+                return PlayerPrefs.GetInt("SelectedWeaponBlue", 0);
+            case WeaponColor.Purple:
+                return PlayerPrefs.GetInt("SelectedWeaponPurple", 0);
+        }
+
+        return 0;
+    }
+
+    public static void SetSelectedWeapon(WeaponColor color, int selection) {
         switch (color) {
-            case "red":
-                PlayerPrefs.SetInt("SelectedWeaponRed", type);
+            case WeaponColor.Red:
+                PlayerPrefs.SetInt("SelectedWeaponRed", selection);
                 break;
-            case "orange":
-                PlayerPrefs.SetInt("SelectedWeaponOrange", type);
+            case WeaponColor.Orange:
+                PlayerPrefs.SetInt("SelectedWeaponOrange", selection);
                 break;
-            case "yellow":
-                PlayerPrefs.SetInt("SelectedWeaponYellow", type);
+            case WeaponColor.Yellow:
+                PlayerPrefs.SetInt("SelectedWeaponYellow", selection);
                 break;
-            case "green":
-                PlayerPrefs.SetInt("SelectedWeaponGreen", type);
+            case WeaponColor.Green:
+                PlayerPrefs.SetInt("SelectedWeaponGreen", selection);
                 break;
-            case "blue":
-                PlayerPrefs.SetInt("SelectedWeaponBlue", type);
+            case WeaponColor.Blue:
+                PlayerPrefs.SetInt("SelectedWeaponBlue", selection);
                 break;
-            case "purple":
-                PlayerPrefs.SetInt("SelectedWeaponPurple", type);
+            case WeaponColor.Purple:
+                PlayerPrefs.SetInt("SelectedWeaponPurple", selection);
                 break;
         }
     }

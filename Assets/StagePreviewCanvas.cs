@@ -8,6 +8,7 @@ public class StagePreviewCanvas : MonoBehaviour
     private bool isDoneFading = false;
     public UnityEngine.UI.Image fadePanel;
     public float fadeDuration = 3f;
+    public StageSelectMenu selectMenu;
 
     private int currentSceneIndex;
 
@@ -23,10 +24,17 @@ public class StagePreviewCanvas : MonoBehaviour
         //LoadStagePreviewAction();
     }
 
-    public void LoadStagePreviewAction()
+    public void LoadStagePreviewAction(string name)
     {
-        StartCoroutine(FadeOut());
-        StartCoroutine(LoadStagePreview(1));
+        foreach (StageEntry entry in selectMenu.stageEntries)
+        {
+            if (entry.StageName == name)
+            {
+                StartCoroutine(FadeOut());
+                StartCoroutine(LoadStagePreview(entry.SceneIndex));
+            }
+            continue;
+        }
     }
 
     private IEnumerator LoadStagePreview(int index)

@@ -133,7 +133,7 @@ public class BlueProjectile : Projectile {
     {
 		if (other.gameObject.CompareTag("Enemy") && projectileMode == false)
         {
-            other.gameObject.GetComponent<Enemy>().getDamage(damage * 0.4f);
+            other.gameObject.GetComponent<Enemy>().getDamage(damage * 0.5f);
 			ExplodeSmall();
             Camera.main.GetComponent<CameraFollow>().AddNoise(0.2f);
         }
