@@ -10,17 +10,25 @@ public class GreenWeapon2 : Weapon {
     private Vector2 mousePosition;
     private float angle;
     public float bFireRate = 0.2f;
-
-    public float heatDamageRate = 0.005f;
-    public float heatFireRate = 0.004f;
-    public float heatRadiusRate = 0.002f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
     public float damage = 6f;
+    public float healthPercentageAsDamage = 0.2f;
     public float radius = 1f;
 
     private bool projectileOut = false;
     public bool holdingEnemy = false;
     public GameObject heldEnemy;
     private Vector3 heldVelocity;
+
+    public GameObject collisionDetectPrefab;
+
+    //  Damage is based on three components:
+    //  1. Raw damagee
+    //  2. Max health of enemy (percentage)
+    //  (3.) Speed of collision?
+    //  No effect on bosses (maybe the raw damage will proc). Enemies will spawn that can be thrown into bosses.
 
     void Start() {
         SetFireRate(bFireRate);
@@ -36,10 +44,16 @@ public class GreenWeapon2 : Weapon {
             float mass = heldEnemy.GetComponent<Rigidbody>().mass;
             heldEnemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
             heldEnemy.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(shootDirection - heldEnemy.transform.position) * 2250f * (0.5f + mass * 0.4f));
+
+            float initialDamage = damage + (heldEnemy.GetComponent<Enemy>().getMaxHealth() * healthPercentageAsDamage);
+            float realDamage = initialDamage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Green)));
+            GameObject collisionDetect = Instantiate(collisionDetectPrefab, heldEnemy.transform.position, Quaternion.identity, heldEnemy.transform);
+            collisionDetect.GetComponent<GreenWeapon2Collision>().damage = realDamage;
+
             holdingEnemy = false;
             heldEnemy = null;
             //throw enemy
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.GetHeatFactor(EnergyColor.Green))));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Green))));
         }
     }
 
@@ -55,7 +69,7 @@ public class GreenWeapon2 : Weapon {
         {
             Vector3 holdPosition = transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 5f);
             heldEnemy.GetComponent<Rigidbody>().velocity = Vector3.SmoothDamp(heldEnemy.GetComponent<Rigidbody>().velocity, Vector3.zero, ref heldVelocity, 0.2f);
-            heldEnemy.GetComponent<Rigidbody>().AddForce((holdPosition - heldEnemy.transform.position) * 2250f * (0.5f + heldEnemy.GetComponent<Rigidbody>().mass * 0.4f) * Time.deltaTime);
+            heldEnemy.GetComponent<Rigidbody>().AddForce((holdPosition - heldEnemy.transform.position) * 2250f * (0.5f + heldEnemy.GetComponent<Rigidbody>().mass * 0.5f) * Time.deltaTime);
             //heldEnemy.GetComponent<Rigidbody>().AddExplosionForce(-15000f * Time.deltaTime, holdPosition, 100f, 0f);
         }
     }
@@ -68,15 +82,15 @@ public class GreenWeapon2 : Weapon {
             + " , fire rate: " + bFireRate / (1f + (heatFireRate * player.getHeatFactor())));*/
         if (GetCooldown() <= 0 && !projectileOut && !holdingEnemy)
         {
-            float realDamage = damage * (1f + (heatDamageRate * player.GetHeatFactor(EnergyColor.Green)));
-            float realRadius = radius * (1f + (heatRadiusRate * player.GetHeatFactor(EnergyColor.Green)));
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Green)));
+            float realRadius = radius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Green)));
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.8f),
                 Quaternion.Euler(0, 0, angle)
                 );
             proj.GetComponent<GreenProjectile2>().setDamage(realDamage);
-            SetCooldown(bFireRate / (1f + (heatFireRate * player.GetHeatFactor(EnergyColor.Green))));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Green))));
         }
     }
 

@@ -16,6 +16,7 @@ public class StageSelectMenu : MonoBehaviour {
 	public GameObject stageSelectEntryPrefab;
 	public StagePreviewCanvas stagePreview;
 	public GameObject stagePreviewPanel;
+	public GameObject stagePreviewText;
 
 	void Start() {
 		availableStages = new List<StageEntry>();
@@ -47,6 +48,7 @@ public class StageSelectMenu : MonoBehaviour {
     {
 		stagePreview.LoadStagePreviewAction(name);
 		stagePreviewPanel.SetActive(true);
+		stagePreviewText.GetComponent<UnityEngine.UI.Text>().text = name;
 		gameObject.SetActive(false);
 	}
 }

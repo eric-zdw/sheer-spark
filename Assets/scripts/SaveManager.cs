@@ -102,4 +102,9 @@ public class SaveManager : MonoBehaviour {
                 break;
         }
     }
+
+    public void QuitGame()
+    {
+        Application.Quit(0);
+    }
 }

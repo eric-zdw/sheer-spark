@@ -1225,6 +1225,7 @@ MonoBehaviour:
   preview: {fileID: 2071422528}
   mainMenuCanvas: {fileID: 1185500373}
   stagePreviewPanel: {fileID: 1090787817}
+  stagePreviewText: {fileID: 881914792}
 --- !u!1 &173324442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,7 +1693,7 @@ RectTransform:
   m_Father: {fileID: 804784992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.61667997}
+  m_AnchorMin: {x: 0, y: 0.61596}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -3696,7 +3697,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1286293482}
   m_HandleRect: {fileID: 1286293481}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5206,25 +5207,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageEntries:
+  - {fileID: 11400000, guid: 1239b5e601e745f4ea691d73cb2fbbfa, type: 2}
+  - {fileID: 11400000, guid: 732306d7ebb4bd448ae164022cdc43b6, type: 2}
   - {fileID: 11400000, guid: 898b0c490085cb04da45052f92055a3c, type: 2}
-  - {fileID: 11400000, guid: 25067cb1d1bfa234187b7f92a97d3052, type: 2}
-  - {fileID: 11400000, guid: 898b0c490085cb04da45052f92055a3c, type: 2}
-  - {fileID: 11400000, guid: 9c22cd63221568e4eb1a641eda5974a8, type: 2}
+  - {fileID: 11400000, guid: 481e7982e7e7fb7449d3f3432354624e, type: 2}
   - {fileID: 11400000, guid: 5bb6fe83d9085d34091e1de4ddd7a010, type: 2}
-  - {fileID: 11400000, guid: d3e28dc14c35e634a898690d6ec28cda, type: 2}
-  - {fileID: 11400000, guid: b08b70dd9eaee1545b4830222b1e17b3, type: 2}
-  - {fileID: 11400000, guid: 3c4857f006367b047a80d24604b1c041, type: 2}
-  - {fileID: 11400000, guid: 6aa11ecc2748d264db8591183030f94e, type: 2}
-  - {fileID: 11400000, guid: d2947b00e138ea8479e72f97b906f017, type: 2}
-  - {fileID: 11400000, guid: 3cb09a94c436a2d4aa6b00ed66175e3a, type: 2}
-  - {fileID: 11400000, guid: 56b48c30aa58c104383c5ec9b73f63b4, type: 2}
-  - {fileID: 11400000, guid: 2b6d7a3956c87b2489de8b2253389e56, type: 2}
-  - {fileID: 11400000, guid: 21e6299f7a0db5c4f9f0711e3e8af568, type: 2}
+  - {fileID: 11400000, guid: 5ce91fa924bed574ca150bcf88fc6d47, type: 2}
+  - {fileID: 11400000, guid: eab8e9c4b9c1d684a9a57264aa3d3b39, type: 2}
+  - {fileID: 11400000, guid: 4aa05cc212b7ee546aedf321377abdf3, type: 2}
+  - {fileID: 11400000, guid: 68d786a0a054938478db774ca2570e8d, type: 2}
+  - {fileID: 11400000, guid: be97e350f23103648859cd1d6c9005bc, type: 2}
+  - {fileID: 11400000, guid: ba5f093d30df996459c0e4a87d59a258, type: 2}
+  - {fileID: 11400000, guid: f952377f497e28045a7c1a178933d46b, type: 2}
+  - {fileID: 11400000, guid: 32db34d4c34ea4e439ced4eb0678a42e, type: 2}
+  - {fileID: 11400000, guid: d00b6c76bd40abe40b2cd8b75276bfbb, type: 2}
+  - {fileID: 11400000, guid: 2d77da5372be76e42b9cd66e85ad5437, type: 2}
   contentList: {fileID: 916479814}
   stageSelectEntryPrefab: {fileID: 1904532766271570243, guid: daee9db95f04c864c8911d0c7519455e,
     type: 3}
   stagePreview: {fileID: 2071422528}
   stagePreviewPanel: {fileID: 1090787817}
+  stagePreviewText: {fileID: 881914792}
 --- !u!114 &702504918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6688,7 +6691,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BLUE ROOM
+  m_Text: '[NAME]'
 --- !u!222 &881914795
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11259,12 +11262,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 2019565180}
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15054,7 +15057,7 @@ MonoBehaviour:
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
-  m_Dithering: 0
+  m_Dithering: 1
   m_ClearDepth: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
@@ -15079,7 +15082,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 5, y: 8, z: 0}
   - {x: 12, y: 50, z: 0}
-  transitionTime: 5
+  transitionTime: 20
 --- !u!1 &1916944099
 GameObject:
   m_ObjectHideFlags: 0
@@ -15314,7 +15317,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 251296827}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.38332003
+  m_Size: 0.38403997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15858,6 +15861,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019068722}
   m_CullTransparentMesh: 0
+--- !u!114 &2019565180 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114879654675732026, guid: 817b67ef4cef0544c9417409816f42aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 2043701135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a36114ebe1bba4cb67fa10d7e72281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2023008404
 GameObject:
   m_ObjectHideFlags: 0

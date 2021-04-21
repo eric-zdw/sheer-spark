@@ -52,6 +52,7 @@ public class YellowWeapon : Weapon {
                 );
             proj.GetComponent<YellowProjectile>().setDamage(realDamage);
             proj.GetComponent<YellowProjectile>().setRadius(realRadius);
+            player.GetComponent<Rigidbody>().AddForce(Vector3.Normalize((Vector3)mousePosition - transform.position) * -12f);
             SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Yellow))));
         }
     }

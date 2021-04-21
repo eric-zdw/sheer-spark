@@ -19,7 +19,7 @@ public class OrangeProjectile2 : Projectile {
     void Start() {
         lifeTime = 3f;
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(transform.right * launchForce + transform.right * Random.Range(-200f, 200f));
+        rb.AddForce(transform.right * launchForce + transform.right * Random.Range(-150f, 150f));
     }
 
     // Update is called once per frame

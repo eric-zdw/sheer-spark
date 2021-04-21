@@ -7,6 +7,7 @@ public class ContinueButton : MonoBehaviour
     public StagePreviewCanvas preview;
     public GameObject mainMenuCanvas;
     public GameObject stagePreviewPanel;
+    public GameObject stagePreviewText;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,8 @@ public class ContinueButton : MonoBehaviour
     private void LoadNextStagePreview()
     {
         stagePreviewPanel.gameObject.SetActive(true);
-        string nextStageName = PlayerPrefs.GetString("CurrentStage", "BLUE ROOM");
+        string nextStageName = PlayerPrefs.GetString("CurrentStage", "ELECTRON");
+        stagePreviewText.GetComponent<UnityEngine.UI.Text>().text = nextStageName;
         preview.LoadStagePreviewAction(nextStageName);
         mainMenuCanvas.SetActive(false);
     }

@@ -11,6 +11,7 @@ public class Powerup : MonoBehaviour {
     //private float driftMagnitude = 200f;
     
     private float timer = 20f;
+    private float fadeTime = 8f;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,7 @@ public class Powerup : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer -= Time.deltaTime;
-        if (timer <= 5f) {
+        if (timer <= fadeTime) {
             StartCoroutine(Fadeout());
         }
 	}
@@ -50,8 +51,19 @@ public class Powerup : MonoBehaviour {
     }
 
     private IEnumerator Fadeout() {
-        MaterialPropertyBlock mpb;
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        Color baseColor = GetComponent<MeshRenderer>().material.GetColor("_BaseColor");
+
         while (true) {
+            float newAlpha = timer / fadeTime;
+            Color newColor = new Color(baseColor.r, baseColor.g, baseColor.b, newAlpha);
+            mpb.SetColor("_BaseColor", newColor);
+
+            GetComponent<MeshRenderer>().SetPropertyBlock(mpb);
+            foreach (MeshRenderer mr in transform.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.SetPropertyBlock(mpb);
+            }
             yield return new WaitForEndOfFrame();
         }
     }

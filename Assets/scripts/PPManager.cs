@@ -16,9 +16,9 @@ public class PPManager : MonoBehaviour {
 	*/
     public static float ppTransitionTime = 0.4f;
     public static float ppDefaultTimeScale = 1.5f;
-    public static float ppSlowTimeScale = 0.0025f;
+    public static float ppSlowTimeScale = 0.005f;
     public static float ppFixedScale = 60f;
-	public static float ppTimeIncreaseRate = 1.1f;
+	public static float ppTimeIncreaseRate = 1.12f;
 
 	public UnityEngine.Rendering.Volume ppVolume;
 	public UnityEngine.Rendering.Volume ppWaveClear;

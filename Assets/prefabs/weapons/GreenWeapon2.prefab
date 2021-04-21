@@ -45,9 +45,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 5328596609800511491, guid: 070eb286001384b4eaaa93dd7d1489e7,
     type: 3}
-  bFireRate: 2
-  heatDamageRate: 0.005
-  heatFireRate: 0.004
-  heatRadiusRate: 0.002
-  damage: 80
+  bFireRate: 1.1
+  maxHeatDamageMulti: 0.5
+  maxHeatFireRateMulti: 1
+  maxHeatRadiusMulti: 1
+  damage: 120
+  healthPercentageAsDamage: 0.2
   radius: 1
+  holdingEnemy: 0
+  heldEnemy: {fileID: 0}
+  collisionDetectPrefab: {fileID: 1884933149538169185, guid: 937d88c704dacad4f94da110e483ccb1,
+    type: 3}
