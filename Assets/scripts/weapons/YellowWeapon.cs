@@ -48,7 +48,7 @@ public class YellowWeapon : Weapon {
             GameObject proj = Instantiate(
                 projectile,
                 transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 2f),
-                Quaternion.Euler(0, 0, angle + Random.Range(-5f, 5f) + (altFire * 8f))
+                Quaternion.Euler(0, 0, angle + Random.Range(-2f, 2f) + (altFire * 0f))
                 );
             proj.GetComponent<YellowProjectile>().setDamage(realDamage);
             proj.GetComponent<YellowProjectile>().setRadius(realRadius);

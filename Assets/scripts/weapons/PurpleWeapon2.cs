@@ -2,26 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PurpleWeapon2 : Weapon {
+public class PurpleWeapon2 : Weapon
+{
 
     public GameObject beam;
     //public GameObject beamExplosion;
     private Camera cam;
     private Vector2 mousePosition;
     private float angle;
+    public float bFireRate = 0.16f;
+    public float secondaryRate = 0.90f;
 
     public float damage;
+    public float maxSize;
+    private float chargeValue = 0f;
+    public float chargeRate;
+    public float recoilForce;
     private Rigidbody playerRB;
     private Light light;
     private ParticleSystem ps;
     private PlayerBehaviour player;
 
-    public float heatDamageRate = 0.005f;
-    public float heatRadiusRate = 0.004f;
+    public float maxHeatDamageMulti = 0.5f;
+    public float maxHeatFireRateMulti = 1f;
+    public float maxHeatRadiusMulti = 1f;
 
     private AudioSource chargeSound;
 
-    void Start () {
+    void Start()
+    {
+        SetFireRate(bFireRate);
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         light = GetComponent<Light>();
@@ -40,7 +50,7 @@ public class PurpleWeapon2 : Weapon {
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1") && chargeValue > 0.2f)
         {
             /*
             Ray ray = new Ray(transform.position, (Vector3)mousePosition - transform.position);
@@ -56,16 +66,63 @@ public class PurpleWeapon2 : Weapon {
             */
             GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
             //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
+            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple))));
+            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple)));
+            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Purple))));
+            print("chargeValue: " + chargeValue + ", damage charged: " + (chargeValue * chargeValue * chargeValue * damage));
 
+
+            float trueRecoil = recoilForce * Mathf.Pow(chargeValue, 5);
+            playerRB.velocity = Vector3.zero;
+            playerRB.AddForce(new Vector3(trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
+
+            chargeValue = 0f;
             light.intensity *= 15f;
             light.range *= 2f;
             ps.enableEmission = false;
             chargeSound.Stop();
         }
+        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.2f)
+        {
+            chargeValue = 0f;
+            ps.enableEmission = false;
+            chargeSound.Stop();
+        }
+
+        if (chargeValue == 0f && light.intensity >= 0)
+        {
+            light.intensity *= 0.75f;
+            light.range *= 0.9f;
+        }
+
+        if (chargeValue > 0f)
+        {
+            chargeSound.volume = (chargeValue * chargeValue * chargeValue * 0.25f) + 0.25f;
+            chargeSound.pitch = (chargeValue * chargeValue * chargeValue * 0.5f) + 0.5f;
+        }
+        else
+        {
+            chargeSound.volume = 0f;
+            chargeSound.pitch = 0f;
+        }
+
+
     }
 
     public override void Fire1()
     {
+        ps.enableEmission = true;
+        if (chargeSound.isPlaying == false)
+            chargeSound.Play();
+
+        if (chargeValue < 1f)
+        {
+            chargeValue += chargeRate * Time.deltaTime;
+            if (chargeValue > 1f)
+                chargeValue = 1f;
+        }
+        light.intensity = chargeValue * chargeValue * chargeValue * 3f;
+        light.range = chargeValue * chargeValue * chargeValue * 25f;
     }
 
     public override void Fire2()

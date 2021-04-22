@@ -12,7 +12,7 @@ public class YellowProjectile : Projectile {
     private float radius;
 
     private float projectileSpeedIncrease = 20f;
-    private int layermask = ~(1 << 9 | 1 << 13 | 1 << 8 | 1 << 14 | 1 << 18);
+    private int layermask = ~((1 << 9) | (1 << 13) | (1 << 8) | (1 << 14) | (1 << 18) | (1 << 21));
 
     private GameObject player;
 
@@ -21,10 +21,13 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 1f;
+        projectileSpeed = 40f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 10000f;
     }
 
     // Update is called once per frame
@@ -38,7 +41,8 @@ public class YellowProjectile : Projectile {
             lifeTime -= Time.deltaTime;
         }
 
-        mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
+        Vector3 rawmousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        mousePosition = player.transform.position + Vector3.Normalize(rawmousePosition - player.transform.position) * 10000f;
 
 
         /*
@@ -47,7 +51,7 @@ public class YellowProjectile : Projectile {
         //Vector3 curRotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Slerp(transform.rotation, newE, 5f * Time.deltaTime);
         */
-        
+
         float angle1 = Vector3.Angle(Vector3.right, mousePosition - transform.position);
         if (mousePosition.y < transform.position.y)
         {
@@ -82,6 +86,7 @@ public class YellowProjectile : Projectile {
         }
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
+        /*
         if (projectileSpeed < 40f) {
             projectileSpeed += projectileSpeedIncrease * Time.deltaTime;
             projectileSpeedIncrease *= 1.01f;
@@ -89,6 +94,7 @@ public class YellowProjectile : Projectile {
         else {
             projectileSpeed = 40f;
         }
+        */
     }
     
 
