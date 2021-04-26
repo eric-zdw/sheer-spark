@@ -143,14 +143,39 @@ public class CameraFollow : MonoBehaviour {
         float t = 0f;
 
         while (lerp < 0.999f) {
+            Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);
+            Vector2 rawMousePosRelativeToCenter = new Vector2(Input.mousePosition.x - center.x, Input.mousePosition.y - center.y);
+            //normalize mousePosRelativeToCenter
+            Vector3 mousePosRelativeToCenter = rawMousePosRelativeToCenter / new Vector2(Screen.width, Screen.width);
+
+            if (isReversed)
+            {
+                mousePosRelativeToCenter.x *= -1;
+            }
+
+            Vector3 newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
+            newPosition += (Vector3)(mousePosRelativeToCenter * mousePositionMagnitude);
+
+            if (smoothDampEnabled)
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref cameraVelocity, smoothDampValue);
+            }
+            else
+            {
+                transform.position = newPosition;
+            }
+
+            /*
             Vector3 mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraDistance));
             Vector3 newPosition = followTarget.transform.position + new Vector3(0f, 0f, -CameraDistance);
             newPosition = Vector3.Lerp(newPosition, mousePosition, 0.4f);
             newPosition = new Vector3(newPosition.x, newPosition.y, -CameraDistance);
             transform.position = Vector3.Lerp(startPosition, newPosition, lerp);
+            */
 
             t += Time.deltaTime * 0.25f;
             lerp = Mathf.SmoothStep(0f, 1f, t);
+            transform.position = Vector3.Lerp(startPosition, newPosition, lerp);
             yield return new WaitForEndOfFrame();
         }
 
