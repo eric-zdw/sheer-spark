@@ -15,7 +15,8 @@ public class MenuData : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//load from save data
-
+		Cursor.visible = true;
+		WaveSystem.gameState = GameState.Preview;
 	}
 	
 	// Update is called once per frame
