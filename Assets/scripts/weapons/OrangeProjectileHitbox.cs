@@ -6,6 +6,7 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 
 	private float damage;
     private float radius;
+    public float distanceFactor;
 
     public float explosionForce;
 
@@ -40,8 +41,8 @@ public class OrangeProjectileHitbox : MonoBehaviour {
 		if (other.tag == "Enemy") {
             float distance = Vector3.Distance(other.ClosestPointOnBounds(transform.position), transform.position);
 
-            //distance modifier reduces damage up to 50%.
-			other.GetComponent<Enemy>().getDamage(damage * (1 - ((distance / radius) * 0.5f)));
+            //distance modifier reduces damage up to distfactor%. If hit, an enemy will always take at least (1 - distfactor)% damage.
+            other.GetComponent<Enemy>().getDamage(damage * (1 - ((distance / radius) * distanceFactor)));
 			//print("distance: " + distance + ", radius: " + radius + ", percentage: " + (1 - (distance / radius)) + ", damage: " + damage * (1 - ((distance / radius) * 0.5f)));
 
             other.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, radius, 0f);
