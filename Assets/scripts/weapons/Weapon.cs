@@ -6,11 +6,17 @@ public abstract class Weapon : MonoBehaviour{
 
     private float fireRate;
     private float cooldown;
+    public int energyCost;
+    protected Vector3 mousePosition;
 
     public Weapon()
     {
         fireRate = 0f;
         cooldown = 0f;
+    }
+    protected void UpdateMousePosition()
+    {
+        mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
     }
 
     protected void SetFireRate(float fr)

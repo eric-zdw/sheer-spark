@@ -25,7 +25,7 @@ public class PurpleBeam : MonoBehaviour {
         main = beam.main;
         Destroy(collider, 0.15f);
         beamSound = GetComponent<AudioSource>();
-        Camera.main.GetComponent<CameraFollow>().AddNoise(main.startSize.constant * 20f);
+        Camera.main.GetComponent<CameraFollow>().AddNoise(main.startSize.constant * 80f);
 	}
 	
 	// Update is called once per frame

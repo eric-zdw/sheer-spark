@@ -21,7 +21,7 @@ public class YellowProjectile : Projectile {
     
     // Use this for initialization
     void Start() {
-        projectileSpeed = 40f;
+        projectileSpeed = 75f;
         lifeTime = 3.5f;
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -52,6 +52,7 @@ public class YellowProjectile : Projectile {
         transform.rotation = Quaternion.Slerp(transform.rotation, newE, 5f * Time.deltaTime);
         */
 
+        /*
         float angle1 = Vector3.Angle(Vector3.right, mousePosition - transform.position);
         if (mousePosition.y < transform.position.y)
         {
@@ -84,6 +85,8 @@ public class YellowProjectile : Projectile {
             Vector3 newR = transform.rotation.eulerAngles + new Vector3(0, 0, (360 - (Mathf.Abs(leftAngle - rightAngle))) * Time.deltaTime * 1f);
             transform.rotation = Quaternion.Euler(newR);
         }
+        */
+
         //print(360 - (Mathf.Abs(leftAngle - rightAngle)));
         
         /*
@@ -136,7 +139,7 @@ public class YellowProjectile : Projectile {
 
     void Explode()
     {
-		Camera.main.GetComponent<CameraFollow>().AddNoise(20f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(50f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.12f, radius * 0.12f, radius * 0.12f);
 

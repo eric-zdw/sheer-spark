@@ -5,7 +5,7 @@ using UnityEngine;
 public class PurpleWeapon2 : Weapon
 {
 
-    public GameObject beam;
+    public GameObject projectile;
     //public GameObject beamExplosion;
     private Camera cam;
     private Vector2 mousePosition;
@@ -50,79 +50,25 @@ public class PurpleWeapon2 : Weapon
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, CameraFollow.CameraDistance));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;
 
-        if (Input.GetButtonUp("Fire1") && chargeValue > 0.2f)
-        {
-            /*
-            Ray ray = new Ray(transform.position, (Vector3)mousePosition - transform.position);
-            RaycastHit[] targets = Physics.RaycastAll(ray, 50f);
-            for (int i = 0; i < targets.Length; i++)
-            {
-                if (targets[i].collider.tag == "Enemy")
-                {
-                    targets[i].collider.GetComponent<Enemy>().getDamage(damage * chargeValue);
-                    print("charge value: " + chargeValue + ", damage: " + damage * chargeValue);
-                }
-            }
-            */
-            GameObject newBeam = Instantiate(beam, transform.position, Quaternion.Euler(0, 0, angle));
-            //Instantiate(beamExplosion, transform.position, Quaternion.Euler(-angle, 90, 0));
-            newBeam.GetComponent<ParticleSystem>().startSize = (maxSize * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple))));
-            newBeam.GetComponent<CapsuleCollider>().radius = maxSize * (0.5f) * chargeValue * chargeValue * chargeValue * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Purple)));
-            newBeam.GetComponent<PurpleBeam>().setDamage(damage * (chargeValue * chargeValue * chargeValue) * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Purple))));
-            print("chargeValue: " + chargeValue + ", damage charged: " + (chargeValue * chargeValue * chargeValue * damage));
-
-
-            float trueRecoil = recoilForce * Mathf.Pow(chargeValue, 5);
-            playerRB.velocity = Vector3.zero;
-            playerRB.AddForce(new Vector3(trueRecoil * Mathf.Cos(angle * Mathf.Deg2Rad), trueRecoil * Mathf.Sin(angle * Mathf.Deg2Rad), 0));
-
-            chargeValue = 0f;
-            light.intensity *= 15f;
-            light.range *= 2f;
-            ps.enableEmission = false;
-            chargeSound.Stop();
-        }
-        else if (Input.GetButtonUp("Fire1") && chargeValue < 0.2f)
-        {
-            chargeValue = 0f;
-            ps.enableEmission = false;
-            chargeSound.Stop();
-        }
-
-        if (chargeValue == 0f && light.intensity >= 0)
-        {
-            light.intensity *= 0.75f;
-            light.range *= 0.9f;
-        }
-
-        if (chargeValue > 0f)
-        {
-            chargeSound.volume = (chargeValue * chargeValue * chargeValue * 0.25f) + 0.25f;
-            chargeSound.pitch = (chargeValue * chargeValue * chargeValue * 0.5f) + 0.5f;
-        }
-        else
-        {
-            chargeSound.volume = 0f;
-            chargeSound.pitch = 0f;
-        }
-
-
     }
 
     public override void Fire1()
     {
-        ps.enableEmission = true;
-        if (chargeSound.isPlaying == false)
-            chargeSound.Play();
-
-        if (chargeValue < 1f)
+        if (GetCooldown() <= 0)
         {
-            chargeValue += chargeRate * Time.deltaTime;
-            if (chargeValue > 1f)
-                chargeValue = 1f;
+
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
+            GameObject proj = Instantiate(
+            projectile,
+            transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
+            Quaternion.Euler(0, 0, angle)
+            );
+
+            proj.GetComponent<PurpleArrow>().setDamage(realDamage);
+
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
+            print("cooldown: " + player.GetHeatFactor(EnergyColor.Red));
         }
-        light.intensity = chargeValue * chargeValue * chargeValue * 3f;
-        light.range = chargeValue * chargeValue * chargeValue * 25f;
     }
 
     public override void Fire2()

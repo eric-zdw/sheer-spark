@@ -8,6 +8,7 @@ public class MenuCameraRig : MonoBehaviour {
 	public Vector3[] rotations;
 	public static int currentPosition = 0;
 	public float transitionTime = 2f;
+	public float oldtransitionRate = 0.02f;
 	private static float timer = 0f;
 
 	private static Vector3 startPosition, endPosition;
@@ -27,8 +28,8 @@ public class MenuCameraRig : MonoBehaviour {
 		if (timer < transitionTime)
         {
 			timer += Time.deltaTime;
-			transform.position = Vector3.Lerp(startPosition, positions[currentPosition], Mathf.SmoothStep(0f, 1f, (timer / transitionTime)));
-			transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(rotations[currentPosition]), Mathf.SmoothStep(0f, 1f, (timer / transitionTime)));
+			//transform.position = Vector3.Lerp(startPosition, positions[currentPosition], Mathf.SmoothStep(0f, 1f, (timer / transitionTime)));
+			//transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(rotations[currentPosition]), Mathf.SmoothStep(0f, 1f, (timer / transitionTime)));
 		}
 		else
         {
@@ -38,8 +39,8 @@ public class MenuCameraRig : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		//transform.position = Vector3.Lerp(transform.position, positions[currentPosition], transitionRate);
-		//transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotations[currentPosition]), transitionRate);
+		transform.position = Vector3.Lerp(transform.position, positions[currentPosition], oldtransitionRate);
+		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotations[currentPosition]), oldtransitionRate);
 	}
 
 	public static void ChangePosition(int index) {

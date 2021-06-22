@@ -5,30 +5,59 @@ using UnityEngine;
 public class EnergyPanel : MonoBehaviour
 {
     public GameObject[] meters;
+    public float[] lerpTargets;
+    public float[] currentLerp;
     private PlayerBehaviour player;
 
     // Start is called before the first frame update
     void Start()
     {
+        lerpTargets = new float[6];
+        currentLerp = new float[6];
         player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+
+        //initialize number of charge markers
+        for (int i = 0; i < 6; i++)
+        {
+            int cost = PowerupManager.activeWeapons[i].GetComponent<Weapon>().energyCost;
+            switch (cost)
+            {
+                case 2:
+                    meters[i].transform.GetChild(1).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(3).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(4).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(5).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(7).gameObject.SetActive(true);
+                    break;
+                case 3:
+                    meters[i].transform.GetChild(2).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(4).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(6).gameObject.SetActive(true);
+                    break;
+                case 4:
+                    meters[i].transform.GetChild(3).gameObject.SetActive(true);
+                    meters[i].transform.GetChild(5).gameObject.SetActive(true);
+                    break;
+                case 6:
+                    meters[i].transform.GetChild(4).gameObject.SetActive(true);
+                    break;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        for (int i = 0; i < 6; i++)
+        {
+            currentLerp[i] = Mathf.Lerp(currentLerp[i], lerpTargets[i], 0.1f);
+            meters[i].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().fillAmount = currentLerp[i];
+        }
     }
 
     public void UpdateEnergyMeters() {
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                if (player.powerupEnergy[i] >= (j + 1)) {
-                    meters[i].transform.GetChild(j).GetComponent<UnityEngine.UI.Image>().enabled = true;
-                }
-                else {
-                    meters[i].transform.GetChild(j).GetComponent<UnityEngine.UI.Image>().enabled = false;
-                }
-            }
+            lerpTargets[i] = player.powerupEnergy[i] / 12f;
         }
 
         bool whiteIsReady = true;

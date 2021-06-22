@@ -92,7 +92,7 @@ public class RedProjectile2 : Projectile {
                     info.collider.gameObject.GetComponent<Enemy>().getDamage(damage);
                     Explode(info.point);
                     if (!wasAlreadyDead) {
-                        damage *= 0.6f;
+                        damage *= 0.8f;
                     }
                     Camera.main.GetComponent<CameraFollow>().AddNoise(damage * 0.2f);
                     // Pierce through enemies if full damage wasn't dealt
