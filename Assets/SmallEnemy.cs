@@ -10,16 +10,16 @@ public abstract class SmallEnemy : Enemy
     [SerializeField]
     protected float powerupChance = 0f;
 
-    private GameObject healthBar;
+    protected GameObject healthBar;
     protected int powerupRoll;
     
     private Color enemyColor;
     private Color enemyColorHDR;
 
-    private MeshRenderer mainMesh;
-    private MeshRenderer outlineMesh;
-    private MeshRenderer seeThroughMesh;
-    private MeshRenderer damageFlashMesh;
+    public MeshRenderer[] mainMeshes;
+    public MeshRenderer[] outlineMeshes;
+    public MeshRenderer[] seeThroughMeshes;
+    public MeshRenderer[] damageFlashMeshes;
 
     private MaterialPropertyBlock mainMPB;
     private MaterialPropertyBlock seeThroughMPB;
@@ -44,18 +44,23 @@ public abstract class SmallEnemy : Enemy
         enemyColorHDR = smallEnemyData.powerupColorsHDR[powerupRoll];
         //todo: change MatBlock to color
 
-        mainMesh = GetComponent<MeshRenderer>();
         mainMPB = new MaterialPropertyBlock();
         mainMPB.SetColor("Color_3238E920", enemyColorHDR);
-        mainMesh.SetPropertyBlock(mainMPB);
+        foreach (MeshRenderer m in mainMeshes)
+        {
+            m.SetPropertyBlock(mainMPB);
+        }
         
-        outlineMesh = transform.GetChild(0).GetComponent<MeshRenderer>();
-        outlineMesh.material = smallEnemyData.outlines[powerupRoll];
+        foreach (MeshRenderer o in outlineMeshes)
+        {
+            o.material = smallEnemyData.outlines[powerupRoll];
+        }
+        
+        foreach (MeshRenderer s in seeThroughMeshes)
+        {
+            s.material = smallEnemyData.seeThroughMats[powerupRoll];
+        }
 
-        seeThroughMesh = transform.GetChild(1).GetComponent<MeshRenderer>();
-        seeThroughMesh.material = smallEnemyData.seeThroughMats[powerupRoll];
-
-        damageFlashMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
         damageFlashMPB = new MaterialPropertyBlock();
     }
 
@@ -82,7 +87,7 @@ public abstract class SmallEnemy : Enemy
         }
     }
 
-    protected void DefeatRoutine() {
+    protected virtual void DefeatRoutine() {
         Destroy(healthBar);
         Camera.main.GetComponent<CameraFollow>().AddNoise(5f);
         Instantiate(smallEnemyData.powerups[powerupRoll], transform.position, Quaternion.identity);
@@ -105,15 +110,18 @@ public abstract class SmallEnemy : Enemy
 	}
 
     IEnumerator FlashWhite() {
-		float colorValue = 2f;
+		float colorValue = 3f;
 		Color newColor = new Color(colorValue, colorValue, colorValue, 1);
 		while (colorValue > 0f) {
 			//print("colorValue: " + colorValue);
-			colorValue -= 5f * Time.deltaTime;
+			colorValue -= 9f * Time.deltaTime;
 			newColor = new Color(colorValue, colorValue, colorValue, 1);
 			damageFlashMPB.SetColor("_EmissionColor", newColor);
-			damageFlashMesh.SetPropertyBlock(damageFlashMPB);
-			yield return new WaitForFixedUpdate();
+            foreach (MeshRenderer d in damageFlashMeshes)
+            {
+                d.SetPropertyBlock(damageFlashMPB);
+            }
+			yield return new WaitForEndOfFrame();
 		}
 	}
 }

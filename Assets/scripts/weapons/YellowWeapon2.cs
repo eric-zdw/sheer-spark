@@ -12,6 +12,7 @@ public class YellowWeapon2 : Weapon {
     private float angle;
     public float bFireRate = 0.2f;
     public float superFireRate = 0.8f;
+    public float altSpread = 5f;
 
     public float maxHeatDamageMulti = 0.5f;
     public float maxHeatFireRateMulti = 1f;
@@ -67,16 +68,19 @@ public class YellowWeapon2 : Weapon {
     {
         if (GetCooldown() <= 0 && (player.powerupEnergy[2] >= energyCost || debugMode))
         {
-            altFire *= -1;
             float realDamage = superDamage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Yellow)));
             float realRadius = superRadius * (1f + (maxHeatRadiusMulti * player.GetHeatFactor(EnergyColor.Yellow)));
-            GameObject proj = Instantiate(
-                superProjectile,
-                transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.2f),
-                Quaternion.Euler(0, 0, angle)
-                );
-            proj.GetComponent<YellowProjectile>().setDamage(realDamage);
-            proj.GetComponent<YellowProjectile>().setRadius(realRadius);
+            for (int i = -1; i <= 1; i++)
+            {
+                GameObject proj = Instantiate(
+                    superProjectile,
+                    transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.2f),
+                    Quaternion.Euler(0, 0, angle + (i * altSpread))
+                    );
+                proj.GetComponent<YellowProjectile>().setDamage(realDamage);
+                proj.GetComponent<YellowProjectile>().setRadius(realRadius);
+            }
+
             SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Yellow))));
 
             if (!debugMode)

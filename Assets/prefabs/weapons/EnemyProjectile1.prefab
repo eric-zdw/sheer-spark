@@ -4772,7 +4772,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ab33467eddcfd5d49a864d1c298d4c8c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4841,6 +4840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b64352138bcd64495118d2d76e6847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  psRenderers:
+  - {fileID: 199908112149609708}
   explosion: {fileID: 8200481068195317658, guid: f5e3d83102df54f49ae6d43d743dd87f,
     type: 3}
   speed: 15
@@ -9570,7 +9571,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ab33467eddcfd5d49a864d1c298d4c8c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -128,7 +128,7 @@ public class WaveSystem : MonoBehaviour {
     {
         gameState = GameState.Pregame;
         player.gameObject.SetActive(true);
-        gameUI.SetActive(true);
+        StartCoroutine(GameUIFadeIn());
         playerSpaceUI.SetActive(true);
         StartCoroutine(SpawnRoutine());
     }
@@ -335,14 +335,48 @@ public class WaveSystem : MonoBehaviour {
         WaveSystem.isPaused = true;
         savedTimeScale = Time.timeScale;
         Time.timeScale = 0f;
-        pauseMenu.SetActive(true);
-        //gameUI.SetActive(false);
+        StartCoroutine(PauseFadeIn());
+        //pauseMenu.SetActive(true);
+        gameUI.SetActive(false);
     }
 
     public void UnpauseGame() {
         WaveSystem.isPaused = false;
         Time.timeScale = savedTimeScale;
         pauseMenu.SetActive(false);
+        StartCoroutine(GameUIFadeIn());
+        //gameUI.SetActive(true);
+    }
+
+    public IEnumerator PauseFadeIn()
+    {
+        float a = 0f;
+        pauseMenu.GetComponent<UnityEngine.CanvasGroup>().alpha = a;
+        pauseMenu.SetActive(true);
+        
+        while (a < 1f)
+        {
+            a += Time.unscaledDeltaTime * 10f;
+            pauseMenu.GetComponent<UnityEngine.CanvasGroup>().alpha = a;
+            yield return new WaitForEndOfFrame();
+        }
+
+        pauseMenu.GetComponent<UnityEngine.CanvasGroup>().alpha = 1f;
+    }
+
+    public IEnumerator GameUIFadeIn()
+    {
+        float a = 0f;
+        gameUI.GetComponent<UnityEngine.CanvasGroup>().alpha = a;
         gameUI.SetActive(true);
+
+        while (a < 1f)
+        {
+            a += Time.unscaledDeltaTime * 10f;
+            gameUI.GetComponent<UnityEngine.CanvasGroup>().alpha = a;
+            yield return new WaitForEndOfFrame();
+        }
+
+        gameUI.GetComponent<UnityEngine.CanvasGroup>().alpha = 1f;
     }
 }

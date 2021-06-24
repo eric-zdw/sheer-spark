@@ -139,7 +139,7 @@ public class YellowProjectile : Projectile {
 
     void Explode()
     {
-		Camera.main.GetComponent<CameraFollow>().AddNoise(50f);
+		Camera.main.GetComponent<CameraFollow>().AddNoise(15f);
         GameObject exp = Instantiate(explosion, transform.position, transform.rotation);
         exp.transform.localScale = new Vector3(radius * 0.12f, radius * 0.12f, radius * 0.12f);
 

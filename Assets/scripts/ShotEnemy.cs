@@ -18,10 +18,6 @@ public class ShotEnemy : SmallEnemy {
 	void Start()
 	{
 		Initialize();
-		MeshRenderer cannonMesh = transform.GetChild(3).GetComponent<MeshRenderer>();
-		cannonMesh.material = smallEnemyData.outlines[powerupRoll];
-		MeshRenderer cannonSeeThrough = transform.GetChild(4).GetComponent<MeshRenderer>();
-		cannonSeeThrough.material = smallEnemyData.seeThroughMats[powerupRoll];
 
 		player = GameObject.FindGameObjectWithTag("Player");
 		rb = GetComponent<Rigidbody>();

@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyProjectile1 : Projectile {
+public class EnemyProjectile1 : EnemyProjectile {
 
-    public GameObject explosion;
+    //public GameObject explosion;
 
     public float speed;
-
-    private MaterialPropertyBlock mpb;
-    private ParticleSystemRenderer psRenderer;
 
     // Use this for initialization
     void Start() {
@@ -17,10 +14,7 @@ public class EnemyProjectile1 : Projectile {
         lifeTime = 8f;
         damage = 8f;
 
-        mpb = new MaterialPropertyBlock();
-        psRenderer = GetComponent<ParticleSystemRenderer>();
-
-        StartCoroutine(FlashRed());
+        EPInitialize();
     }
 
     // Update is called once per frame
@@ -35,6 +29,7 @@ public class EnemyProjectile1 : Projectile {
             
     }
 
+    /*
     void OnTriggerEnter(Collider other)
     {
 		print (other.gameObject.tag);
@@ -48,27 +43,11 @@ public class EnemyProjectile1 : Projectile {
             Explode();
         }
     }
+    */
 
     void Explode()
     {
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
-    }
-
-    public IEnumerator FlashRed() {
-        while (true) {
-            mpb.SetColor("_Color", new Color(1f, 0f, 0f, 1f));
-            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 1f) * 2f);
-            psRenderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.1f);
-            mpb.SetColor("_Color", new Color(1f, 0f, 0f, 0.04f));
-            mpb.SetColor("_EmissionColor", new Color(1f, 0f, 0f, 0.02f));
-            psRenderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.05f);
-            mpb.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
-            mpb.SetColor("_EmissionColor", new Color(1f, 1f, 1f, 1f) * 4f);
-            psRenderer.SetPropertyBlock(mpb);
-            yield return new WaitForSeconds(0.05f);
-        }
     }
 }

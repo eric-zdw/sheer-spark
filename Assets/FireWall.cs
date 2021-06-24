@@ -24,9 +24,9 @@ public class FireWall : MonoBehaviour
     {
         yield return new WaitForSeconds(1.2f);
         trigger.enabled = true;
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.4f);
         trigger.enabled = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.4f);
         Destroy(gameObject);
     }
     private void OnTriggerEnter(Collider other)
