@@ -5,13 +5,15 @@ using System.Collections.Generic;
 public class SaveData {
 	public List<string> levelsClearedOnNormal;
 	public List<string> levelsClearedOnHard;
-	public List<string> weaponsUnlocked;
+	public List<int> scoresNormal;
+	public List<int> scoresHard;
+	public List<int> weaponsUnlocked;
 	//public List<string> weaponLoadout;
 
 	public SaveData() {
 		levelsClearedOnNormal = new List<string>();
 		levelsClearedOnHard = new List<string>();
-		weaponsUnlocked = new List<string>();
+		weaponsUnlocked = new List<int>();
 
 		/*
 		weaponLoadout = new List<string>();

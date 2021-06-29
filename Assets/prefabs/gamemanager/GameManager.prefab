@@ -13899,6 +13899,7 @@ GameObject:
   - component: {fileID: 222422425951775998}
   - component: {fileID: 114693002785269834}
   - component: {fileID: 114984006934001344}
+  - component: {fileID: 3321034654660730963}
   m_Layer: 5
   m_Name: ScorePanel
   m_TagString: Untagged
@@ -13922,11 +13923,11 @@ RectTransform:
   m_Father: {fileID: 224418300858545188}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7, y: 0.05}
+  m_AnchorMin: {x: 0.8, y: 0.05}
   m_AnchorMax: {x: 0.95, y: 0.2}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &222422425951775998
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13977,6 +13978,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreManager: {fileID: 0}
+--- !u!114 &3321034654660730963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838305479608214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 2.5
 --- !u!1 &1859530558750740
 GameObject:
   m_ObjectHideFlags: 0
@@ -22880,8 +22895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AspectMode: 0
-  m_AspectRatio: 2.6676636
+  m_AspectMode: 2
+  m_AspectRatio: 2.5
 --- !u!1 &6228049721235141337
 GameObject:
   m_ObjectHideFlags: 0

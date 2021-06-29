@@ -103,6 +103,11 @@ public class SaveManager : MonoBehaviour {
         }
     }
 
+    public static void DeleteSaveData()
+    {
+
+    }
+
     public void QuitGame()
     {
         Application.Quit(0);
