@@ -76,7 +76,7 @@ public class GrenadeEnemy : SmallEnemy
             {
                 //distance away from 0f
                 strength = Mathf.Abs(rotationDifference);
-                print(strength);
+                //print(strength);
 
                 //move clockwise
                 rb.AddTorque(Vector3.forward * -rotationStrength * strength * Time.deltaTime);

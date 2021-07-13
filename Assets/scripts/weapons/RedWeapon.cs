@@ -31,7 +31,7 @@ public class RedWeapon : Weapon {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GetCooldown() > 0)
             DecrementCooldown();

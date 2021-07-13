@@ -22,6 +22,7 @@ public class PPManager : MonoBehaviour {
 
 	public UnityEngine.Rendering.Volume ppVolume;
 	public UnityEngine.Rendering.Volume ppWaveClear;
+	public UnityEngine.Rendering.Volume ppLevelClear;
 	private UnityEngine.Rendering.Universal.Bloom ppBloom;
 	private UnityEngine.Rendering.Universal.SplitToning ppSplitToning;
 	private UnityEngine.Rendering.Universal.ColorAdjustments ppColorAdjust;
@@ -124,22 +125,18 @@ public class PPManager : MonoBehaviour {
 	}
 
 	public IEnumerator GameEndEffects() {
-		/*
-		ppSettings.basic.contrast = ppDefaultContrast + ppSlowContrast;
-		ppSettings.basic.saturation = ppDefaultSaturation + ppSlowSaturation;
-		ppSettings.basic.postExposure = ppDefaultExposure + 10f;
-		ppProfile.colorGrading.settings = ppSettings;
-		*/
+		ppWaveClear.weight = 0f;
+		ppLevelClear.weight = 1f;
+		UnityEngine.Rendering.Universal.ColorAdjustments ca;
+		ppLevelClear.profile.TryGet<UnityEngine.Rendering.Universal.ColorAdjustments>(out ca);
+		ca.postExposure.value = 6f;
 
 		Time.timeScale = 0.022f;
 		Time.fixedDeltaTime = Time.timeScale / 60f;
 		Time.maximumParticleDeltaTime = Time.timeScale / 60f;
 
 		while (true) {
-			/*
-			ppSettings.basic.postExposure -= 2f * Time.unscaledDeltaTime;
-			ppProfile.colorGrading.settings = ppSettings;
-			*/
+			ca.postExposure.value -= 3f * Time.unscaledDeltaTime;
 
 			yield return new WaitForEndOfFrame();
 		}

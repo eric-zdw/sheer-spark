@@ -33,7 +33,7 @@ public class BlueWeapon2 : Weapon {
         sounds = GetComponents<AudioSource>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GetCooldown() > 0)
             DecrementCooldown();

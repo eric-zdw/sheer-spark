@@ -22,8 +22,14 @@ public class MusicManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
+        for (int i = 1; i < 6; i++)
+        {
+            if (sources[i].isPlaying)
+            {
+                sources[i].timeSamples = sources[0].timeSamples;
+            }
+        }
+    }
 
     public void StartMusic() {
         for (int i = 0; i < 6; i++) {

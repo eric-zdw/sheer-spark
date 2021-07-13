@@ -36,6 +36,9 @@ public class WaveSystem : MonoBehaviour {
     public float easyPowerMultiplier = 0.5f;
     public float normalPowerMultiplier = 1f;
     public float hardPowerMultiplier = 2f;
+    public bool hasEndLevelPowerup = false;
+    public GameObject endLevelPowerup;
+    public GameObject endLevelPowerupMarker;
     bool ppChange = false;
     public int currentStage;
 
@@ -63,7 +66,7 @@ public class WaveSystem : MonoBehaviour {
     public SaveManager saveManager;
     public MusicManager musicManager;
 
-    private bool gameFinished;
+    public bool gameFinished;
     private bool resetStarted = false;
 
     public static bool isPaused = false;
@@ -286,11 +289,8 @@ public class WaveSystem : MonoBehaviour {
         {
             StartCoroutine(musicManager.ChangeMusic(5));
             //Game is done. Increment stats and end game.
-            gameFinished = true;
-            StartCoroutine(ppManager.GameEndEffects());
             StartCoroutine(YouWin());
         }
-
         else {
             if (waveNumber == 1) {
                 StartCoroutine(musicManager.ChangeMusic(1));
@@ -317,9 +317,26 @@ public class WaveSystem : MonoBehaviour {
         
     }
 
-    IEnumerator YouWin() {
+    public IEnumerator YouWin() {
+        gameFinished = true; 
+        gameState = GameState.Postgame;
         SaveManager.saveData.levelsClearedOnNormal.Add(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         SaveManager.WriteToFile(SaveManager.saveData);
+
+        if (hasEndLevelPowerup)
+        {
+            yield return new WaitForSeconds(3f);
+            Instantiate(endLevelPowerup, endLevelPowerupMarker.transform.position, Quaternion.identity);
+        }
+        else
+        {
+            StartCoroutine(WinPickup());
+        }
+    }
+
+    public IEnumerator WinPickup()
+    {
+        StartCoroutine(ppManager.GameEndEffects());
         //wc.LevelCompleteRoutine();
         yield return new WaitForSecondsRealtime(10f);
         ReturnToMenu();

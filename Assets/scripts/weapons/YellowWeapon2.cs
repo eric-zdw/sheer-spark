@@ -31,12 +31,10 @@ public class YellowWeapon2 : Weapon {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GetCooldown() > 0)
             DecrementCooldown();
-        else if (GetCooldown() < 0)
-            ResetCooldown();
 
         mousePosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         angle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x) * Mathf.Rad2Deg;

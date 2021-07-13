@@ -41,7 +41,7 @@ public class PurpleWeapon2 : Weapon
         chargeSound = GetComponent<AudioSource>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
         if (GetCooldown() > 0)
@@ -57,17 +57,17 @@ public class PurpleWeapon2 : Weapon
         if (GetCooldown() <= 0)
         {
 
-            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Red)));
+            float realDamage = damage * (1f + (maxHeatDamageMulti * player.GetHeatFactor(EnergyColor.Purple)));
             GameObject proj = Instantiate(
             projectile,
             transform.position + (Vector3.Normalize((Vector3)mousePosition - transform.position) * 0.25f),
             Quaternion.Euler(0, 0, angle)
             );
 
-            proj.GetComponent<PurpleArrow>().setDamage(realDamage);
+            proj.GetComponent<OrangeArrow>().setDamage(realDamage);
 
-            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Red))));
-            print("cooldown: " + player.GetHeatFactor(EnergyColor.Red));
+            SetCooldown(bFireRate / (1f + (maxHeatFireRateMulti * player.GetHeatFactor(EnergyColor.Purple))));
+            print("cooldown: " + player.GetHeatFactor(EnergyColor.Purple));
         }
     }
 

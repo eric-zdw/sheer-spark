@@ -42,6 +42,10 @@ public abstract class Weapon : MonoBehaviour{
     protected void DecrementCooldown()
     {
         cooldown -= Time.deltaTime;
+        if (cooldown < 0f)
+        {
+            cooldown = 0f;
+        }
     }
 
     protected float GetCooldown()
